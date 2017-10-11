@@ -1,7 +1,10 @@
 <template lang='pug'>
   div(
   :style='{"background-color": this.$parent.$parent.colors[preferenceBox]}'
-  @click='foo'
+  @mousedown='$emit("boxMouseDown", j)'
+  @mouseup='$emit("boxMouseUp", j)'
+  @mouseenter='$emit("boxMouseEnter", j)'
+  @mouseleave='$emit("boxMouseLeave", j)'
   ) {{likesGender}}
     sub {{ this.preferenceBox }}
 </template>
@@ -12,20 +15,25 @@
       'isGender',
       'likesGender',
       'n',
-      'i',
       'j',
       'preferenceBox'
     ],
     // end props
     data () {
       return {
+        clicked: false
       }
     },
     // end data
     methods: {
-      foo () {
-        console.log(this.i)
-        console.log()
+      boxMouseDown () {
+      },
+      // end boxMouseDown()
+      boxMouseUp () {
+      },
+      boxMouseLeave () {
+      },
+      boxMouseEnter () {
       }
     }
   }
@@ -34,9 +42,12 @@
 <style scoped>
   div {
     display: inline-block;
-    width: 4em;
+    width: 10%;
     text-align: center;
+    cursor: move;
     height: 100%;
-    cursor: pointer;
+    line-height: 50px;
+    white-space: nowrap;
+    border-radius: 10px;
   }
 </style>

@@ -19,6 +19,7 @@ div.container-fluid
                 likesGender='w'
                 :n='n'
                 :preference-list='preferences["m"]'
+                v-on:reorderBoxes='swap'
                 )
             div.col-xs-6
               h4(style="text-align:center") Women
@@ -27,7 +28,9 @@ div.container-fluid
                 likesGender='m'
                 :n='n'
                 :preference-list='preferences["w"]'
+                v-on:reorderBoxes='swap'
               )
+      //- Buttons
       div.row
         h4(style="text-align: center") Functions
         div.row(style="text-align: center")
@@ -114,21 +117,21 @@ export default {
     },
     // end swap
     randomize: function () {
-      let a, b, c, d
+      let gender, person, a, b
       let min, max
       min = 0
       max = this.n - 1
       for (let i = 0; i < this.n * this.n; i++) {
         if (Math.random() >= 0.5) {
-          a = 'm'
+          gender = 'm'
         } else {
-          a = 'w'
+          gender = 'w'
         }
+        person = Math.floor(min + (1 + max - min) * Math.random())
+        a = Math.floor(min + (1 + max - min) * Math.random())
         b = Math.floor(min + (1 + max - min) * Math.random())
-        c = Math.floor(min + (1 + max - min) * Math.random())
-        d = Math.floor(min + (1 + max - min) * Math.random())
 
-        this.swap(a, b, c, d)
+        this.swap(gender, person, a, b)
       }
     },
     // end randomize()

@@ -8,6 +8,7 @@ div.container-fluid
   :i='i'
   :key='i'
   :preference-list-row='preferenceList[i-1]'
+  v-on:reorderBoxes='reorderBoxes'
   )
 </template>
 
@@ -43,8 +44,14 @@ div.container-fluid
           '#AAAAAA'
         ]
       }
-    }
+    },
     // end data
+    methods: {
+      reorderBoxes (gender, person, pref1, pref2) {
+        // Forward the emitted event to parent
+        this.$emit('reorderBoxes', gender, person, pref1, pref2)
+      }
+    }
   }
 </script>
 
