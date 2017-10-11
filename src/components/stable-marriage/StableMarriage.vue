@@ -5,9 +5,15 @@ div.container-fluid
       h1 Stable Marriage
     div.row
       h2.col-xs-12(style="text-align:center") The Problem Instance
+      //- Main UI Here
       div.row
+        //- Problem Size
         div.col-xs-2
-          problem-size(v-model='n' @input='changeProblemSize')
+          problem-size(
+          v-model='n' 
+          @input='changeProblemSize'
+          :problemSize='n'
+          )
         //- Preference Lists
         div.col-xs-10
           h3(style="text-align:center") Preference Lists
@@ -32,31 +38,31 @@ div.container-fluid
               )
       //- Buttons
       div.row
-        h4(style="text-align: center") Functions
+        h4.text-center Functions
         div.row(style="text-align: center")
           div.col-xs-2
-            button(
-              @click='randomize'
-              ).btn.btn-block.btn-lg Randomize
+            nice-button(v-on:click.native='randomize') Randomize
           div.col-xs-2
-            button(
-              @click='reset'
-              ).btn.btn-block.btn-lg Reset
+            nice-button(v-on:click.native='reset') Reset
           div.col-xs-2
-            button.btn.btn-block.btn-lg.disabled Propose-Dispose
+            nice-button.disabled Propose-Dispose
+          div.col-xs-2
+            nice-button.btn-warning Lock
 </template>
 
 <script>
+import NiceButton from '../generic/NiceButton'
 import ProblemSize from '../generic/ProblemSize'
 import PreferenceList from './PreferenceList'
 export default {
   components: {
-    ProblemSize, PreferenceList
+    NiceButton, ProblemSize, PreferenceList
   },
   // end components
   data () {
     return {
       n: 3,
+      locked: false,
       preferences: {
         m: [[1, 2, 3], [1, 2, 3], [1, 2, 3]],
         w: [[1, 2, 3], [1, 2, 3], [1, 2, 3]]
@@ -66,6 +72,8 @@ export default {
   // end data
   methods: {
     changeProblemSize: function () {
+      this.n = Math.min(10, this.n)
+      this.n = Math.max(1, this.n)
       // for the men and women
       for (let mf in this.preferences) {
         let list = this.preferences[mf]
@@ -110,10 +118,12 @@ export default {
     },
     // end checkPreferenceRow()
     swap (gender, person, pref1, pref2) {
-      let arr = this.preferences[gender][person]
-      let temp = arr[pref1]
-      arr[pref1] = arr[pref2]
-      arr.splice(pref2, 1, temp)
+      if (!this.locked) {
+        let arr = this.preferences[gender][person]
+        let temp = arr[pref1]
+        arr[pref1] = arr[pref2]
+        arr.splice(pref2, 1, temp)
+      }
     },
     // end swap
     randomize: function () {
