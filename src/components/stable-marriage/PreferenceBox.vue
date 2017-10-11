@@ -5,8 +5,9 @@
   @mouseup='$emit("boxMouseUp", j)'
   @mouseenter='$emit("boxMouseEnter", j)'
   @mouseleave='$emit("boxMouseLeave", j)'
-  ) {{likesGender}}
-    sub {{ this.preferenceBox }}
+  ) 
+    p {{likesGender}}
+      sub {{ this.preferenceBox }}
 </template>
 
 <script>
@@ -45,9 +46,18 @@
     width: 10%;
     text-align: center;
     cursor: move;
-    height: 100%;
-    line-height: 50px;
+    height: 4em;
     white-space: nowrap;
     border-radius: 10px;
+  }
+  p {
+    font-weight: bold;
+    display: inline-block;
+    background-color: white;
+    width: 2em;
+    height: 2em;
+    padding: 3px;
+    margin-top: 1em;
+    border-radius: 50px;
   }
 </style>

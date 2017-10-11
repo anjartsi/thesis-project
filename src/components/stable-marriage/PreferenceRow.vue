@@ -77,6 +77,7 @@
     height: 4em;
   }
   h5 {
+    font-weight: bold;
     height: 100%;
     line-height: 2em;
     white-space: nowrap;
