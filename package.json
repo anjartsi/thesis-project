@@ -1,7 +1,7 @@
 {
   "name": "fun-with-algorithms",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Algorithm Visualization",
   "author": "Armen Ourfalian <aourfalian@gmail.com>",
   "private": true,
   "scripts": {
