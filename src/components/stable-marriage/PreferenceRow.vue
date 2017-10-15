@@ -1,7 +1,7 @@
 <template lang='pug'>
   div.row
     div.col-xs-1
-      h5(:style='{color: this.$parent.colors[i]}') {{isGender}}
+      p(:style='{color: this.$parent.colors[i]}') {{isGender}}
         sub {{i}}
     div(
       @mouseup='dragStop'
@@ -76,10 +76,17 @@
   #boxContainer {
     height: 4em;
   }
-  h5 {
+  p {
+    text-align-last: center;
     font-weight: bold;
-    height: 100%;
-    line-height: 2em;
-    white-space: nowrap;
+    display: inline-block;
+    background-color: white;
+    width: 2em;
+    height: 2em;
+    padding: 3px;
+    margin-top: 1em;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
   }
 </style>
