@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 
 require('../node_modules/bootstrap/less/bootstrap.less')
+require('../node_modules/font-awesome/less/font-awesome.less')
 
 Vue.config.productionTip = false
 

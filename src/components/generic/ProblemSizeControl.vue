@@ -6,32 +6,35 @@ div.container-fluid
       label(for="n1") n =  
       input#n1.text-center(
         type='number'
-        min='1'
-        max='10'
-        v-model.number='problemSize'
-        @input='$emit("input", problemSize)'
+        :min='min? min : 1'
+        :max='max? max : 10'
+        v-model.number='n'
+        @input='$emit("input", n)'
       )
   div.row
     div.col-xs-12
       input.range-slider__range(
         type='range'
-        min='1'
-        max='10'
-        v-model.number='problemSize'
-        @input='$emit("input", problemSize)'
+        :min='min? min : 1'
+        :max='max? max : 10'
+        v-model.number='n'
+        @input='$emit("input", n)'
       )
 </template>
 
 <script>
   export default {
-    props: {
-      problemSize: Number
-    }, // end props
+    props: [
+      'problemSize',
+      'min',
+      'max'
+    ], // end props
     components: {
     },
     // end components
     data () {
       return {
+        n: this.problemSize
       }
     } // end data
   }

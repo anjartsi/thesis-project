@@ -15,6 +15,7 @@
     "deploy": "git subtree push  --prefix dist heroku master"
   },
   "dependencies": {
+    "font-awesome": "^4.7.0",
     "pug": "^2.0.0-rc.4",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0"

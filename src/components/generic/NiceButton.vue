@@ -1,5 +1,7 @@
 <template lang='pug'>
-button().btn.btn-block.btn-lg 
+button(
+  @click='$emit("click")'
+).btn.btn-block.btn-lg 
   slot Don't Push Me
 </template>
 
