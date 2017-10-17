@@ -7,8 +7,9 @@
       @mouseup='dragStop'
       @mouseleave='dragStop'
       ).col-xs-11#boxContainer
-      preference-box(
+      SM-preference-box(
         v-for='j in n'
+        :class='{unlocked: !locked}'
         :isGender='isGender' 
         :likesGender='likesGender'
         :n='n'
@@ -23,10 +24,10 @@
 </template>
 
 <script>
-  import PreferenceBox from './PreferenceBox'
+  import SMPreferenceBox from './SMPreferenceBox'
   export default {
     components: {
-      PreferenceBox
+      SMPreferenceBox
     },
     // end components
     props: [
@@ -34,7 +35,8 @@
       'isGender',
       'likesGender',
       'n',
-      'i'
+      'i',
+      'locked'
     ],
     // end props
     data () {

@@ -1,30 +1,32 @@
 <template lang='pug'>
 div.container-fluid
-  preference-row(
+  SM-preference-row(
   v-for='i in n' 
   :isGender='isGender' 
   :likesGender='likesGender'
   :n='n'
   :i='i'
   :key='i'
+  :locked='locked'
   :preference-list-row='preferenceList[i-1]'
   v-on:reorderBoxes='reorderBoxes'
   )
 </template>
 
 <script>
-  import PreferenceRow from './PreferenceRow'
+  import SMPreferenceRow from './SMPreferenceRow'
 
   export default {
     components: {
-      PreferenceRow
+      SMPreferenceRow
     },
     // end components
     props: [
       'preferenceList',
       'isGender',
       'likesGender',
-      'n'
+      'n',
+      'locked'
     ],
     // end props
     data () {

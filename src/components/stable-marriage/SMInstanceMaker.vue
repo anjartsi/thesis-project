@@ -25,19 +25,21 @@ div.row
     div.row
       div.col-xs-6
         h4(style="text-align:center") Men
-        preference-list(
+        SM-preference-list(
           isGender='m'
           likesGender='w'
           :n='n'
+          :locked='locked'
           :preference-list='preferences["m"]'
           v-on:reorderBoxes='swap'
           )
       div.col-xs-6
         h4(style="text-align:center") Women
-        preference-list(
+        SM-preference-list(
           isGender='w'
           likesGender='m'
           :n='n'
+          :locked='locked'
           :preference-list='preferences["w"]'
           v-on:reorderBoxes='swap'
         )
@@ -46,10 +48,10 @@ div.row
 <script>
 import NiceButton from '../generic/NiceButton'
 import ProblemSizeControl from '../generic/ProblemSizeControl'
-import PreferenceList from './PreferenceList'
+import SMPreferenceList from './SMPreferenceList'
 export default {
   components: {
-    NiceButton, ProblemSizeControl, PreferenceList
+    NiceButton, ProblemSizeControl, SMPreferenceList
   },
   // end components
   props: [

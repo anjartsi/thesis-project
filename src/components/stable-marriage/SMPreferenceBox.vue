@@ -27,15 +27,6 @@
     },
     // end data
     methods: {
-      boxMouseDown () {
-      },
-      // end boxMouseDown()
-      boxMouseUp () {
-      },
-      boxMouseLeave () {
-      },
-      boxMouseEnter () {
-      }
     }
   }
 </script>
@@ -45,10 +36,12 @@
     display: inline-block;
     width: 10%;
     text-align: center;
-    cursor: move;
     height: 4em;
     white-space: nowrap;
     border-radius: 10px;
+  }
+  .unlocked {
+    cursor: move;
   }
   p {
     font-weight: bold;
