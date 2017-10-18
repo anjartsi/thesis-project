@@ -1,0 +1,48 @@
+<template lang='pug'>
+div
+  div.row
+    div.col-xs-12.text-center
+      h1 Unmatched
+  div.row
+    div.col-xs-1
+      h4 Men
+    div.col-xs-11
+      div.personBox(
+        v-for='m in unmatched.men' 
+        :style='{"background-color": colors[m]}'
+      ) 
+        p m
+          sub {{m}}
+  div.row
+    div.col-xs-1
+      h4 Women
+    div.col-xs-11
+      div.personBox(
+        v-for='w in unmatched.women' 
+        :style='{"background-color": colors[w]}'
+      ) 
+        p w
+          sub {{w}}
+</template>
+
+<script>
+export default {
+  props: [
+    'n',
+    'colors',
+    'unmatched'
+  ],
+  // end props
+  data () {
+    return {
+
+    }
+  }
+}
+</script>
+
+<style scoped>
+div.row {
+  margin-bottom: 5px;
+}
+</style>

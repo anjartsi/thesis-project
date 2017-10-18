@@ -9,6 +9,7 @@ div.container-fluid
   :key='i'
   :locked='locked'
   :preference-list-row='preferenceList[i-1]'
+  :colors='colors'
   v-on:reorderBoxes='reorderBoxes'
   )
 </template>
@@ -26,25 +27,12 @@ div.container-fluid
       'isGender',
       'likesGender',
       'n',
-      'locked'
+      'locked',
+      'colors'
     ],
     // end props
     data () {
       return {
-        colors: [
-          '#DDDDDD',
-          '#0074D9',
-          '#FF4136',
-          '#2ECC40',
-          '#FFDC00',
-          '#7FDBFF',
-          '#F012BE',
-          '#01FF70',
-          '#FF851B',
-          '#39CCCC',
-          '#B10DC9',
-          '#AAAAAA'
-        ]
       }
     },
     // end data

@@ -1,7 +1,7 @@
 <template lang='pug'>
   div.row
     div.col-xs-1
-      p(:style='{color: this.$parent.colors[i]}') {{isGender}}
+      p(:style='{color: colors[i]}') {{isGender}}
         sub {{i}}
     div(
       @mouseup='dragStop'
@@ -15,6 +15,7 @@
         :n='n'
         :j='j'
         :key='j'
+        :colors='colors'
         :preference-box='PreferenceListRow[j-1]'
         v-on:boxMouseDown='dragStart'
         v-on:boxMouseUp='dragStop'
@@ -36,7 +37,8 @@
       'likesGender',
       'n',
       'i',
-      'locked'
+      'locked',
+      'colors'
     ],
     // end props
     data () {
@@ -72,11 +74,10 @@
   div.row {
     border-bottom: 1px solid black;
     -webkit-user-select: none;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
   }
   #boxContainer {
-    height: 4em;
   }
   p {
     text-align-last: center;

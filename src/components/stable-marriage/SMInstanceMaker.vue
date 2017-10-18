@@ -31,6 +31,7 @@ div.row
           :n='n'
           :locked='locked'
           :preference-list='preferences["m"]'
+          :colors='colors'
           v-on:reorderBoxes='swap'
           )
       div.col-xs-6
@@ -41,6 +42,7 @@ div.row
           :n='n'
           :locked='locked'
           :preference-list='preferences["w"]'
+          :colors='colors'
           v-on:reorderBoxes='swap'
         )
 </template>
@@ -55,7 +57,7 @@ export default {
   },
   // end components
   props: [
-    'preferences', 'locked', 'n'
+    'preferences', 'locked', 'n', 'colors'
   ],
   // end props
   data () {

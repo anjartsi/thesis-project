@@ -11,9 +11,10 @@ div.container-fluid
       :n.sync='n'
       :preferences='preferences'
       :locked='locked'
+      :colors='colors'
     )
   //- Buttons
-  div.row
+  div.row.cant-highlight-text
     h4.text-center Functions
     div.row(style="text-align: center")
       div.col-xs-2
@@ -29,6 +30,7 @@ div.container-fluid
       :locked='locked'
       :preferences='preferences'
       :n='n'
+      :colors='colors'
     )
 </template>
 
@@ -49,7 +51,21 @@ export default {
       preferences: {
         m: [[1, 2], [1, 2]],
         w: [[1, 2], [1, 2]]
-      }
+      },
+      colors: [
+        '#DDDDDD',
+        '#0074D9',
+        '#FF4136',
+        '#2ECC40',
+        '#FFDC00',
+        '#7FDBFF',
+        '#F012BE',
+        '#01FF70',
+        '#FF851B',
+        '#39CCCC',
+        '#B10DC9',
+        '#AAAAAA'
+      ]
     }
   },
   // end data
@@ -65,5 +81,26 @@ export default {
 <style>
   .cant-highlight-text {
     user-select: none;
+  }
+
+  div.personBox {
+    display: inline-block;
+    text-align: center;
+    width: 9.5%;
+    height: 4em;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-left: 2px
+  }
+  
+  div.personBox p {
+    font-weight: bold;
+    display: inline-block;
+    background-color: white;
+    width: 2em;
+    height: 2em;
+    padding: 3px;
+    margin-top: 1em;
+    border-radius: 50px;
   }
 </style>
