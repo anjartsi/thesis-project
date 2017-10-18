@@ -13,9 +13,10 @@ div.container-fluid
       :locked='locked'
       :colors='colors'
     )
+  br
   //- Buttons
   div.row.cant-highlight-text
-    h4.text-center Functions
+    h2.text-center Functions
     div.row(style="text-align: center")
       div.col-xs-2
         nice-button.btn-warning(v-if='locked' @click='lock') Unlock Instance 
@@ -24,6 +25,7 @@ div.container-fluid
           i.fa.fa-lock
       div.col-xs-2
         nice-button Propose-Dispose
+  br
   //- Solver goes here
   div.row
     SM-solver(
@@ -65,7 +67,8 @@ export default {
         '#39CCCC',
         '#B10DC9',
         '#AAAAAA'
-      ]
+      ],
+      needsUpdate: true
     }
   },
   // end data

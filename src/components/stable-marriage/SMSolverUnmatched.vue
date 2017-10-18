@@ -2,10 +2,10 @@
 div
   div.row
     div.col-xs-12.text-center
-      h1 Unmatched
+      h3 Unmatched
   div.row
     div.col-xs-1
-      h4 Men
+      h4 Men:
     div.col-xs-11
       div.personBox(
         v-for='m in unmatched.men' 
@@ -15,7 +15,7 @@ div
           sub {{m}}
   div.row
     div.col-xs-1
-      h4 Women
+      h4 Women:
     div.col-xs-11
       div.personBox(
         v-for='w in unmatched.women' 
@@ -42,6 +42,10 @@ export default {
 </script>
 
 <style scoped>
+h4 {
+  padding-top: 8px;
+  text-align-last: right;
+}
 div.row {
   margin-bottom: 5px;
 }

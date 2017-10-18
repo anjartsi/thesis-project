@@ -2,15 +2,28 @@
 div
   div.row
     div.col-xs-12.text-center
-      h1 Tentatively Matched
-  div.row.text-center(v-for='(couple, index) in tentative')
-      h4 {{index + 1}}.) 
-      div.personBox(:style='{"background-color": colors[couple.man], width: "20%"}')
-        p m
-          sub {{couple.man}}
-      div.personBox(:style='{"background-color": colors[couple.woman], width: "20%"}')
-        p w
-          sub {{couple.woman}}
+      h3 Tentatively Matched
+  div.row
+    div.col-xs-6
+      div.row(v-for='(couple, index) in tentative' v-if='index < n / 2')
+        div.col-xs-3
+          h4 {{index + 1}}.) 
+        div.personBox(:style='{"background-color": colors[couple.man], width: "20%"}')
+          p m
+            sub {{couple.man}}
+        div.personBox(:style='{"background-color": colors[couple.woman], width: "20%"}')
+          p w
+            sub {{couple.woman}}
+    div.col-xs-6
+      div.row(v-for='(couple, index) in tentative' v-if='index >= n / 2 && index < n')
+        div.col-xs-3
+          h4 {{index + 1}}.) 
+        div.personBox(:style='{"background-color": colors[couple.man], width: "20%"}')
+          p m
+            sub {{couple.man}}
+        div.personBox(:style='{"background-color": colors[couple.woman], width: "20%"}')
+          p w
+            sub {{couple.woman}}
 </template>
 
 <script>

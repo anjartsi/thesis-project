@@ -149,8 +149,12 @@ export default {
       this.problemSize = num
       this.changeProblemSize()
     }
-  }
+  },
   // end methods
+  created: function () {
+    this.problemSize = 10
+    this.changeProblemSize()
+  }
 }
 </script>
 

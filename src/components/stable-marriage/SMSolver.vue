@@ -1,33 +1,38 @@
 <template lang='pug'>
 div
-  div.row.row-eq-height
-    div.col-xs-2.border
+  div.row
+    nice-button(@click='pd')
+  div.row
+    div.col-xs-4
       SMSolver-tentative(
         :n='n'
         :colors='colors'
         :tentative='tentative'
       )
-    div.col-xs-6.border
-      SMSolver-unmatched(
-        :n='n'
-        :colors='colors'
-        :unmatched='unmatched'
-      )
-    div.col-xs-4.border
-      SMSolver-proposal(
-        :n='n'
-        :colors='colors'
-      )
+    div.col-xs-8
+      div.row
+        SMSolver-unmatched(
+          :n='n'
+          :colors='colors'
+          :unmatched='unmatched'
+        )
+      div.row
+        SMSolver-proposal(
+          :n='n'
+          :colors='colors'
+          :proposingMan='proposingMan'
+        )
 </template>
 
 <script>
+import NiceButton from '../generic/NiceButton'
 import SMSolverUnmatched from './SMSolverUnmatched'
 import SMSolverTentative from './SMSolverTentative'
 import SMSolverProposal from './SMSolverProposal'
 
 export default {
   components: {
-    SMSolverUnmatched, SMSolverTentative, SMSolverProposal
+    SMSolverUnmatched, SMSolverTentative, SMSolverProposal, NiceButton
   },
   // end components
   props: [
@@ -37,9 +42,10 @@ export default {
   created: function () {
     this.reset()
   },
-  // end created
   updated: function () {
-    this.reset()
+    if (!this.locked) {
+      this.reset()
+    }
   },
   // end updated
   data () {
@@ -48,7 +54,8 @@ export default {
         men: [],
         women: []
       },
-      tentative: [{man: 3, woman: 2}, {man: 1, woman: 3}]
+      tentative: [{man: 1, woman: 1}, {man: 2, woman: 2}, {man: 3, woman: 3}],
+      proposingMan: null
     }
   },
   // end data
@@ -65,7 +72,9 @@ export default {
         this.$set(this.unmatched.women, i, i + 1)
       }
       // Remove any tentative matches
-      // this.tentative = []
+      for (let i = 0; i < this.tentative.length; i++) {
+        this.tentative.pop()
+      }
     },
     // end reset()
     removeFromArray: function (arr, item) {
@@ -75,6 +84,11 @@ export default {
       if (index !== -1) {
         this.$delete(arr, index)
       }
+    },
+    // end removeFromArray()
+    pd: function () {
+      this.proposingMan = this.unmatched.men[0]
+      this.unmatched.men.shift()
     }
   }
   // end methods
@@ -82,31 +96,4 @@ export default {
 </script>
 
 <style scoped>
-
-.row.row-eq-height {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-
-.row.row-eq-height > [class*='col-'] {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-}
-
-.border:nth-child(2) {
-  border-right: 1px solid black;
-  border-left: 1px solid black;
-}
 </style>
