@@ -1,7 +1,7 @@
 <template lang='pug'>
   div.row
     div.col-xs-1
-      p(:style='{color: colors[i]}') {{isGender}}
+      p(:style='{color: colors[i-1]}') {{isGender}}
         sub {{i}}
     div(
       @mouseup='dragStop'

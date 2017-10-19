@@ -4,30 +4,21 @@ div.container-fluid
   div.row.cant-highlight-text
     h1 Stable Marriage
   //- Create Instance
+  hr
   div.row.cant-highlight-text
-    div.col-xs-12
-      h2(style="text-align:center") The Problem Instance
     SM-instance-maker(
       :n.sync='n'
       :preferences='preferences'
-      :locked='locked'
+      :locked.sync='locked'
       :colors='colors'
     )
-  br
-  //- Buttons
-  div.row.cant-highlight-text
-    h2.text-center Functions
-    div.row(style="text-align: center")
-      div.col-xs-2
-        nice-button.btn-warning(v-if='locked' @click='lock') Unlock Instance 
-          i.fa.fa-unlock
-        nice-button.btn-warning(v-else @click='lock') Lock Instance 
-          i.fa.fa-lock
-      div.col-xs-2
-        nice-button Propose-Dispose
-  br
+  hr
+  div.alert.alert-warning.text-center(v-if='!locked') 
+    h3 You must 
+      strong#second-lock.text-warning(@click='locked = !locked') lock the instance
+      |  before trying to solve it
   //- Solver goes here
-  div.row
+  div.row(v-else)
     SM-solver(
       :locked='locked'
       :preferences='preferences'
@@ -51,11 +42,10 @@ export default {
       n: 2,
       locked: false,
       preferences: {
-        m: [[1, 2], [1, 2]],
-        w: [[1, 2], [1, 2]]
+        m: [[0, 1], [0, 1]],
+        w: [[0, 1], [0, 1]]
       },
       colors: [
-        '#DDDDDD',
         '#0074D9',
         '#FF4136',
         '#2ECC40',
@@ -66,6 +56,7 @@ export default {
         '#FF851B',
         '#39CCCC',
         '#B10DC9',
+        '#DDDDDD',
         '#AAAAAA'
       ],
       needsUpdate: true
@@ -73,9 +64,6 @@ export default {
   },
   // end data
   methods: {
-    lock: function () {
-      this.locked = !this.locked
-    }
   }
   // end methods
 }
@@ -89,10 +77,9 @@ export default {
   div.personBox {
     display: inline-block;
     text-align: center;
-    width: 9.5%;
-    height: 4em;
+    width: 50px;
+    height: 50px;
     border: 1px solid black;
-    border-radius: 10px;
     margin-left: 2px
   }
   
@@ -100,10 +87,24 @@ export default {
     font-weight: bold;
     display: inline-block;
     background-color: white;
-    width: 2em;
-    height: 2em;
+    width: 30px;
+    height: 30px;
     padding: 3px;
-    margin-top: 1em;
+    margin-top: 10px;
     border-radius: 50px;
+  }
+  div.personBox.m {
+
+  }
+  div.personBox.w {
+    border-radius: 18px;
+
+  }
+  strong#second-lock {
+    
+  }
+  strong#second-lock:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
 </style>

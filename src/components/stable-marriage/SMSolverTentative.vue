@@ -3,27 +3,27 @@ div
   div.row
     div.col-xs-12.text-center
       h3 Tentatively Matched
-  div.row
+  div.row(v-if='tentative.length > 0')
     div.col-xs-6
       div.row(v-for='(couple, index) in tentative' v-if='index < n / 2')
         div.col-xs-3
           h4 {{index + 1}}.) 
-        div.personBox(:style='{"background-color": colors[couple.man], width: "20%"}')
+        div.personBox.m(:style='{"background-color": colors[couple.man]}')
           p m
-            sub {{couple.man}}
-        div.personBox(:style='{"background-color": colors[couple.woman], width: "20%"}')
+            sub {{couple.man + 1}}
+        div.personBox.w(:style='{"background-color": colors[couple.woman]}')
           p w
-            sub {{couple.woman}}
+            sub {{couple.woman + 1}}
     div.col-xs-6
       div.row(v-for='(couple, index) in tentative' v-if='index >= n / 2 && index < n')
         div.col-xs-3
           h4 {{index + 1}}.) 
-        div.personBox(:style='{"background-color": colors[couple.man], width: "20%"}')
+        div.personBox.m(:style='{"background-color": colors[couple.man]}')
           p m
-            sub {{couple.man}}
-        div.personBox(:style='{"background-color": colors[couple.woman], width: "20%"}')
+            sub {{couple.man + 1}}
+        div.personBox.w(:style='{"background-color": colors[couple.woman]}')
           p w
-            sub {{couple.woman}}
+            sub {{couple.woman + 1}}
 </template>
 
 <script>
@@ -46,6 +46,7 @@ div.row {
 }
 div.row h4 {
   display: inline-block;
+  margin-top:20px;
   margin-right: 5px;
 }
 </style>

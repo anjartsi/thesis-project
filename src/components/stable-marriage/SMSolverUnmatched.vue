@@ -7,22 +7,22 @@ div
     div.col-xs-1
       h4 Men:
     div.col-xs-11
-      div.personBox(
+      div.personBox.m(
         v-for='m in unmatched.men' 
         :style='{"background-color": colors[m]}'
       ) 
         p m
-          sub {{m}}
+          sub {{m+1}}
   div.row
     div.col-xs-1
       h4 Women:
     div.col-xs-11
-      div.personBox(
+      div.personBox.w(
         v-for='w in unmatched.women' 
         :style='{"background-color": colors[w]}'
       ) 
         p w
-          sub {{w}}
+          sub {{w+1}}
 </template>
 
 <script>

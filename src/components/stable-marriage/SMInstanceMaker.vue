@@ -1,59 +1,79 @@
 <template lang='pug'>
-div.row
-  //- Problem Size
-  div.col-xs-2(v-if='!locked')
-    div.row
-      problem-size-control(
-        v-model='problemSize' 
-        @input='changeProblemSize'
-        :problemSize='problemSize'
-        min='1'
-        max='10'
-      )
-    br
-    div.row
-      div.col-xs-12
-        nice-button(v-on:click.native='randomize') Randomize
-    br
-    div.row
-      div.col-xs-12
-        nice-button(v-on:click.native='reset') Reset
-  div.col-xs-2(v-else)
-  //- Preference Lists
-  div.col-xs-10
-    h3(style="text-align:center") Preference Lists
-    div.row
-      div.col-xs-6
-        h4(style="text-align:center") Men
-        SM-preference-list(
-          isGender='m'
-          likesGender='w'
-          :n='n'
-          :locked='locked'
-          :preference-list='preferences["m"]'
-          :colors='colors'
-          v-on:reorderBoxes='swap'
+div
+  div.row
+    div.col-xs-12
+      h2 The Problem Instance
+    div.col-xs-5
+    div.col-xs-2
+      //- nice-button-lock(:isLocked='isLocked' @click='lock')
+  div.row
+    div.col-xs-2
+      div.row
+        div.col-xs-12
+          nice-button-lock(:isLocked='locked' @click='lock')
+      br
+      div.row
+        div(v-if='!locked')
+          //- Problem Size
+          div.row
+            problem-size-control(
+              v-model='problemSize' 
+              @input='changeProblemSize'
+              :problemSize='problemSize'
+              min='1'
+              max='10'
+            )
+          br
+          div.row
+            div.col-xs-12
+              nice-button(v-on:click.native='randomize') Randomize
+          br
+          div.row
+            div.col-xs-12
+              nice-button(v-on:click.native='reset') Reset
+        div(v-else) 
+          div.alert.alert-warning.text-center
+            h4 You must unlock the instance to change it
+            h4 
+              strong Warning:
+              |  Unlocking the instance will erase all progress made in the solver
+
+      //- Preference Lists
+    div.col-xs-10
+      h3(style="text-align:center") Preference Lists
+      div.row
+        div.col-xs-6
+          h4(style="text-align:center") Men
+          SM-preference-list(
+            isGender='m'
+            likesGender='w'
+            :n='n'
+            :locked='locked'
+            :preference-list='preferences["m"]'
+            :colors='colors'
+            v-on:reorderBoxes='swap'
+            )
+        div.col-xs-6
+          h4(style="text-align:center") Women
+          SM-preference-list(
+            isGender='w'
+            likesGender='m'
+            :n='n'
+            :locked='locked'
+            :preference-list='preferences["w"]'
+            :colors='colors'
+            v-on:reorderBoxes='swap'
           )
-      div.col-xs-6
-        h4(style="text-align:center") Women
-        SM-preference-list(
-          isGender='w'
-          likesGender='m'
-          :n='n'
-          :locked='locked'
-          :preference-list='preferences["w"]'
-          :colors='colors'
-          v-on:reorderBoxes='swap'
-        )
 </template>
 
 <script>
 import NiceButton from '../generic/NiceButton'
+import NiceButtonLock from '../generic/NiceButtonLock'
 import ProblemSizeControl from '../generic/ProblemSizeControl'
 import SMPreferenceList from './SMPreferenceList'
 export default {
   components: {
-    NiceButton, ProblemSizeControl, SMPreferenceList
+    NiceButton, NiceButtonLock, ProblemSizeControl, SMPreferenceList
   },
   // end components
   props: [
@@ -62,10 +82,17 @@ export default {
   // end props
   data () {
     return {
-      problemSize: this.n
+      problemSize: this.n,
+      isLocked: this.locked
     }
   },
   // end data
+  watch: {
+    locked: function (newValue) {
+      this.isLocked = newValue
+    }
+  },
+  // end computed
   methods: {
     changeProblemSize: function () {
       this.$emit('update:n', this.problemSize)
@@ -102,11 +129,11 @@ export default {
       // If there are too few numbers, add them
       if (arr.length < this.problemSize) {
         for (let i = arr.length; i < this.problemSize; i++) {
-          arr.push(i + 1)
+          arr.push(i)
         }
       } else if (arr.length > this.problemSize) {
         for (let i = 0; i < arr.length; i++) {
-          if (arr[i] > this.problemSize) {
+          if (arr[i] >= this.problemSize) {
             arr.splice(i, 1)
             i--
           }
@@ -148,12 +175,25 @@ export default {
       this.changeProblemSize()
       this.problemSize = num
       this.changeProblemSize()
+    },
+    // End reset()
+    lock: function () {
+      this.isLocked = !this.isLocked
+      this.$emit('update:locked', this.isLocked)
     }
   },
   // end methods
   created: function () {
-    this.problemSize = 10
+    this.problemSize = 5
     this.changeProblemSize()
+
+    // TODO: clear this
+    this.randomize()
+    this.randomize()
+    this.randomize()
+    this.lock()
+    this.lock()
+    this.lock()
   }
 }
 </script>

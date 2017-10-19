@@ -1,13 +1,14 @@
 <template lang='pug'>
   div.personBox(
   :style='{"background-color": colors[preferenceBox]}'
+  :class='[isGender]'
   @mousedown='$emit("boxMouseDown", j)'
   @mouseup='$emit("boxMouseUp", j)'
   @mouseenter='$emit("boxMouseEnter", j)'
   @mouseleave='$emit("boxMouseLeave", j)'
   ) 
     p {{likesGender}}
-      sub {{ this.preferenceBox }}
+      sub {{ this.preferenceBox + 1}}
 </template>
 
 <script>
