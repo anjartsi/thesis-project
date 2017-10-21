@@ -6,20 +6,15 @@ div
   div.row
     div.col-xs-2
       nice-button(
-        @click='propose'
+        @click='proposeDispose'
         :class='{disabled: !locked}'
-      ) Propose
-    div.col-xs-2
-      nice-button(
-        @click='respond'
-        :class='{disabled: !locked}'
-      ) Respond to Proposal
-    div.col-xs-8
-      div.alert
-        h4 Click these one at a time until there are no unmatched people
+      ) Propose / Dispose
+    div.col-xs-5
+      div.alert.alert-info.text-center
+        h4 {{message}}
   div.row
     div.col-xs-3
-      SMSolver-tentative(
+      SMSolver-tentative#solver(
         :n='n'
         :colors='colors'
         :tentative='tentatives'
@@ -39,6 +34,7 @@ div
           :proposedToWoman='proposedToWoman'
           :preference='preferences.m[proposingMan]'
           :rejection='rejections[proposingMan]'
+          :solved='solved'
         )
 </template>
 
@@ -71,10 +67,17 @@ export default {
       tentatives: [],
       rejections: [],
       proposingMan: -1,
-      proposedToWoman: -1
+      proposedToWoman: -1,
+      message: 'Click here to perform the next step of the algorithm'
     }
   },
   // end data
+  computed: {
+    solved: function () {
+      return this.tentatives.length === this.n
+    }
+  },
+  // end computed
   watch: {
     locked: function (newValue) {
       // When the instance is unlocked,
@@ -85,9 +88,6 @@ export default {
       }
     }
   },
-  computed: {
-  },
-  // end computed
   methods: {
     reset: function () {
       this.unmatched.men = []
@@ -119,6 +119,18 @@ export default {
       }
     },
     // end removeFromArray()
+    proposeDispose: function () {
+      if (this.proposingMan === -1) {
+        this.propose(0)
+      } else if (this.proposedToWoman !== -1) {
+        this.respond()
+      } else {
+        this.propose(0)
+      }
+      if (this.solved) {
+        this.message = 'All people have been matched. The algorithm terminates'
+      }
+    },
     propose: function (man) {
       if (!man) {
         man = 0
@@ -134,7 +146,8 @@ export default {
           rejected = this.rejections[this.proposingMan][i]
           i++
         }
-      }
+        this.message = 'Man ' + (this.proposingMan + 1) + ' proposes to Woman ' + (this.proposedToWoman + 1)
+      } // end if()
     },
     // end propose
     respond: function () {
@@ -156,14 +169,14 @@ export default {
         this.tentatives.push({man: this.proposingMan, woman: this.proposedToWoman})
         this.removeFromArray(this.unmatched.women, this.proposedToWoman)
         this.removeFromArray(this.unmatched.men, this.proposingMan)
-        console.log('"She is unmatched she accepts"')
+        this.message = 'Woman ' + (this.proposedToWoman + 1) + ' is unmatched so she accepts'
         this.proposingMan = -1
       } else { // She IS tentatively matched
         // if she prefers her tentative match
         if (herPref.indexOf(currentMatch) < herPref.indexOf(this.proposingMan)) {
           // reject the proposer
           this.$set(this.rejections[this.proposingMan], this.preferences.m[this.proposingMan].indexOf(this.proposedToWoman), true)
-          console.log('"She prefers her current match"')
+          this.message = 'Woman ' + (this.proposedToWoman + 1) + ' prefers her current tentative match'
         } else { // if she prefers the new proposal
           // The proposer is no longer unmatched
           this.removeFromArray(this.unmatched.men, this.proposingMan)
@@ -174,7 +187,7 @@ export default {
           // remove the old tentative match and add the new one
           this.$delete(this.tentatives, index)
           this.tentatives.push({man: this.proposingMan, woman: this.proposedToWoman})
-          console.log('"She prefers the new guy"')
+          this.message = 'Woman ' + (this.proposedToWoman + 1) + ' likes him more than her tentative match, she accepts'
           this.proposingMan = -1
         } // end else (accepted the proposal)
       }
@@ -187,4 +200,11 @@ export default {
 </script>
 
 <style scoped>
+#solver {
+  height: 220px;
+}
+
+.alert > h4 {
+  margin: 0px;
+}
 </style>
