@@ -181,7 +181,7 @@ export default {
           // The proposer is no longer unmatched
           this.removeFromArray(this.unmatched.men, this.proposingMan)
           // reject the ex-match
-          this.rejections[currentMatch][this.proposedToWoman] = true
+          this.$set(this.rejections[currentMatch], this.preferences.m[currentMatch].indexOf(this.proposedToWoman), true)
           // her ex-match is now unmatched
           this.unmatched.men.push(currentMatch)
           // remove the old tentative match and add the new one

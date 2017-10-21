@@ -164,8 +164,10 @@ export default {
         person = Math.floor(min + (1 + max - min) * Math.random())
         a = Math.floor(min + (1 + max - min) * Math.random())
         b = Math.floor(min + (1 + max - min) * Math.random())
-
-        this.swap(gender, person, a, b)
+        // Leave Man 1 alone, this causes no loss of generality
+        if (!(gender === 'm' && person === 0)) {
+          this.swap(gender, person, a, b)
+        }
       }
     },
     // end randomize()
@@ -184,16 +186,8 @@ export default {
   },
   // end methods
   created: function () {
-    this.problemSize = 5
+    this.problemSize = 3
     this.changeProblemSize()
-
-    // TODO: clear this
-    this.randomize()
-    this.randomize()
-    this.randomize()
-    this.lock()
-    this.lock()
-    this.lock()
   }
 }
 </script>
