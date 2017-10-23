@@ -9,23 +9,23 @@ div
     div.col-xs-10
       div(
         style='display: inline-block'
-        v-for='index in unmatched.men'
-        @click='$emit("manClicked", index)'
+        v-for='man in unmatched.men'
+        @click='$emit("nextManClickedEvent", man)'
         :class='{clickable}'
       )
         SM-person-box(
           :gender='"m"'
-          :index='index'
+          :index='man'
         )
   div.row
     div.col-xs-2
       h4 Women:
     div.col-xs-10
       SM-person-box(
-        v-for='index in unmatched.women' 
+        v-for='woman in unmatched.women' 
         :gender='"w"'
-        :index='index'
-        :key='index'
+        :index='woman'
+        :key='woman'
       )
 </template>
 
@@ -48,9 +48,6 @@ export default {
   },
   // end data
   methods: {
-    manClicked: function (index) {
-      this.$emit('manClicked', index)
-    }
   }
 }
 </script>

@@ -7,7 +7,7 @@ div
     div.col-xs-2
       nice-button.btn-primary(
         @click='proposeDispose'
-        :class='{disabled: !locked}'
+        :class='{disabled: !locked || clickable || solved}'
       ) Propose / Dispose
     div.col-xs-5
       div.alert.alert-info.text-center
@@ -29,7 +29,7 @@ div
           :n='n'
           :colors='colors'
           :unmatched='unmatched'
-          @manClicked='nextManClicked'
+          @nextManClickedEvent='nextManClickedEventHandler'
           :clickable='clickable'
         )
       div.col-xs-6
@@ -75,7 +75,6 @@ export default {
       proposingMan: -1,
       proposedToWoman: -1,
       message: 'Click here to perform the next step of the algorithm',
-      nextManStyle: 0,
       nextMan: [
         {
           nextManProposing: function (max) { return 0 },
@@ -101,6 +100,7 @@ export default {
         }
       ],
       // end nextMan[]
+      nextManStyle: 0,
       nextManProposingClicked: -1
     }
   },
@@ -166,13 +166,15 @@ export default {
       if (this.solved) {
         this.message = 'All people have been matched. The algorithm terminates'
       }
-      this.nextManProposingClicked = -1
     },
     // end proposeDispose
     propose: function () {
       let man = this.nextMan[this.nextManStyle].nextManProposing(this.unmatched.men.length)
-      if (this.man === -1) {
+      if (man === -1) {
         man = this.nextManProposingClicked
+      }
+      if (man === -1) {
+        return
       }
       // only propose if there are unmatched men left
       if (this.unmatched.men.length > 0) {
@@ -237,8 +239,19 @@ export default {
       this.nextManStyle ++
       this.nextManStyle %= this.nextMan.length
     },
-    nextManClicked: function (index) {
-      this.nextManProposingClicked = index
+    nextManClickedEventHandler: function (man) {
+      if (this.clickable) {
+        this.nextManProposingClicked = this.unmatched.men.indexOf(man)
+        if (this.proposingMan === man) {
+          // If the same man is clicked twice, move as normal
+          this.proposeDispose()
+        } else {
+          // If a different man is clicked, reset the proposingMan to start over
+          this.proposingMan = -1
+          this.proposeDispose()
+        }
+        this.nextManProposingClicked = -1
+      }
     }
   }
   // end methods
