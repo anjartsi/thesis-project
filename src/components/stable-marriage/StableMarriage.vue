@@ -31,10 +31,11 @@ div.container-fluid
 import NiceButton from '../generic/NiceButton'
 import SMInstanceMaker from './SMInstanceMaker'
 import SMSolver from './SMSolver'
+import SMPersonBox from './SMPersonBox'
 
 export default {
   components: {
-    SMInstanceMaker, NiceButton, SMSolver
+    SMInstanceMaker, NiceButton, SMSolver, SMPersonBox
   },
   // end components
   data () {
@@ -74,6 +75,7 @@ export default {
     user-select: none;
   }
 
+/** TODO delete this
   div.personBox {
     display: inline-block;
     text-align: center;
@@ -99,7 +101,7 @@ export default {
   div.personBox.w {
     border-radius: 18px;
 
-  }
+  }*/
   strong#second-lock {
     
   }

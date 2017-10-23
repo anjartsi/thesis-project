@@ -1,40 +1,45 @@
 <template lang='pug'>
-  div.personBox(
-  :style='{"background-color": colors[preferenceBox]}'
-  :class='[isGender]'
+div.preferenceBox(
   @mousedown='$emit("boxMouseDown", j)'
   @mouseup='$emit("boxMouseUp", j)'
   @mouseenter='$emit("boxMouseEnter", j)'
   @mouseleave='$emit("boxMouseLeave", j)'
-  ) 
-    p {{likesGender}}
-      sub {{ this.preferenceBox + 1}}
+)
+  SM-person-box(
+  :gender='likesGender'
+  :index='preferenceBox'
+  )
 </template>
 
 <script>
-  export default {
-    props: [
-      'isGender',
-      'likesGender',
-      'n',
-      'j',
-      'preferenceBox',
-      'colors'
-    ],
-    // end props
-    data () {
-      return {
-        clicked: false
-      }
-    },
-    // end data
-    methods: {
+import SMPersonBox from './SMPersonBox'
+export default {
+  components: {SMPersonBox},
+  props: [
+    'isGender',
+    'likesGender',
+    'n',
+    'j',
+    'preferenceBox',
+    'colors'
+  ],
+  // end props
+  data () {
+    return {
+      clicked: false
     }
+  },
+  // end data
+  methods: {
   }
+}
 </script>
 
 <style scoped>
   .unlocked {
     cursor: move;
+  }
+  div.preferenceBox {
+    display: inline-block;
   }
 </style>

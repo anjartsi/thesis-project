@@ -4,29 +4,33 @@ div
     div.col-xs-12.text-center
       h3 Unmatched
   div.row
-    div.col-xs-1
+    div.col-xs-2
       h4 Men:
-    div.col-xs-11
-      div.personBox.m(
-        v-for='m in unmatched.men' 
-        :style='{"background-color": colors[m]}'
-      ) 
-        p m
-          sub {{m+1}}
+    div.col-xs-10
+      SM-person-box(
+        v-for='index in unmatched.men'
+        :gender='"m"'
+        :index='index'
+        :key='index'
+      )
   div.row
-    div.col-xs-1
+    div.col-xs-2
       h4 Women:
-    div.col-xs-11
-      div.personBox.w(
-        v-for='w in unmatched.women' 
-        :style='{"background-color": colors[w]}'
-      ) 
-        p w
-          sub {{w+1}}
+    div.col-xs-10
+      SM-person-box(
+        v-for='index in unmatched.women' 
+        :gender='"w"'
+        :index='index'
+        :key='index'
+      )
 </template>
 
 <script>
+import SMPersonBox from './SMPersonBox'
 export default {
+  components: {
+    SMPersonBox
+  },
   props: [
     'n',
     'colors',

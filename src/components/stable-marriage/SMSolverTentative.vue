@@ -3,34 +3,43 @@ div
   div.row
     div.col-xs-12.text-center
       h3 Tentatively Matched
-  div.row(v-if='tentative.length > 0')
+  div.row
     div.col-xs-6
-      div.row(v-for='(couple, index) in tentative' v-if='index < n / 2')
-        div.col-xs-3
-          h4 {{index + 1}}.) 
-        div.personBox.m(:style='{"background-color": colors[couple.man]}')
-          p m
-            sub {{couple.man + 1}}
-        div.personBox.w(:style='{"background-color": colors[couple.woman]}')
-          p w
-            sub {{couple.woman + 1}}
+      div.row(v-for='i in n' v-if='i <= (n + 1) / 2')
+        div.col-xs-2
+          h4 {{i}}.)
+        div.col-xs-10(v-if='tentative[i-1]')
+          SM-person-box(
+            :gender='"m"'
+            :index='tentative[i-1].man'
+          )
+          SM-person-box(
+            :gender='"w"'
+            :index='tentative[i-1].woman'
+          )
     div.col-xs-6
-      div.row(v-for='(couple, index) in tentative' v-if='index >= n / 2 && index < n')
-        div.col-xs-3
-          h4 {{index + 1}}.) 
-        div.personBox.m(:style='{"background-color": colors[couple.man]}')
-          p m
-            sub {{couple.man + 1}}
-        div.personBox.w(:style='{"background-color": colors[couple.woman]}')
-          p w
-            sub {{couple.woman + 1}}
+      div.row(v-for='i in n' v-if='i > (n + 1) / 2')
+        div.col-xs-2
+          h4 {{i}}.)
+        div.col-xs-10(v-if='tentative[i-1]')
+          SM-person-box(
+            :gender='"m"'
+            :index='tentative[i-1].man'
+          )
+          SM-person-box(
+            :gender='"w"'
+            :index='tentative[i-1].woman'
+          )
 </template>
 
 <script>
+import SMPersonBox from './SMPersonBox'
 export default {
+  components: {
+    SMPersonBox
+  },
   data () {
     return {
-
     }
   },
   // end data
