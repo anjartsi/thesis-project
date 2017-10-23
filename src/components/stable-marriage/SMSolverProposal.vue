@@ -7,23 +7,26 @@ div
     div(v-if='proposingMan > -1')
       div.row
         div.col-xs-1
+          //- The man who will propose next
           SM-person-box(
             :gender='"m"'
             :index='proposingMan'
           )
         div.col-xs-1
         div.col-xs-10
-          div(v-for="(w, index) in preference" style='display: inline-block')
-            SM-person-box(
-            :gender='"w"'
-            :index='w'
-            :key='index'
-            :rejected='rejection[index]'
-            )
+          //- His preference list (with X's on the women who rejected him)
+          SM-person-box(
+          v-for="(woman, index) in preferences.m[proposingMan]"
+          :gender='"w"'
+          :index='woman'
+          :key='index'
+          :rejected='rejections[proposingMan][woman]'
+          )
       hr
       div.row
         div.col-xs-1
         div.col-xs-10
+          //- The proposing man (again)
           SM-person-box(
             v-if='proposingMan > -1'
             :gender='"m"'
@@ -31,6 +34,7 @@ div
           ) 
           div#proposing(style='display: inline-block')
             i.fa.fa-arrow-right.fa-3x
+          //- The woman he's proposing to
           SM-person-box(
             v-if='proposedToWoman > -1'
             :gender='"w"'
@@ -38,6 +42,21 @@ div
           ) 
             p w
               sub {{proposedToWoman}} 
+      hr
+      div.row(v-if='proposedToWoman > -1')
+        div.col-xs-1
+          //- The woman he's proposing to (again)
+          SM-person-box(:gender='"w"'  :index='proposedToWoman')
+        div.col-xs-1
+        div.col-xs-10
+          //- The woman's preference list (and all the men she's rejected)
+          SM-person-box(
+            v-for="(man, index) in preferences.w[proposedToWoman]"
+            :gender='"m"'
+            :index='man'
+            :key='index'
+            :rejected='rejections[man][proposedToWoman]'
+          )
     div.row(v-else)
       div.alert.alert-info.text-center
         h4 Waiting for a proposal
@@ -61,7 +80,7 @@ export default {
   },
   // end data
   props: [
-    'n', 'colors', 'proposingMan', 'proposedToWoman', 'preference', 'rejection', 'solved'
+    'n', 'colors', 'proposingMan', 'proposedToWoman', 'preferences', 'rejections', 'solved'
   ],
   // end props
   methods: {

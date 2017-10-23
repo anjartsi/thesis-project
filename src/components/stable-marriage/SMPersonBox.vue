@@ -5,6 +5,8 @@ div(
 )
   p {{ isGender }}
     sub {{index + 1}}
+
+  //- If the rejected flag is on, put a big red X on the box
   i.fa.fa-times.rejected(v-if='rejected')
 </template>
 
@@ -86,7 +88,6 @@ div(
   div.w {
     border-radius: 18px;
   }
-
 
   i.rejected {
     display: block;

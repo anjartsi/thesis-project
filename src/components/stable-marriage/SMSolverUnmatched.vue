@@ -7,12 +7,16 @@ div
     div.col-xs-2
       h4 Men:
     div.col-xs-10
-      SM-person-box(
+      div(
+        style='display: inline-block'
         v-for='index in unmatched.men'
-        :gender='"m"'
-        :index='index'
-        :key='index'
+        @click='$emit("manClicked", index)'
+        :class='{clickable}'
       )
+        SM-person-box(
+          :gender='"m"'
+          :index='index'
+        )
   div.row
     div.col-xs-2
       h4 Women:
@@ -34,12 +38,18 @@ export default {
   props: [
     'n',
     'colors',
-    'unmatched'
+    'unmatched',
+    'clickable'
   ],
   // end props
   data () {
     return {
-
+    }
+  },
+  // end data
+  methods: {
+    manClicked: function (index) {
+      this.$emit('manClicked', index)
     }
   }
 }
@@ -52,5 +62,8 @@ h4 {
 }
 div.row {
   margin-bottom: 5px;
+}
+.clickable {
+  cursor: pointer
 }
 </style>

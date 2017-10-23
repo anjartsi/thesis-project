@@ -18,7 +18,7 @@ div.container-fluid
       strong#second-lock.text-warning(@click='locked = !locked') lock the instance
       |  before trying to solve it
   //- Solver goes here
-  div.row(v-else)
+  div.row.cant-highlight-text(v-else)
     SM-solver(
       :locked='locked'
       :preferences='preferences'
