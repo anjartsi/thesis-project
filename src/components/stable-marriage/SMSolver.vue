@@ -4,18 +4,35 @@ div
     div.col-xs-12
       h2 Solver
   div.row
+    div.col-xs-5
+      div(v-if='!solved')
+        div.col-xs-4.text-right
+          h4 Who Proposes Next?
+        div.col-xs-8
+          select.input-lg(v-model='nextMan.selected')
+            option(
+              v-for='option in nextMan.options'
+              :value='option.value'
+            ) {{option.text}}
+    div.col-xs-5
+      nice-automator(
+        v-if='!clickable'
+        :funcs='[proposeDispose]'
+        :speed='500'
+        :finished='solved'
+      )
+  br
+  div.row
     div.col-xs-2
       nice-button.btn-primary(
         @click='proposeDispose'
-        :class='{disabled: !locked || clickable || solved}'
+        :class='{disabled: !locked}'
+        v-if='!clickable && !solved'
       ) Propose / Dispose
     div.col-xs-5
       div.alert.alert-info.text-center
         h4 {{message}}
-    div.col-xs-3
-      nice-button.btn-primary(
-      @click='changeNextManStyle'
-      :class='{disabled: !locked}') {{nextMan[nextManStyle].text}}
+    
   div.row
     div.col-xs-3
       SMSolver-tentative#solver(
@@ -41,18 +58,20 @@ div
           :preferences='preferences'
           :rejections='rejections'
           :solved='solved'
+          :proposals='proposals'
         )
 </template>
 
 <script>
 import NiceButton from '../generic/NiceButton'
+import NiceAutomator from '../generic/NiceAutomator'
 import SMSolverUnmatched from './SMSolverUnmatched'
 import SMSolverTentative from './SMSolverTentative'
 import SMSolverProposal from './SMSolverProposal'
 
 export default {
   components: {
-    SMSolverUnmatched, SMSolverTentative, SMSolverProposal, NiceButton
+    SMSolverUnmatched, SMSolverTentative, SMSolverProposal, NiceButton, NiceAutomator
   },
   // end components
   props: [
@@ -74,43 +93,55 @@ export default {
       rejections: [],
       proposingMan: -1,
       proposedToWoman: -1,
+      proposals: 0,
       message: 'Click here to perform the next step of the algorithm',
-      nextMan: [
-        {
-          nextManProposing: function (max) { return 0 },
-          text: 'Least Recently Unmatched'
-        },
-        {
-          nextManProposing: function (max) {
-            return max - 1
+      nextMan: {
+        // Different ways of deciding which man gets to propose next
+        selected: 0,
+        clickedMan: -1,
+        options: [
+          {
+            value: 0,
+            text: 'Least Recently Unmatched',
+            whoProposes: function (max) { return 0 }
           },
-          text: 'Most Recently Unmatched'
-        },
-        {
-          nextManProposing: function (max) {
-            return Math.floor(0 + (1 + max - 1) * Math.random())
+          {
+            value: 1,
+            text: 'Most Recently Unmatched',
+            whoProposes: function (max) {
+              return max - 1
+            }
           },
-          text: 'Random'
-        },
-        {
-          nextManProposing: function (max) {
-            return -1
+          {
+            value: 2,
+            text: 'Random',
+            whoProposes: function (max) {
+              return Math.floor(0 + (1 + max - 1) * Math.random())
+            }
           },
-          text: 'Choose By Clicking'
-        }
-      ],
-      // end nextMan[]
-      nextManStyle: 0,
-      nextManProposingClicked: -1
+          {
+            value: 3,
+            text: 'Choose By Clicking',
+            whoProposes: function (max) {
+              return -1
+            }
+          }
+        ]
+        // end options
+      }
     }
+    // end nextMan
   },
   // end data
   computed: {
     solved: function () {
-      return this.tentatives.length === this.n
+      let slvd = this.tentatives.length === this.n
+      if (slvd) {
+      }
+      return slvd
     },
     clickable: function () {
-      return this.nextMan[this.nextManStyle].text.toLowerCase().includes('clicking')
+      return this.nextMan.options[this.nextMan.selected].text.toLowerCase().includes('clicking')
     }
   },
   // end computed
@@ -169,9 +200,9 @@ export default {
     },
     // end proposeDispose
     propose: function () {
-      let man = this.nextMan[this.nextManStyle].nextManProposing(this.unmatched.men.length)
+      let man = this.nextMan.options[this.nextMan.selected].whoProposes(this.unmatched.men.length)
       if (man === -1) {
-        man = this.nextManProposingClicked
+        man = this.nextMan.clickedMan
       }
       if (man === -1) {
         return
@@ -195,6 +226,7 @@ export default {
       if (this.proposingMan === -1 || this.proposedToWoman === -1) {
         return
       }
+      this.proposals++
       let herPref = this.preferences.w[this.proposedToWoman]
       let currentMatch
       let index = -1
@@ -232,6 +264,10 @@ export default {
           this.proposingMan = -1
         } // end else (accepted the proposal)
       }
+      // sorta tentatives by the men's number
+      this.tentatives.sort(function (a, b) {
+        return a.man - b.man
+      })
       this.proposedToWoman = -1
     },
     // end respond()
@@ -241,7 +277,7 @@ export default {
     },
     nextManClickedEventHandler: function (man) {
       if (this.clickable) {
-        this.nextManProposingClicked = this.unmatched.men.indexOf(man)
+        this.nextMan.clickedMan = this.unmatched.men.indexOf(man)
         if (this.proposingMan === man) {
           // If the same man is clicked twice, move as normal
           this.proposeDispose()
@@ -250,7 +286,7 @@ export default {
           this.proposingMan = -1
           this.proposeDispose()
         }
-        this.nextManProposingClicked = -1
+        this.nextMan.clickedMan = -1
       }
     }
   }

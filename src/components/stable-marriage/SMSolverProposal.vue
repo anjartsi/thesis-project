@@ -2,7 +2,7 @@
 div
   div.row
     div.col-xs-12.text-center
-      h3 Next Proposal
+      h3 Next Proposal ({{proposals}} total)
   div(v-if='!solved')
     div(v-if='proposingMan > -1')
       div.row
@@ -80,7 +80,7 @@ export default {
   },
   // end data
   props: [
-    'n', 'colors', 'proposingMan', 'proposedToWoman', 'preferences', 'rejections', 'solved'
+    'n', 'colors', 'proposingMan', 'proposedToWoman', 'preferences', 'rejections', 'solved', 'proposals'
   ],
   // end props
   methods: {
