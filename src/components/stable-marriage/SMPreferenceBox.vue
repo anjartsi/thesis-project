@@ -26,7 +26,6 @@ export default {
   // end props
   data () {
     return {
-      clicked: false
     }
   },
   // end data

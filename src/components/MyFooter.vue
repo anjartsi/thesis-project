@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.container-fluid
+  div.container-fluid#footer
     div.row
       div.col-xs-1
       div.col-xs-10
@@ -17,5 +17,8 @@
 </script>
 
 <style>
-  
+  #footer {
+    color: white;
+    background-color: #101010;
+  }
 </style>

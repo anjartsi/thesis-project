@@ -3,14 +3,9 @@ div
   div.row
     h2 Solver
   div.row.text-center
-    div.col-xs-6.col-md-4
-      label Who proposes next?
-    div.col-xs-4.col-md-3.col-xl-2
-      label Next Step
-    div.col-xs-2.col-md-5.col-xl-4
-      label Message
-  div.row
     div.col-xs-6.col-md-4.text-center
+      div.col-xs-12
+        label Who proposes next?
       div(v-if='!solved')
         select.input-lg(v-model='nextMan.selected')
           option(
@@ -18,14 +13,19 @@ div
             :value='option.value'
           ) {{option.text}}
     div.col-xs-4.col-md-3.col-xl-2
+      div.col-xs-12
+        label Next Step
       nice-button.btn-primary(
         @click='proposeDispose'
         :class='{disabled: !locked}'
         v-if='!clickable && !solved'
       ) Propose / Dispose
     div.col-xs-12.col-md-5.col-xl-4
-      div.alert.alert-info.text-center
-        h4 {{message}}    
+      div.col-xs-12
+        label Message
+      div.col-xs-12
+        div.alert.alert-info
+          h4 {{message}}    
   div.row
     div.col-xs-6.col-lg-3
       SMSolver-tentative#solver(
