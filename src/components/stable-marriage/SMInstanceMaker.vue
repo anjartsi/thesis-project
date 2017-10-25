@@ -1,16 +1,11 @@
 <template lang='pug'>
 div
   div.row
-    div.col-xs-12
-      h2 The Problem Instance
-    div.col-xs-5
-    div.col-xs-2
-      //- nice-button-lock(:isLocked='isLocked' @click='lock')
+    h2 The Problem Instance
   div.row
-    div.col-xs-2
+    div.col-xs-3.col-lg-2
       div.row
-        div.col-xs-12
-          nice-button-lock(:isLocked='locked' @click='lock')
+        nice-button-lock(:isLocked='locked' @click='lock')
       br
       div.row
         div(v-if='!locked')
@@ -39,10 +34,10 @@ div
               |  Unlocking the instance will erase all progress made in the solver
 
       //- Preference Lists
-    div.col-xs-10
+    div.col-xs-9.col-lg-10
       h3(style="text-align:center") Preference Lists
       div.row
-        div.col-xs-6
+        div.col-xs-12.col-lg-6
           h4(style="text-align:center") Men
           SM-preference-list(
             isGender='m'
@@ -53,7 +48,7 @@ div
             :colors='colors'
             v-on:reorderBoxes='swap'
             )
-        div.col-xs-6
+        div.col-xs-12.col-lg-6
           h4(style="text-align:center") Women
           SM-preference-list(
             isGender='w'

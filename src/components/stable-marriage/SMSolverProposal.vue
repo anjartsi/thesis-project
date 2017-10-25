@@ -3,7 +3,7 @@ div
   div.row
     div.col-xs-12.text-center
       h3 Next Proposal ({{proposals}} total)
-  div(v-if='!solved')
+  div#minHeight(v-if='!solved')
     div(v-if='proposingMan > -1')
       div.row
         div.col-xs-1
@@ -64,7 +64,7 @@ div
     div.row
       div.col-xs-12
         div.alert.alert-success.text-center
-          h3 All people have been matched. Hooray!
+          h4 All people have been matched. Hooray!
 </template>
 
 <script>
@@ -115,4 +115,7 @@ div#proposing {
   margin: 0px;
 }
 
+div#minHeight {
+  height: 250px;
+}
 </style>

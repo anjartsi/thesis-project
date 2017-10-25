@@ -1,47 +1,40 @@
 <template lang='pug'>
 div
   div.row
-    div.col-xs-12
-      h2 Solver
+    h2 Solver
+  div.row.text-center
+    div.col-xs-6.col-md-4
+      label Who proposes next?
+    div.col-xs-4.col-md-3.col-xl-2
+      label Next Step
+    div.col-xs-2.col-md-5.col-xl-4
+      label Message
   div.row
-    div.col-xs-5
+    div.col-xs-6.col-md-4.text-center
       div(v-if='!solved')
-        div.col-xs-4.text-right
-          h4 Who Proposes Next?
-        div.col-xs-8
-          select.input-lg(v-model='nextMan.selected')
-            option(
-              v-for='option in nextMan.options'
-              :value='option.value'
-            ) {{option.text}}
-    div.col-xs-5
-      nice-automator(
-        v-if='!clickable'
-        :funcs='[proposeDispose]'
-        :speed='500'
-        :finished='solved'
-      )
-  br
-  div.row
-    div.col-xs-2
+        select.input-lg(v-model='nextMan.selected')
+          option(
+            v-for='option in nextMan.options'
+            :value='option.value'
+          ) {{option.text}}
+    div.col-xs-4.col-md-3.col-xl-2
       nice-button.btn-primary(
         @click='proposeDispose'
         :class='{disabled: !locked}'
         v-if='!clickable && !solved'
       ) Propose / Dispose
-    div.col-xs-5
+    div.col-xs-12.col-md-5.col-xl-4
       div.alert.alert-info.text-center
-        h4 {{message}}
-    
+        h4 {{message}}    
   div.row
-    div.col-xs-3
+    div.col-xs-6.col-lg-3
       SMSolver-tentative#solver(
         :n='n'
         :colors='colors'
         :tentative='tentatives'
       )
-    div.col-xs-9
-      div.col-xs-6
+    div.col-xs-6.col-lg-9
+      div.col-xs-12.col-lg-6
         SMSolver-unmatched(
           :n='n'
           :colors='colors'
@@ -49,7 +42,7 @@ div
           @nextManClickedEvent='nextManClickedEventHandler'
           :clickable='clickable'
         )
-      div.col-xs-6
+      div.col-xs-12.col-lg-6
         SMSolver-proposal(
           :n='n'
           :colors='colors'
@@ -59,7 +52,15 @@ div
           :rejections='rejections'
           :solved='solved'
           :proposals='proposals'
-        )
+        )  
+  hr
+  div.row
+    nice-automator(
+      v-if='!clickable'
+      :funcs='[proposeDispose]'
+      :speed='500'
+      :finished='solved'
+    )
 </template>
 
 <script>
@@ -94,7 +95,7 @@ export default {
       proposingMan: -1,
       proposedToWoman: -1,
       proposals: 0,
-      message: 'Click here to perform the next step of the algorithm',
+      message: 'Click to perform the next step of the algorithm',
       nextMan: {
         // Different ways of deciding which man gets to propose next
         selected: 0,
@@ -296,7 +297,7 @@ export default {
 
 <style scoped>
 #solver {
-  height: 300px;
+  /*height: 300px;*/
 }
 
 .alert > h4 {

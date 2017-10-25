@@ -1,8 +1,10 @@
 <template lang='pug'>
 div.row
-  div.col-xs-7
+  div.col-xs-3.col-lg-2.col-xl-1
+    h3 Automate
+  div.col-xs-5.col-lg-6.col-xl-7
     div.btn-group.btn-group-lg
-      button.btn.btn-primary(
+      button.btn.btn-primary.fastSlow(
         @click='slower' 
         :class='{disabled:finished}'
       ) Slower
@@ -22,22 +24,22 @@ div.row
       ) Pause Algorithm
         br
         i.fa.fa-pause
-      button.btn.btn-danger(
+      button.btn.btn-danger.fastSlow(
         @click='faster'
         :class='{disabled:finished}'
         ) Faster
           br
           | (&times; 2)
-  div.col-xs-5
+  div.col-xs-4
     div.row
-      div.col-xs-8
+      div.col-xs-7
         h4 Current speed: 
-      div.col-xs-4 
+      div.col-xs-5 
         h4 &times;{{speed / dt}}
     div.row
-      div.col-xs-8
+      div.col-xs-7
         h4 Time per iteration:
-      div.col-xs-4
+      div.col-xs-5
         h4 {{dt / 1000}} s
 </template>
 
@@ -111,7 +113,19 @@ div.row
 </script>
 
 <style scoped>
+.btn-group {
+  width: 100%;
+}
 .playPause {
-  width: 170px;
+  width: 50%;
+}
+.fastSlow {
+  width: 25%;
+}
+.btn {
+  font-size: 1.8rem;
+}
+h4 {
+  font-size: 1.6rem;
 }
 </style>

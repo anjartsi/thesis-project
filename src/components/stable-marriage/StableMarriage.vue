@@ -75,33 +75,6 @@ export default {
     user-select: none;
   }
 
-/** TODO delete this
-  div.personBox {
-    display: inline-block;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    border: 1px solid black;
-    margin-left: 2px
-  }
-  
-  div.personBox p {
-    font-weight: bold;
-    display: inline-block;
-    background-color: white;
-    width: 30px;
-    height: 30px;
-    padding: 3px;
-    margin-top: 10px;
-    border-radius: 50px;
-  }
-  div.personBox.m {
-
-  }
-  div.personBox.w {
-    border-radius: 18px;
-
-  }*/
   strong#second-lock {
     
   }
