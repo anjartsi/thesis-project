@@ -27,13 +27,13 @@ div
         div.alert.alert-info
           h4 {{message}}    
   div.row
-    div.col-xs-6.col-lg-3
+    div.col-xs-6.col-lg-4.col-xl-3
       SMSolver-tentative#solver(
         :n='n'
         :colors='colors'
         :tentative='tentatives'
       )
-    div.col-xs-6.col-lg-9
+    div.col-xs-6.col-lg-8.col-xl-9
       div.col-xs-12.col-lg-6
         SMSolver-unmatched(
           :n='n'
