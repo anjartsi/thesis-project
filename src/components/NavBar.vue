@@ -6,7 +6,7 @@
         span.sr-only Toggle navigation
         - for (let i = 0; i < 3; i++)
           span.icon-bar
-      router-link.navbar-brand(to="/") AV by AO
+      router-link.navbar-brand(to="/") FwA
 
     div.collapse.navbar-collapse#nvbar-collapse-1
       ul.nav.navbar-nav(v-for="item in nav")
