@@ -63,4 +63,8 @@
   p, h3 a {
     font-size: 2rem;
   }
+
+  ul li {
+    list-style: none;
+  }
 </style>

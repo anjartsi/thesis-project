@@ -3,9 +3,10 @@ div#app
   nav-bar
   div.container-fluid
     div.row
-      div.col-xs-1
+      div.col-xs-1.pageBorder
       div.col-xs-10
         router-view
+      div.col-xs-1.pageBorder
   my-footer
 </template>
 
@@ -20,5 +21,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.pageBorder {
+}
 </style>
