@@ -5,6 +5,7 @@ div#app
     div.row
       div.col-xs-1.pageBorder
       div.col-xs-10
+        //- Do what the router says
         router-view
       div.col-xs-1.pageBorder
   my-footer

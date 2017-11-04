@@ -1,4 +1,5 @@
-<template lang="pug">nav.navbar.navbar-inverse
+<template lang="pug">
+nav.navbar.navbar-inverse
   div.container-fluid
     
     div.navbar-header

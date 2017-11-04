@@ -3,6 +3,8 @@ div.container-fluid
   //- Title 
   div.row.cant-highlight-text
     h1 Stable Marriage
+    div.col-xs-2
+      nice-button(@click='increment')
   //- Create Instance
   hr
   div.row.cant-highlight-text
@@ -20,11 +22,13 @@ div.container-fluid
   //- Solver goes here
   div.row.cant-highlight-text
     SM-solver(
+      v-if='locked'
       :locked='locked'
       :preferences='preferences'
       :n='n'
       :colors='colors'
     )
+
 </template>
 
 <script>
@@ -33,11 +37,25 @@ import SMInstanceMaker from './SMInstanceMaker'
 import SMSolver from './SMSolver'
 import SMPersonBox from './SMPersonBox'
 
+// TODO - figure out if these can go anywhere else
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+// TODO: use store instead of many many props
+const store = new Vuex.Store({
+  state: {
+  },
+  mutations: {
+  }
+})
+
 export default {
   components: {
     SMInstanceMaker, NiceButton, SMSolver, SMPersonBox
   },
   // end components
+  store,
   data () {
     return {
       n: 2,
@@ -65,8 +83,17 @@ export default {
   },
   // end data
   methods: {
-  }
+    increment () {
+      store.commit('increment')
+    }
+  },
   // end methods
+  computed: {
+    count () {
+      return store.state.count
+    }
+
+  }
 }
 </script>
 
