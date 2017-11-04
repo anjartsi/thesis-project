@@ -25,10 +25,11 @@
 </template>
 
 <script>
-  import SMPreferenceBox from './SMPreferenceBox'
+  import SMPreferenceBox from './SMPreferenceBox';
+
   export default {
     components: {
-      SMPreferenceBox
+      SMPreferenceBox,
     },
     // end components
     props: [
@@ -38,36 +39,36 @@
       'n',
       'i',
       'locked',
-      'colors'
+      'colors',
     ],
     // end props
-    data () {
+    data() {
       return {
         dragging: false,
-        boxToDrag: null
-      }
+        boxToDrag: null,
+      };
     },
     // end data
     methods: {
-      dragStart (j) {
-        this.dragging = true
-        this.boxToDrag = j
+      dragStart(j) {
+        this.dragging = true;
+        this.boxToDrag = j;
       },
-      dragCommence (j) {
+      dragCommence(j) {
         if (this.dragging) {
-          this.reorder(this.boxToDrag, j)
-          this.boxToDrag = j
+          this.reorder(this.boxToDrag, j);
+          this.boxToDrag = j;
         }
       },
-      dragStop (event) {
-        this.dragging = false
-        this.boxToDrag = null
+      dragStop() {
+        this.dragging = false;
+        this.boxToDrag = null;
       },
-      reorder (j1, j2) {
-        this.$emit('reorderBoxes', this.isGender, this.i - 1, j1 - 1, j2 - 1)
-      }
-    }
-  }
+      reorder(j1, j2) {
+        this.$emit('reorderBoxes', this.isGender, this.i - 1, j1 - 1, j2 - 1);
+      },
+    },
+  };
 </script>
 
 <style scoped>

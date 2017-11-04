@@ -10,7 +10,7 @@
         div.col-xs-12
           h3(v-for='chapter in chapters') {{chapter.name}}
             ul
-              li(v-for='topic in topics' v-if='topic.type === chapter.abbreviation')
+              li(v-for='topic in topics' v-if='topic.chapter === chapter.abbreviation')
                 h4
                   router-link(v-if='topic.link' :to='topic.link') {{topic.name}}
                   p(v-else) {{topic.name}}
@@ -30,33 +30,33 @@
 
 <script>
   export default {
-    data: function () {
+    data() {
       return {
         chapters: [
-          {name: 'Intro', abbreviation: 'intro'},
-          {name: 'Greedy Algorithms', abbreviation: 'greedy'},
-          {name: 'Divide and Conquer', abbreviation: 'divide'},
-          {name: 'Dynamic Programming', abbreviation: 'dynamic'},
-          {name: 'Network Flow', abbreviation: 'network'}
+          { name: 'Intro', abbreviation: 'intro' },
+          { name: 'Greedy Algorithms', abbreviation: 'greedy' },
+          { name: 'Divide and Conquer', abbreviation: 'divide' },
+          { name: 'Dynamic Programming', abbreviation: 'dynamic' },
+          { name: 'Network Flow', abbreviation: 'network' },
         ],
         topics: [
-          {name: 'Stable Marriage', link: 'stable-marriage', type: 'intro'},
-          {name: 'Interval Scheduling', type: 'greedy'},
-          {name: 'Minimize Lateness', type: 'greedy'},
-          {name: 'Huffman Code', type: 'greedy'},
-          {name: 'Counting Inversions', type: 'divide'},
-          {name: 'Closest Pair of Points', type: 'divide'},
-          {name: 'Weighted Interval Scheduling', type: 'dynamic'},
-          {name: 'Segmented Least Squares', type: 'dynamic'},
-          {name: 'Largest Common Subset', type: 'dynamic'},
-          {name: 'Subset Sum', type: 'dynamic'},
-          {name: 'Knapsack Problem', type: 'dynamic'},
-          {name: 'Ford-Fulkerson', type: 'network'},
-          {name: 'Preflow Push', type: 'network'}
-        ]
-      }
-    }
-  }
+          { name: 'Stable Marriage', link: 'stable-marriage', chapter: 'intro' },
+          { name: 'Interval Scheduling', chapter: 'greedy' },
+          { name: 'Minimize Lateness', chapter: 'greedy' },
+          { name: 'Huffman Code', chapter: 'greedy' },
+          { name: 'Counting Inversions', chapter: 'divide' },
+          { name: 'Closest Pair of Points', chapter: 'divide' },
+          { name: 'Weighted Interval Scheduling', chapter: 'dynamic' },
+          { name: 'Segmented Least Squares', chapter: 'dynamic' },
+          { name: 'Largest Common Substring', chapter: 'dynamic' },
+          { name: 'Subset Sum', chapter: 'dynamic' },
+          { name: 'Knapsack Problem', chapter: 'dynamic' },
+          { name: 'Ford-Fulkerson', chapter: 'network' },
+          { name: 'Preflow Push', chapter: 'network' },
+        ],
+      };
+    },
+  };
 </script>
 
 <style scoped>

@@ -13,10 +13,10 @@ div(
 <script>
   export default {
     props: [
-      'gender', 'index', 'rejected'
+      'gender', 'index', 'rejected',
     ],
     // end props
-    data: function () {
+    data() {
       return {
         colors: [
           '#0074D9',
@@ -30,36 +30,34 @@ div(
           '#39CCCC',
           '#B10DC9',
           '#DDDDDD',
-          '#AAAAAA'
-        ]
-      }
+          '#AAAAAA',
+        ],
+      };
     },
     // end data
     computed: {
-      likesGender: function () {
+      likesGender() {
         if (this.gender === 'm') {
-          return 'w'
-        } else {
-          return 'm'
+          return 'w';
         }
+        return 'm';
       },
       // end likesGender
-      isGender: function () {
+      isGender() {
         if (
-            this.gender === '' ||
-            this.gender === 'm' ||
-            this.gender === 'man' ||
-            this.gender === 'male'
-          ) {
-          return 'm'
-        } else {
-          return 'w'
+          this.gender === '' ||
+          this.gender === 'm' ||
+          this.gender === 'man' ||
+          this.gender === 'male'
+        ) {
+          return 'm';
         }
-      }
+        return 'w';
+      },
       // end gender
-    }
+    },
     // end computed
-  }
+  };
 </script>
 
 <style scoped>

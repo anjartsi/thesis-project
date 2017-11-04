@@ -68,29 +68,36 @@ div
 </template>
 
 <script>
-import SMPersonBox from './SMPersonBox'
+import SMPersonBox from './SMPersonBox';
+
 export default {
   components: {
-    SMPersonBox
+    SMPersonBox,
   },
   // end components
-  data () {
+  data() {
     return {
-    }
+    };
   },
   // end data
   props: [
-    'n', 'colors', 'proposingMan', 'proposedToWoman', 'preferences', 'rejections', 'solved', 'proposals'
+    'n',
+    'colors',
+    'proposingMan',
+    'proposedToWoman',
+    'preferences',
+    'rejections',
+    'solved',
+    'proposals',
   ],
   // end props
   methods: {
-    getMansPreference: function (man, index) {
-      let arr = this.preferences.m[man]
-      console.log(arr[index])
-      return arr[index]
-    }
-  }
-}
+    getMansPreference(man, index) {
+      const arr = this.preferences.m[man];
+      return arr[index];
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -12,26 +12,27 @@ div.preferenceBox(
 </template>
 
 <script>
-import SMPersonBox from './SMPersonBox'
+import SMPersonBox from './SMPersonBox';
+
 export default {
-  components: {SMPersonBox},
+  components: { SMPersonBox },
   props: [
     'isGender',
     'likesGender',
     'n',
     'j',
     'preferenceBox',
-    'colors'
+    'colors',
   ],
   // end props
-  data () {
+  data() {
     return {
-    }
+    };
   },
   // end data
   methods: {
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

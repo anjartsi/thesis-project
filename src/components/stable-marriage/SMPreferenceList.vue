@@ -15,11 +15,11 @@ div.container-fluid
 </template>
 
 <script>
-  import SMPreferenceRow from './SMPreferenceRow'
+  import SMPreferenceRow from './SMPreferenceRow';
 
   export default {
     components: {
-      SMPreferenceRow
+      SMPreferenceRow,
     },
     // end components
     props: [
@@ -28,21 +28,21 @@ div.container-fluid
       'likesGender',
       'n',
       'locked',
-      'colors'
+      'colors',
     ],
     // end props
-    data () {
+    data() {
       return {
-      }
+      };
     },
     // end data
     methods: {
-      reorderBoxes (gender, person, pref1, pref2) {
+      reorderBoxes(gender, person, pref1, pref2) {
         // Forward the emitted event to parent
-        this.$emit('reorderBoxes', gender, person, pref1, pref2)
-      }
-    }
-  }
+        this.$emit('reorderBoxes', gender, person, pref1, pref2);
+      },
+    },
+  };
 </script>
 
 <style scoped>

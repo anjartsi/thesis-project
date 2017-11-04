@@ -27,17 +27,18 @@ div.container-fluid
     props: [
       'problemSize',
       'min',
-      'max'
+      'max',
     ], // end props
     components: {
     },
     // end components
-    data () {
+    data() {
       return {
-        n: this.problemSize
-      }
-    } // end data
-  }
+        n: this.problemSize,
+      };
+    },
+    // end data
+  };
 </script>
 
 <style scoped>

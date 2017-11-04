@@ -30,26 +30,27 @@ div
 </template>
 
 <script>
-import SMPersonBox from './SMPersonBox'
+import SMPersonBox from './SMPersonBox';
+
 export default {
   components: {
-    SMPersonBox
+    SMPersonBox,
   },
   props: [
     'n',
     'colors',
     'unmatched',
-    'clickable'
+    'clickable',
   ],
   // end props
-  data () {
+  data() {
     return {
-    }
+    };
   },
   // end data
   methods: {
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

@@ -48,20 +48,21 @@ div
 </template>
 
 <script>
-import SMPersonBox from './SMPersonBox'
+import SMPersonBox from './SMPersonBox';
+
 export default {
   components: {
-    SMPersonBox
+    SMPersonBox,
   },
-  data () {
+  data() {
     return {
-    }
+    };
   },
   // end data
   props: [
-    'n', 'colors', 'tentative'
-  ]
-}
+    'n', 'colors', 'tentative',
+  ],
+};
 </script>
 
 <style scoped>

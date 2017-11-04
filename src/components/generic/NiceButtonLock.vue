@@ -13,23 +13,23 @@ div
 </template>
 
 <script>
-import NiceButton from './NiceButton'
-export default {
+import NiceButton from './NiceButton';
 
+export default {
   name: 'NiceButtonLock',
   components: {
-    NiceButton
+    NiceButton,
   },
   props: [
-    'isLocked'
+    'isLocked',
   ],
   // end props
-  data () {
+  data() {
     return {
-    }
-  }
+    };
+  },
   // end data
-}
+};
 </script>
 
 <style scoped>

@@ -32,37 +32,37 @@ div.container-fluid
 </template>
 
 <script>
-import NiceButton from '../generic/NiceButton'
-import SMInstanceMaker from './SMInstanceMaker'
-import SMSolver from './SMSolver'
-import SMPersonBox from './SMPersonBox'
-
 // TODO - figure out if these can go anywhere else
-import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
+import Vue from 'vue';
+import Vuex from 'vuex';
+import NiceButton from '../generic/NiceButton';
+import SMInstanceMaker from './SMInstanceMaker';
+import SMSolver from './SMSolver';
+import SMPersonBox from './SMPersonBox';
+
+Vue.use(Vuex);
 
 // TODO: use store instead of many many props
 const store = new Vuex.Store({
   state: {
   },
   mutations: {
-  }
-})
+  },
+});
 
 export default {
   components: {
-    SMInstanceMaker, NiceButton, SMSolver, SMPersonBox
+    SMInstanceMaker, NiceButton, SMSolver, SMPersonBox,
   },
   // end components
   store,
-  data () {
+  data() {
     return {
       n: 2,
       locked: false,
       preferences: {
         m: [[0, 1], [0, 1]],
-        w: [[0, 1], [0, 1]]
+        w: [[0, 1], [0, 1]],
       },
       colors: [
         '#0074D9',
@@ -76,25 +76,24 @@ export default {
         '#39CCCC',
         '#B10DC9',
         '#DDDDDD',
-        '#AAAAAA'
+        '#AAAAAA',
       ],
-      needsUpdate: true
-    }
+      needsUpdate: true,
+    };
   },
   // end data
   methods: {
-    increment () {
-      store.commit('increment')
-    }
+    increment() {
+      store.commit('increment');
+    },
   },
   // end methods
   computed: {
-    count () {
-      return store.state.count
-    }
-
-  }
-}
+    count() {
+      return store.state.count;
+    },
+  },
+};
 </script>
 
 <style>

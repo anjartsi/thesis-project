@@ -12,14 +12,15 @@ div#app
 </template>
 
 <script>
-import NavBar from './components/NavBar'
-import MyFooter from './components/MyFooter'
+import NavBar from './components/NavBar';
+import MyFooter from './components/MyFooter';
+
 export default {
   name: 'app',
   components: {
-    NavBar, MyFooter
-  }
-}
+    NavBar, MyFooter,
+  },
+};
 </script>
 
 <style scoped>

@@ -18,15 +18,15 @@ nav.navbar.navbar-inverse
 <script>
 
 export default{
-  data () {
+  data() {
     return {
       nav: [
-        {link: '/', text: 'Home'},
-        {link: '/stable-marriage', text: 'Stable Marriage'}
-      ]
-    }
-  }
-}
+        { link: '/', text: 'Home' },
+        { link: '/stable-marriage', text: 'Stable Marriage' },
+      ],
+    };
+  },
+};
 </script>
 
 <style>

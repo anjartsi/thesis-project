@@ -7,16 +7,14 @@ button(
 
 <script>
 export default {
-
   name: 'NiceButton',
   // end props
-  data () {
+  data() {
     return {
-
-    }
-  }
+    };
+  },
   // end data
-}
+};
 </script>
 
 <style scoped>
