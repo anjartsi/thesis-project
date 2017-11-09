@@ -23,6 +23,7 @@ export default{
       nav: [
         { link: '/', text: 'Home' },
         { link: '/stable-marriage', text: 'Stable Marriage' },
+        { link: '/interval-scheduling', text: 'Interval Scheduling' },
       ],
     };
   },

@@ -41,7 +41,7 @@
         ],
         topics: [
           { name: 'Stable Marriage', link: 'stable-marriage', chapter: 'intro' },
-          { name: 'Interval Scheduling', chapter: 'greedy' },
+          { name: 'Interval Scheduling', link: 'interval-scheduling', chapter: 'greedy' },
           { name: 'Minimize Lateness', chapter: 'greedy' },
           { name: 'Huffman Code', chapter: 'greedy' },
           { name: 'Counting Inversions', chapter: 'divide' },

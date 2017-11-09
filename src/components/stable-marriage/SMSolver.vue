@@ -64,8 +64,8 @@ div
 </template>
 
 <script>
-import NiceButton from '../generic/NiceButton';
-import NiceAutomator from '../generic/NiceAutomator';
+import NiceButton from '../nice-things/NiceButton';
+import NiceAutomator from '../nice-things/NiceAutomator';
 import SMSolverUnmatched from './SMSolverUnmatched';
 import SMSolverTentative from './SMSolverTentative';
 import SMSolverProposal from './SMSolverProposal';

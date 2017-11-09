@@ -62,9 +62,9 @@ div
 </template>
 
 <script>
-import NiceButton from '../generic/NiceButton';
-import NiceButtonLock from '../generic/NiceButtonLock';
-import ProblemSizeControl from '../generic/ProblemSizeControl';
+import NiceButton from '../nice-things/NiceButton';
+import NiceButtonLock from '../nice-things/NiceButtonLock';
+import ProblemSizeControl from '../nice-things/ProblemSizeControl';
 import SMPreferenceList from './SMPreferenceList';
 
 export default {

@@ -4,7 +4,6 @@ div.container-fluid
   div.row.cant-highlight-text
     h1 Stable Marriage
     div.col-xs-2
-      nice-button(@click='increment')
   //- Create Instance
   hr
   div.row.cant-highlight-text
@@ -35,7 +34,7 @@ div.container-fluid
 // TODO - figure out if these can go anywhere else
 import Vue from 'vue';
 import Vuex from 'vuex';
-import NiceButton from '../generic/NiceButton';
+import NiceButton from '../nice-things/NiceButton';
 import SMInstanceMaker from './SMInstanceMaker';
 import SMSolver from './SMSolver';
 import SMPersonBox from './SMPersonBox';
