@@ -11,13 +11,7 @@ div
         div(v-if='!locked')
           //- Problem Size
           div.row
-            problem-size-control(
-              v-model='problemSize' 
-              @input='changeProblemSize'
-              :problemSize='problemSize'
-              min='1'
-              max='10'
-            )
+            problem-size-control
           br
           div.row
             div.col-xs-12
@@ -42,9 +36,6 @@ div
           SM-preference-list(
             isGender='m'
             likesGender='w'
-            :n='n'
-            :locked='locked'
-            :preference-list='preferences["m"]'
             :colors='colors'
             v-on:reorderBoxes='swap'
             )
@@ -53,15 +44,13 @@ div
           SM-preference-list(
             isGender='w'
             likesGender='m'
-            :n='n'
-            :locked='locked'
-            :preference-list='preferences["w"]'
             :colors='colors'
             v-on:reorderBoxes='swap'
           )
 </template>
 
 <script>
+import stuff from '../../stuff';
 import NiceButton from '../nice-things/NiceButton';
 import NiceButtonLock from '../nice-things/NiceButtonLock';
 import ProblemSizeControl from '../nice-things/ProblemSizeControl';
@@ -73,79 +62,40 @@ export default {
   },
   // end components
   props: [
-    'preferences', 'locked', 'n', 'colors',
+    'colors',
   ],
   // end props
   data() {
     return {
-      problemSize: this.n,
       isLocked: this.locked,
     };
   },
   // end data
+  computed: {
+    problemSize() { return this.$store.state.problemSize; },
+    min() { return this.$store.state.min; },
+    max() { return this.$store.state.max; },
+    locked() { return this.$store.state.locked; },
+    preferences() { return this.$store.state.preferences; },
+  },
   watch: {
+    problemSize(newValue) {
+      this.n = newValue;
+    },
     locked(newValue) {
       this.isLocked = newValue;
     },
   },
   // end computed
   methods: {
-    changeProblemSize() {
-      this.$emit('update:n', this.problemSize);
-      this.problemSize = Math.min(10, this.problemSize);
-      this.problemSize = Math.max(1, this.problemSize);
-      // for the men and women
-      for (const mf in this.preferences) {
-        if (mf === 'm' || mf === 'w') {
-          const list = this.preferences[mf];
-          // check to see if there are the correct number of rows
-          this.checkNumRows(list);
-          // check to see if each row has the correct number of preferences
-          for (let i = 0; i < this.problemSize; i++) {
-            this.checkPreferenceRow(list[i]);
-          }
-        }
-      }
-    },
-    // end changeProblemSize
-    checkNumRows(arr) {
-      // Check to see that an array has exactly n arrays
-      // If there are too many remove them from the end
-      // If there are not enough, add empty arrays at the end
-      if (arr.length < this.problemSize) {
-        for (let i = arr.length; i < this.problemSize; i++) {
-          arr.push([]);
-        }
-      } else if (arr.length > this.problemSize) {
-        arr.splice(this.problemSize);
-      }
-    },
-    // end checkNumRows()
-    checkPreferenceRow(arr) {
-      // Check to see that an array has exactly n numbers between [1, n]
-      // If any numbers are too large, remove them
-      // If there are too few numbers, add them
-      if (arr.length < this.problemSize) {
-        for (let i = arr.length; i < this.problemSize; i++) {
-          arr.push(i);
-        }
-      } else if (arr.length > this.problemSize) {
-        for (let i = 0; i < arr.length; i++) {
-          if (arr[i] >= this.problemSize) {
-            arr.splice(i, 1);
-            i--;
-          }
-        }
-      }
+    changeProblemSize(n) {
+      this.$store.dispatch('updateProblemSize', { n });
     },
     // end checkPreferenceRow()
     swap(gender, person, pref1, pref2) {
-      if (!this.locked) {
-        const arr = this.preferences[gender][person];
-        const temp = arr[pref1];
-        arr[pref1] = arr[pref2];
-        arr.splice(pref2, 1, temp);
-      }
+      // eslint-disable-next-line
+      let payload = { gender, person, pref1, pref2 };
+      this.$store.commit('swap', payload);
     },
     // end swap
     randomize() {
@@ -156,14 +106,11 @@ export default {
       const min = 0;
       const max = this.problemSize - 1;
       for (let i = 0; i < this.problemSize * this.problemSize; i++) {
-        if (Math.random() >= 0.5) {
-          gender = 'm';
-        } else {
-          gender = 'w';
-        }
-        person = Math.floor(min + (1 + max - min) * Math.random());
-        a = Math.floor(min + (1 + max - min) * Math.random());
-        b = Math.floor(min + (1 + max - min) * Math.random());
+        // eslint-disable-next-line
+        Math.random() >= 0.5 ? gender = 'm' : gender = 'w';
+        person = stuff.randomInt(min, max);
+        a = stuff.randomInt(min, max);
+        b = stuff.randomInt(min, max);
         // Leave Man 1 alone, this causes no loss of generality
         if (!(gender === 'm' && person === 0)) {
           this.swap(gender, person, a, b);
@@ -173,10 +120,8 @@ export default {
     // end randomize()
     reset() {
       const num = this.problemSize;
-      this.problemSize = 1;
-      this.changeProblemSize();
-      this.problemSize = num;
-      this.changeProblemSize();
+      this.changeProblemSize(1);
+      this.changeProblemSize(num);
     },
     // End reset()
     lock() {
@@ -186,8 +131,7 @@ export default {
   },
   // end methods
   created() {
-    this.problemSize = 3;
-    this.changeProblemSize();
+    this.changeProblemSize(4);
   },
 };
 </script>

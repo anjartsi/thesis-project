@@ -6,35 +6,51 @@ div.container-fluid
       label(for="n1") n =  
       input#n1.text-center(
         type='number'
-        :min='min? min : 1'
-        :max='max? max : 10'
-        v-model.number='n'
-        @input='$emit("input", n)'
+        :min='minimumValue'
+        :max='maximumValue'
+        v-model='problemSize'
       )
   div.row
     div.col-xs-12
-      input.range-slider__range(
+      input(
         type='range'
-        :min='min? min : 1'
-        :max='max? max : 10'
-        v-model.number='n'
-        @input='$emit("input", n)'
+        :min='minimumValue'
+        :max='maximumValue'
+        v-model='problemSize'
       )
 </template>
 
 <script>
   export default {
+    computed: {
+      minimumValue() {
+        const { min } = this.$store.state;
+        if (min) {
+          return min;
+        }
+        return 1;
+      },
+      maximumValue() {
+        const { max } = this.$store.state;
+        if (max) {
+          return max;
+        }
+        return 10;
+      },
+      problemSize: {
+        get() { return this.$store.state.problemSize; },
+        set(newValue) {
+          this.$store.dispatch('updateProblemSize', { n: newValue });
+        },
+      },
+    },
     props: [
-      'problemSize',
-      'min',
-      'max',
     ], // end props
     components: {
     },
     // end components
     data() {
       return {
-        n: this.problemSize,
       };
     },
     // end data
@@ -44,5 +60,15 @@ div.container-fluid
 <style scoped>
 label {
   margin-right: 0.25em
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -moz-appearance:textfield;
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=range] {
+  height: 4rem;
 }
 </style>

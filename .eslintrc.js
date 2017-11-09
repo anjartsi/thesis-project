@@ -19,6 +19,8 @@ module.exports = {
   'rules': {
     // These rules only generate warnings instead of errors
     'no-unused-vars': 1,
+    // Vuex uses parameter-reassigning a lot
+    'no-param-reassign': 0,
     // Windows line breaks are different than linux line breaks...
     "linebreak-style": 0,
     // Allow ++ operator

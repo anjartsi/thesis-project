@@ -8,9 +8,6 @@ div.container-fluid
   hr
   div.row.cant-highlight-text
     SM-instance-maker(
-      :n.sync='n'
-      :preferences='preferences'
-      :locked.sync='locked'
       :colors='colors'
     )
   hr
@@ -32,22 +29,13 @@ div.container-fluid
 
 <script>
 // TODO - figure out if these can go anywhere else
-import Vue from 'vue';
 import Vuex from 'vuex';
+import store from './store';
 import NiceButton from '../nice-things/NiceButton';
 import SMInstanceMaker from './SMInstanceMaker';
 import SMSolver from './SMSolver';
 import SMPersonBox from './SMPersonBox';
-
-Vue.use(Vuex);
-
-// TODO: use store instead of many many props
-const store = new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-});
+import stuff from '../../stuff.js';
 
 export default {
   components: {
@@ -57,41 +45,18 @@ export default {
   store,
   data() {
     return {
-      n: 2,
-      locked: false,
-      preferences: {
-        m: [[0, 1], [0, 1]],
-        w: [[0, 1], [0, 1]],
-      },
-      colors: [
-        '#0074D9',
-        '#FF4136',
-        '#2ECC40',
-        '#FFDC00',
-        '#7FDBFF',
-        '#F012BE',
-        '#01FF70',
-        '#FF851B',
-        '#39CCCC',
-        '#B10DC9',
-        '#DDDDDD',
-        '#AAAAAA',
-      ],
-      needsUpdate: true,
+      colors: stuff.colors,
     };
   },
   // end data
   methods: {
-    increment() {
-      store.commit('increment');
-    },
   },
   // end methods
-  computed: {
-    count() {
-      return store.state.count;
-    },
-  },
+  computed: Vuex.mapState({
+    problemSize: 'problemSize',
+    locked: 'locked',
+    preferences: 'preferences',
+  }),
 };
 </script>
 

@@ -19,9 +19,8 @@ export default {
   props: [
     'isGender',
     'likesGender',
-    'n',
+    'i',
     'j',
-    'preferenceBox',
     'colors',
   ],
   // end props
@@ -30,6 +29,11 @@ export default {
     };
   },
   // end data
+  computed: {
+    preferenceBox() {
+      return this.$store.state.preferences[this.isGender][this.i - 1][this.j - 1];
+    },
+  },
   methods: {
   },
 };

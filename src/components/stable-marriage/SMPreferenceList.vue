@@ -1,16 +1,14 @@
 <template lang='pug'>
 div.container-fluid
   SM-preference-row(
-  v-for='i in n' 
-  :isGender='isGender' 
-  :likesGender='likesGender'
-  :n='n'
-  :i='i'
-  :key='i'
-  :locked='locked'
-  :preference-list-row='preferenceList[i-1]'
-  :colors='colors'
-  v-on:reorderBoxes='reorderBoxes'
+    v-for='i in problemSize' 
+    :isGender='isGender' 
+    :likesGender='likesGender'
+    :i='i'
+    :key='i'
+    :locked='locked'
+    :colors='colors'
+    v-on:reorderBoxes='reorderBoxes'
   )
 </template>
 
@@ -23,14 +21,15 @@ div.container-fluid
     },
     // end components
     props: [
-      'preferenceList',
       'isGender',
       'likesGender',
-      'n',
-      'locked',
       'colors',
     ],
     // end props
+    computed: {
+      locked() { return this.$store.state.locked; },
+      problemSize() { return this.$store.state.problemSize; },
+    },
     data() {
       return {
       };

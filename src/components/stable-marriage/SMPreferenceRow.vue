@@ -8,15 +8,14 @@
       @mouseleave='dragStop'
       ).col-xs-11#boxContainer
       SM-preference-box(
-        v-for='j in n'
+        v-for='j in problemSize'
         :class='{unlocked: !locked}'
         :isGender='isGender' 
         :likesGender='likesGender'
-        :n='n'
+        :i='i'
         :j='j'
         :key='j'
         :colors='colors'
-        :preference-box='PreferenceListRow[j-1]'
         v-on:boxMouseDown='dragStart'
         v-on:boxMouseUp='dragStop'
         v-on:boxMouseEnter='dragCommence'
@@ -33,12 +32,9 @@
     },
     // end components
     props: [
-      'PreferenceListRow',
       'isGender',
       'likesGender',
-      'n',
       'i',
-      'locked',
       'colors',
     ],
     // end props
@@ -49,6 +45,10 @@
       };
     },
     // end data
+    computed: {
+      locked() { return this.$store.state.locked; },
+      problemSize() { return this.$store.state.problemSize; },
+    },
     methods: {
       dragStart(j) {
         this.dragging = true;
