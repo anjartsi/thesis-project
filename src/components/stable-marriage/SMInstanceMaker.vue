@@ -67,15 +67,14 @@ export default {
   // end props
   data() {
     return {
-      isLocked: this.locked,
     };
   },
   // end data
   computed: {
+    locked() { return this.$store.getters.editing; },
     problemSize() { return this.$store.state.problemSize; },
     min() { return this.$store.state.min; },
     max() { return this.$store.state.max; },
-    locked() { return this.$store.state.locked; },
     preferences() { return this.$store.state.preferences; },
   },
   watch: {
@@ -95,7 +94,7 @@ export default {
     swap(gender, person, pref1, pref2) {
       // eslint-disable-next-line
       let payload = { gender, person, pref1, pref2 };
-      this.$store.commit('swap', payload);
+      this.$store.dispatch('swap', payload);
     },
     // end swap
     randomize() {
@@ -125,8 +124,7 @@ export default {
     },
     // End reset()
     lock() {
-      this.isLocked = !this.isLocked;
-      this.$emit('update:locked', this.isLocked);
+      this.$store.commit('lockUnlock');
     },
   },
   // end methods

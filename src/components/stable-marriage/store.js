@@ -17,9 +17,32 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    editing(state) {
+      return !state.locked;
+    },
+    solving(state) {
+      return state.locked;
+    },
+    getPreferenceList(state) {
+      // E.G. Get the preference list of man 3
+      return (gender, person) => {
+        console.log(state.preferences.gender[person]);
+        return state.preferences[gender][person];
+      };
+    },
+    getPreference(state, getters) {
+      // E.G. Who is man 3's second choice?
+      return (gender, person, choice) => {
+        const arr = getters.getPreferenceList(gender, person);
+        return arr[choice];
+      };
+    },
   },
   // end getters
   mutations: {
+    lockUnlock(state) {
+      state.locked = !state.locked;
+    },
     changeProblemSize(state, payload) {
       let { n } = payload;
       const { max, min } = state;
@@ -64,7 +87,7 @@ export default new Vuex.Store({
       }
     },
     // end checkPreferenceRow
-    swap(state, payload) {
+    swapPreferenceBoxes(state, payload) {
       // eslint-disable-next-line
       const { gender, person, pref1, pref2 } = payload;
       const arr = state.preferences[gender][person];
@@ -77,17 +100,24 @@ export default new Vuex.Store({
   // end mutations
   actions: {
     updateProblemSize(context, payload) {
-      context.commit('changeProblemSize', payload);
+      if (context.getters.editing) {
+        context.commit('changeProblemSize', payload);
 
-      const listM = context.state.preferences.m;
-      const listW = context.state.preferences.w;
-      context.commit('checkNumRows', { arr: listM });
-      context.commit('checkNumRows', { arr: listW });
-      for (let i = 0; i < context.state.problemSize; i++) {
-        context.commit('checkPreferenceRow', { arr: listM[i] });
-        context.commit('checkPreferenceRow', { arr: listW[i] });
+        const listM = context.state.preferences.m;
+        const listW = context.state.preferences.w;
+        context.commit('checkNumRows', { arr: listM });
+        context.commit('checkNumRows', { arr: listW });
+        for (let i = 0; i < context.state.problemSize; i++) {
+          context.commit('checkPreferenceRow', { arr: listM[i] });
+          context.commit('checkPreferenceRow', { arr: listW[i] });
+        }
       }
     },
     // end updateProblemSize
+    swap(context, payload) {
+      if (context.getters.editing) {
+        context.commit('swapPreferenceBoxes', payload);
+      }
+    },
   },
 });

@@ -3,13 +3,11 @@ div
   nice-button.btn-warning(
     v-if='isLocked' 
     @click='$emit("click")'
-  ) Unlock Instance 
-    i.fa.fa-unlock
-  nice-button.btn-warning(
+  ) Edit Problem Instance 
+  nice-button.btn-success(
     v-else
     @click='$emit("click")'
-  ) Lock Instance 
-    i.fa.fa-lock
+  ) Solve Problem Instance  
 </template>
 
 <script>
