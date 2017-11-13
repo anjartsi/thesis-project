@@ -1,12 +1,14 @@
 <template lang='pug'>
   div.row
-    div.col-xs-1
-      p(:style='{color: colors[i-1]}') {{isGender}}
-        sub {{i}}
-    div(
+    div.col-xs-1.border-right
+      SM-person-box(
+        :gender='isGender'
+        :index='i-1'
+      )
+    div.col-xs-10(
       @mouseup='dragStop'
       @mouseleave='dragStop'
-      ).col-xs-11#boxContainer
+      ).boxContainer
       SM-preference-box(
         v-for='j in problemSize'
         :class='{unlocked: !locked}'
@@ -24,11 +26,12 @@
 </template>
 
 <script>
+  import SMPersonBox from './SMPersonBox';
   import SMPreferenceBox from './SMPreferenceBox';
 
   export default {
     components: {
-      SMPreferenceBox,
+      SMPreferenceBox, SMPersonBox,
     },
     // end components
     props: [
@@ -72,25 +75,18 @@
 </script>
 
 <style scoped>
+  .border-right {
+    padding: 0px 0px 0px 0px;
+  }
+
   div.row {
     border-bottom: 1px solid black;
     -webkit-user-select: none;
     padding-top: 2px;
     padding-bottom: 2px;
   }
-  #boxContainer {
-  }
-  p {
-    text-align-last: center;
-    font-weight: bold;
-    display: inline-block;
-    background-color: white;
-    width: 2em;
-    height: 2em;
-    padding: 3px;
-    margin-top: 1em;
-    border-radius: 5px;
-    border-width: 1px;
-    border-style: solid;
+  .boxContainer {
+    margin-left: 5px;
+    border-left: 2px solid black;
   }
 </style>

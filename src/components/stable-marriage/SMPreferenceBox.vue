@@ -31,7 +31,10 @@ export default {
   // end data
   computed: {
     preferenceBox() {
-      return this.$store.state.preferences[this.isGender][this.i - 1][this.j - 1];
+      const gender = this.isGender;
+      const personIndex = this.i - 1;
+      const preferenceIndex = this.j - 1;
+      return this.$store.getters.getPreference(gender, personIndex, preferenceIndex);
     },
   },
   methods: {

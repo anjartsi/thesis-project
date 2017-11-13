@@ -21,7 +21,6 @@ div.container-fluid
       v-if='locked'
       :locked='locked'
       :preferences='preferences'
-      :n='n'
       :colors='colors'
     )
 

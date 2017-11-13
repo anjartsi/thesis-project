@@ -9,7 +9,7 @@ div
     div.col-xs-10
       div(
         style='display: inline-block'
-        v-for='man in unmatched.men'
+        v-for='man in unmatched.m'
         @click='$emit("nextManClickedEvent", man)'
         :class='{clickable}'
       )
@@ -22,7 +22,7 @@ div
       h4 Women:
     div.col-xs-10
       SM-person-box(
-        v-for='woman in unmatched.women' 
+        v-for='woman in unmatched.w' 
         :gender='"w"'
         :index='woman'
         :key='woman'
