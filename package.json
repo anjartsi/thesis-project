@@ -15,7 +15,9 @@
     "deploy": "git subtree push  --prefix dist heroku master"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
     "pug": "^2.0.0-rc.4",
     "vue": "^2.5.2",
     "vue-router": "^2.8.1",
@@ -31,7 +33,6 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.22.0",
     "babel-register": "^6.22.0",
-    "bootstrap": "^3.3.7",
     "chai": "^4.1.2",
     "chalk": "^2.2.0",
     "chromedriver": "^2.33.1",

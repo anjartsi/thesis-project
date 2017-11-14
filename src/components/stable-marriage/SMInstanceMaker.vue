@@ -1,5 +1,5 @@
 <template lang='pug'>
-div
+div.container-fluid
   div.row
     h2 The Problem Instance
   div.row
