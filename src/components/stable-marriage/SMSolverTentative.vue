@@ -57,11 +57,11 @@ export default {
   data() {
     return {
     };
-  },
-  // end data
-  props: [
-    'n', 'colors', 'tentative',
-  ],
+  }, // end data
+  computed: {
+    n() { return this.$store.state.problemSize; },
+    tentative() { return this.$store.state.tentatives; },
+  }, // end computed
 };
 </script>
 

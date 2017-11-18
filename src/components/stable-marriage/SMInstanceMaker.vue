@@ -1,33 +1,23 @@
 <template lang='pug'>
 div.container-fluid
   div.row
-    h2 The Problem Instance
+    h2.pull-left The Problem Instance
   div.row
     div.col-xs-3.col-lg-2
       div.row
-        nice-button-lock(:isLocked='locked' @click='lock')
       br
       div.row
-        div(v-if='!locked')
+        div
           //- Problem Size
           div.row
             problem-size-control
-          br
-          div.row
-            div.col-xs-12
-              nice-button(v-on:click.native='randomize') Randomize
-          br
-          div.row
-            div.col-xs-12
-              nice-button(v-on:click.native='reset') Reset
-        div(v-else) 
-          div.alert.alert-warning.text-center
-            h4 You must unlock the instance to change it
-            h4 
-              strong Warning:
-              |  Unlocking the instance will erase all progress made in the solver
-
-      //- Preference Lists
+          transition(appear name='fade' key='instanceMaker')
+            div.row(v-show='locked')#buttonContainer
+              div.col-xs-12
+                nice-button(v-on:click.native='randomize') Randomize
+              div.col-xs-12
+                nice-button(v-on:click.native='reset') Reset
+    //- Preference Lists
     div.col-xs-9.col-lg-10
       h3(style="text-align:center") Preference Lists
       div.row
@@ -134,6 +124,8 @@ export default {
 };
 </script>
 
-<style>
-  
+<style scoped>
+#buttonContainer div {
+  margin-top: 2em;
+}
 </style>

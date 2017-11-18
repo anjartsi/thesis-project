@@ -2,69 +2,30 @@
 div
   div.row
     div.col-xs-12.text-center
-      h3 Next Proposal ({{proposals}} total)
-  div#minHeight(v-if='!solved')
-    div(v-if='proposingMan > -1')
-      div.row
-        div.col-xs-1
-          //- The man who will propose next
-          SM-person-box(
-            :gender='"m"'
-            :index='proposingMan'
-          )
-        div.col-xs-1
-        div.col-xs-10
-          //- His preference list (with X's on the women who rejected him)
-          SM-person-box(
-          v-for="(woman, index) in preferences.m[proposingMan]"
+      h3 Next Proposal ({{proposalCount}} total)
+    div.col-xs-12(v-if='!solved')
+      div.row.text-center(v-if='proposingMan > -1')
+        //- The proposing man
+        SM-person-box(
+          :gender='"m"'
+          :index='proposingMan'
+        ) 
+        div#proposing(style='display: inline-block')
+          i.fa.fa-arrow-right.fa-3x
+        //- The woman he's proposing to
+        SM-person-box(
+          v-show='proposedToWoman > -1'
           :gender='"w"'
-          :index='woman'
-          :key='index'
-          :rejected='rejections[proposingMan][woman]'
-          )
-      hr
+          :index='proposedToWoman'
+        )
+      div.row(v-else)
+        div.alert.alert-info.text-center
+          h4 Waiting for a proposal
+    div(v-else)
       div.row
-        div.col-xs-1
-        div.col-xs-10
-          //- The proposing man (again)
-          SM-person-box(
-            v-if='proposingMan > -1'
-            :gender='"m"'
-            :index='proposingMan'
-          ) 
-          div#proposing(style='display: inline-block')
-            i.fa.fa-arrow-right.fa-3x
-          //- The woman he's proposing to
-          SM-person-box(
-            v-if='proposedToWoman > -1'
-            :gender='"w"'
-            :index='proposedToWoman'
-          ) 
-            p w
-              sub {{proposedToWoman}} 
-      hr
-      div.row(v-if='proposedToWoman > -1')
-        div.col-xs-1
-          //- The woman he's proposing to (again)
-          SM-person-box(:gender='"w"'  :index='proposedToWoman')
-        div.col-xs-1
-        div.col-xs-10
-          //- The woman's preference list (and all the men she's rejected)
-          SM-person-box(
-            v-for="(man, index) in preferences.w[proposedToWoman]"
-            :gender='"m"'
-            :index='man'
-            :key='index'
-            :rejected='rejections[man][proposedToWoman]'
-          )
-    div.row(v-else)
-      div.alert.alert-info.text-center
-        h4 Waiting for a proposal
-  div(v-else)
-    div.row
-      div.col-xs-12
-        div.alert.alert-success.text-center
-          h4 All people have been matched. Hooray!
+        div.col-xs-12
+          div.alert.alert-success.text-center
+            h4 All people have been matched. Hooray!
 </template>
 
 <script>
@@ -78,25 +39,23 @@ export default {
   data() {
     return {
     };
+  }, // end data
+  computed: {
+    solving() { return this.$store.getters.solving; },
+    n() { return this.$store.state.problemSize; },
+    proposingMan() { return this.$store.state.proposal.man; },
+    proposedToWoman() { return this.$store.state.proposal.woman; },
+    preferences() { return this.$store.state.preferences; },
+    rejections() { return this.$store.state.rejections; },
+    solved() { return this.$store.state.solved; },
+    proposalCount() { return this.$store.state.proposalCount; },
   },
-  // end data
-  props: [
-    'n',
-    'colors',
-    'proposingMan',
-    'proposedToWoman',
-    'preferences',
-    'rejections',
-    'solved',
-    'proposals',
-  ],
-  // end props
   methods: {
     getMansPreference(man, index) {
       const arr = this.preferences.m[man];
       return arr[index];
     },
-  },
+  }, // end methods
 };
 </script>
 
@@ -122,7 +81,4 @@ div#proposing {
   margin: 0px;
 }
 
-div#minHeight {
-  height: 250px;
-}
 </style>

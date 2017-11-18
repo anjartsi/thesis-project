@@ -3,35 +3,25 @@ div(
   :class='isGender'
   :style='{"background-color": colors[index]}'
 )
-  p {{ isGender }}
+  p(v-if='!tentative') {{ isGender }}
     sub {{index + 1}}
-
+  p(v-else).gold
+    i.fa.fa-diamond
   //- If the rejected flag is on, put a big red X on the box
   i.fa.fa-times.rejected(v-if='rejected')
 </template>
 
 <script>
+  import stuff from '../../stuff.js';
+
   export default {
     props: [
-      'gender', 'index', 'rejected',
+      'gender', 'index', 'rejected', 'tentative',
     ],
     // end props
     data() {
       return {
-        colors: [
-          '#0074D9',
-          '#FF4136',
-          '#2ECC40',
-          '#FFDC00',
-          '#7FDBFF',
-          '#F012BE',
-          '#01FF70',
-          '#FF851B',
-          '#39CCCC',
-          '#B10DC9',
-          '#DDDDDD',
-          '#AAAAAA',
-        ],
+        colors: stuff.colors,
       };
     },
     // end data
@@ -53,10 +43,29 @@ div(
           return 'm';
         }
         return 'w';
+      }, // end gender
+    }, // end computed
+    watch: {
+      index() {
+        // eslint-disable-next-line
+        this.animate({
+          timing: stuff.timingLinear,
+          draw: this.draw,
+          duration: 150,
+        });
       },
-      // end gender
-    },
-    // end computed
+    }, // end watch
+    methods: {
+      animate: stuff.animate,
+      draw(progress) {
+        const len = this.colors.length;
+        // eslint-disable-next-line
+        this.$el.style['background-color'] = this.colors[len - 1];
+        if (progress === 1) {
+          this.$el.style['background-color'] = this.colors[this.index];
+        }
+      },
+    }, // end methods
   };
 </script>
 
@@ -86,7 +95,6 @@ div(
   div.w {
     border-radius: 18px;
   }
-
   i.rejected {
     display: block;
     width: 49px;
@@ -97,4 +105,11 @@ div(
     color: red;
   }
 
+  .gold {
+    background-color: white;
+  }
+  .gold i {
+    background-color: white;
+    border-radius: 10px;
+  }
 </style>

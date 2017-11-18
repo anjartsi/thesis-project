@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.row
+  div.row(:class='{highlight}')
     div.col-xs-1.border-right
       SM-person-box(
         :gender='isGender'
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import stuff from '../../stuff';
   import SMPersonBox from './SMPersonBox';
   import SMPreferenceBox from './SMPreferenceBox';
 
@@ -51,6 +52,12 @@
     computed: {
       locked() { return this.$store.state.locked; },
       problemSize() { return this.$store.state.problemSize; },
+      highlight() {
+        if (this.isGender === 'm') {
+          return this.$store.state.proposal.man === this.i - 1;
+        }
+        return this.$store.state.proposal.woman === this.i - 1;
+      },
     },
     methods: {
       dragStart(j) {
@@ -70,7 +77,33 @@
       reorder(j1, j2) {
         this.$emit('reorderBoxes', this.isGender, this.i - 1, j1 - 1, j2 - 1);
       },
-    },
+      darken(progress) {
+        const num = Math.floor((1 - progress) * 255);
+        if (progress < 1) {
+          this.$el.style['background-color'] = `rgb(${num},${num},${0})`;
+        } else {
+          this.$el.style['background-color'] = '';
+        }
+      },
+      lighten(progress) {
+        const num = Math.floor((progress) * 255);
+        if (progress < 1) {
+          this.$el.style['background-color'] = `rgb(${num},${num},${0})`;
+        } else {
+          // Remove this style after when finished
+          this.$el.style['background-color'] = '';
+        }
+      },
+    }, // end methods
+    watch: {
+      highlight(newVal) {
+        const todo = (newVal) ? this.darken : this.lighten;
+        stuff.animate({
+          duration: 200,
+          draw: todo,
+        });
+      },
+    }, // end watch
   };
 </script>
 
@@ -88,5 +121,11 @@
   .boxContainer {
     margin-left: 5px;
     border-left: 2px solid black;
+  }
+  .highlight {
+    background-color: black;
+  }
+  .highlight .boxContainer {
+    border-left: 2px solid white;
   }
 </style>

@@ -1,30 +1,20 @@
 <template lang='pug'>
-div
-  SM-navbar
+div#sm
+  SM-navbar.cant-highlight-text
   div.container-fluid
     div.row.cant-highlight-text
       SM-instance-maker(
-        :colors='colors'
       )
     hr
-    div.alert.alert-warning.text-center(v-if='!locked') 
-      h3 You must 
-        strong#second-lock.text-warning(@click='$store.commit("lockUnlock")') lock the instance
-        |  before trying to solve it
     //- Solver goes here
     div.row.cant-highlight-text
       SM-solver(
-        v-if='locked'
-        :locked='locked'
-        :preferences='preferences'
-        :colors='colors'
       )
 
 </template>
 
 <script>
 // TODO - figure out if these can go anywhere else
-import Vuex from 'vuex';
 import store from './store';
 import SMNavbar from './SMNavbar';
 import NiceButton from '../nice-things/NiceButton';
@@ -50,13 +40,7 @@ export default {
   },
   // end data
   methods: {
-  },
-  // end methods
-  computed: Vuex.mapState({
-    problemSize: 'problemSize',
-    locked: 'locked',
-    preferences: 'preferences',
-  }),
+  }, // end methods
 };
 </script>
 
@@ -65,11 +49,14 @@ export default {
     user-select: none;
   }
 
-  strong#second-lock {
-    
-  }
-  strong#second-lock:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
+html {
+  overflow: scroll;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
+}
 </style>

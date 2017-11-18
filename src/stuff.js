@@ -17,5 +17,27 @@ function randomInt(min, max) {
   return Math.floor(min + (1 + max - min) * Math.random());
 }
 
+function animate({ timing, draw, duration }) {
+  const start = performance.now();
+  // eslint-disable-next-line
+  requestAnimationFrame(function animate(time) {
+    // timeFraction goes from 0 to 1
+    let timeFraction = (time - start) / duration;
+    if (timeFraction > 1) timeFraction = 1;
+    // calculate the current animation state
+    const progress = (timing) ? timing(timeFraction) : timeFraction;
+    draw(progress); // draw it
+    if (timeFraction < 1) {
+      requestAnimationFrame(animate);
+    }
+  });
+} // end animate
+
+function timingLinear(timeFraction) {
+  return timeFraction;
+}
+
 module.exports.colors = colors;
 module.exports.randomInt = randomInt;
+module.exports.animate = animate;
+module.exports.timingLinear = timingLinear;

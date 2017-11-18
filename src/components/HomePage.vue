@@ -59,7 +59,7 @@
   };
 </script>
 
-<style scoped>
+<style scoped>  
   p, h3 a {
     font-size: 2rem;
   }

@@ -29,13 +29,19 @@ export default new Vuex.Store({
     proposalCount: 0,
     message: '',
     messages: {
-      empty: () => 'Click to perform the next step of the algorithm',
+      disabled: () => 'Solver is currently disabled',
+      empty: () => 'Click the blue button to perform the next step of the algorithm',
       propose: (man, woman) => `Man ${man + 1} proposes to Woman ${woman + 1}`,
       accept1: (man, woman) => `Woman ${woman + 1} is not tentatively matched so she accepts Man ${man + 1}'s proposal`,
       accept2: (man, woman, current) => `Woman ${woman + 1} prefers Man ${man + 1} to her current match (Man ${current + 1}), so she accepts`,
       reject: (man, woman, current) => `Woman ${woman + 1} prefers her current match (Man ${current + 1}) so she rejects Man ${man + 1}`,
+      solved: () => 'All people are matched! The algorithm terminates.',
     },
   },
+  /* *******************************************************************************************
+  **********************************************************************************************
+  **********************************************************************************************
+  ******************************************************************************************* */
   getters: {
     editing(state) {
       return !state.locked;
@@ -98,9 +104,16 @@ export default new Vuex.Store({
     // end getCurrentMatch
   },
   // end getters
+  /* *******************************************************************************************
+  **********************************************************************************************
+  **********************************************************************************************
+  ******************************************************************************************* */
   mutations: {
     lockUnlock(state) {
       state.locked = !state.locked;
+      if (!state.locked) {
+        state.message = state.messages.disabled();
+      }
     },
     changeProblemSize(state, payload) {
       let { n } = payload;
@@ -155,6 +168,60 @@ export default new Vuex.Store({
       arr.splice(pref2, 1, temp);
     },
     // end swapPreferenceBoxes
+    propose(state, payload) {
+      const m1 = payload.proposingMan;
+      const w1 = payload.proposedToWoman;
+      state.proposal.man = m1;
+      state.proposal.woman = w1;
+      state.message = state.messages.propose(m1, w1);
+    },
+    acceptProposal(state, payload) {
+      const m1 = state.proposal.man;
+      const m2 = payload.currentMatch;
+      const w1 = state.proposal.woman;
+      state.proposalCount++;
+      state.tentatives.push(state.proposal);
+      if (m2 < 0) {
+        // If she wasn't already matched
+        state.message = state.messages.accept1(m1, w1);
+      } else {
+        // If she was already matched, reject the current match
+        Vue.set(state.rejections[m2], w1, true);
+        state.message = state.messages.accept2(m1, m2, w1);
+      }
+      state.tentatives.sort((a, b) => a.man - b.man);
+    },
+    rejectProposal(state, payload) {
+      const m1 = state.proposal.man;
+      const m2 = payload.currentMatch;
+      const w1 = state.proposal.woman;
+      state.proposalCount++;
+      Vue.set(state.rejections[m1], w1, true);
+      state.message = state.messages.reject(m1, w1, m2);
+      state.proposal.woman = -1;
+    },
+    breakUp(state, payload) {
+      const { man, woman } = payload;
+      const { tentatives } = state;
+      // eslint-disable-next-line
+      state.tentatives = tentatives.filter((value) => {
+        return !(value.man === man && value.woman === woman);
+      });
+    },
+    addToUnmatched(state, payload) {
+      state.unmatched[payload.gender].push(payload.person);
+    },
+    removeFromUnmatched(state, payload) {
+      // remove a person from the unmatched list (if found)
+      const { gender, person } = payload;
+      const i = state.unmatched[gender].indexOf(person);
+      if (i > -1) {
+        state.unmatched[gender].splice(i, 1);
+      }
+    },
+    proposalFinished(state) {
+      state.proposal = { man: -1, woman: -1 };
+    },
     resetSolver(state) {
       const n = state.problemSize;
       // Remove any tentative matches
@@ -174,65 +241,27 @@ export default new Vuex.Store({
           state.rejections[i].push(false);
         }
       }
-    },
-    propose(state, payload) {
-      const m1 = payload.proposingMan;
-      const w1 = payload.proposedToWoman;
-      state.proposal.man = m1;
-      state.proposal.woman = w1;
-      state.message = state.messages.propose(m1, w1);
-    },
-    acceptProposal(state, payload) {
-      const m1 = state.proposal.man;
-      const m2 = payload.currentMatch;
-      const w1 = state.proposal.woman;
-      state.proposalCount++;
-      state.tentatives.push(state.proposal);
-      if (m2 < 0) {
-        // If she wasn't already matched
-        state.message = state.messages.accept1(m1, w1);
-      } else {
-        // If she was already matched, reject the current match
-        state.rejections[m2][w1] = true;
-        state.message = state.messages.accept2(m1, m2, w1);
-      }
-      state.tentatives.sort((a, b) => a.man - b.man);
-    },
-    rejectProposal(state, payload) {
-      const m1 = state.proposal.man;
-      const m2 = payload.currentMatch;
-      const w1 = state.proposal.woman;
-      state.proposalCount++;
-      state.rejections[m1][w1] = true;
-      state.message = state.messages.reject(m1, w1, m2);
-      state.proposal.woman = -1;
-    },
-    breakUp(state, payload) {
-      const { man, woman } = { payload };
-      let found = false;
-      for (let i = 0; i < state.tentatives.length && !found; i++) {
-        found = state.tentatives[i].man === man;
-        found = found && state.tentatives[i].woman === woman;
-        if (found) {
-          state.tentatives.splice(i, 1);
-        }
-        i++;
-      }
-    },
-    addToUnmatched(state, payload) {
-      state.unmatched[payload.gender].push(payload.person);
-    },
-    removeFromUnmatched(state, payload) {
-      const { gender, person } = payload;
-      const i = state.unmatched[gender].indexOf(person);
-      state.unmatched[gender].splice(i, 1);
-    },
-    proposalFinished(state) {
+      // Remove the most recent proposal
       state.proposal = { man: -1, woman: -1 };
+      state.message = state.messages.empty();
+      state.proposalCount = 0;
+      state.solved = false;
     },
-  },
-  // end mutations
+    problemSolved(state) {
+      state.solved = true;
+      state.message = state.messages.solved();
+    },
+  }, // end mutations
+  /* *******************************************************************************************
+  **********************************************************************************************
+  **********************************************************************************************
+  ******************************************************************************************* */
   actions: {
+    switchMode(context) {
+      context.commit('lockUnlock');
+      // Since a change has been made, reset the solver
+      context.commit('resetSolver');
+    },
     updateProblemSize(context, payload) {
       if (context.getters.editing) {
         context.commit('changeProblemSize', payload);
@@ -246,38 +275,45 @@ export default new Vuex.Store({
           context.commit('checkPreferenceRow', { arr: listW[i] });
         }
       }
-    },
-    // end updateProblemSize
+    }, // end updateProblemSize
     swap(context, payload) {
       if (context.getters.editing) {
         context.commit('swapPreferenceBoxes', payload);
       }
-    },
-    // end swap
+    }, // end swap
     proposeDispose(context, payload) {
-      if (context.getters.solving) {
-        // if a proposal has not been made, make one
-        const { proposingMan } = payload;
+      if (context.getters.solving && context.state.unmatched.m.length > 0) {
+        // Get proposing man from parameter
+        let { proposingMan } = payload;
+        if (proposingMan === undefined) return;
+        // If a man had proposed previously, don't change the proposal.man
+        if (context.state.proposal.man !== -1) proposingMan = context.state.proposal.man;
+        // Get proposed-to woman from getters (his next preferred)
         const proposedToWoman = context.getters.getProposal(proposingMan);
+        // If a proposal hasn't been made yet, make a proposal
         if (context.state.proposal.woman === -1) {
           context.commit('propose', { proposingMan, proposedToWoman });
         } else {
+        // if a proposal has been made, get the woman's response
           const currentMatch = context.getters.getCurrentMatch;
           if (context.getters.getResponse) {
             context.commit('acceptProposal', { currentMatch });
             context.commit('removeFromUnmatched', { gender: 'm', person: proposingMan });
             context.commit('removeFromUnmatched', { gender: 'w', person: proposedToWoman });
             if (currentMatch > -1) {
-              context.commit('breakUp', { man: currentMatch, woman: context.proposal.woman });
-              context.commit('addToUnmatched', { gender: 'man', person: currentMatch });
+              context.commit('breakUp', { man: currentMatch, woman: context.state.proposal.woman });
+              context.commit('addToUnmatched', { gender: 'm', person: currentMatch });
             }
-            context.commit('proposalFinished');
           } else {
             context.commit('rejectProposal', { currentMatch });
           }
+          // reset state.proposal for next iteration
+          context.commit('proposalFinished');
         }
       } // end if(solving)
-    },
-    // end proposeDispose
+      if (context.state.unmatched.m.length === 0) {
+        context.commit('problemSolved');
+      }
+    }, // end proposeDispose
   },
 });

@@ -17,7 +17,13 @@ export default {
 };
 </script>
 
-<style scoped>
-.pageBorder {
-}
+<style>
+  #app {
+    width: 95%;
+    margin: auto;
+  }
+
+  body {
+    padding-top: 100px;
+  }
 </style>

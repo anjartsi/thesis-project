@@ -1,5 +1,5 @@
 <template lang="pug">
-nav.navbar.navbar-inverse
+nav.navbar.navbar-fixed-top.navbar-default
   div.container-fluid
     div.navbar-header
       button.navbar-toggle.collapsed(type="button" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false")

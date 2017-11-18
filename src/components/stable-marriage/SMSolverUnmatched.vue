@@ -8,8 +8,9 @@ div
       h4 Men:
     div.col-xs-10
       div(
-        style='display: inline-block'
+        v-if='solving'
         v-for='man in unmatched.m'
+        style='display: inline-block'
         @click='$emit("nextManClickedEvent", man)'
         :class='{clickable}'
       )
@@ -22,6 +23,7 @@ div
       h4 Women:
     div.col-xs-10
       SM-person-box(
+        v-if='solving'
         v-for='woman in unmatched.w' 
         :gender='"w"'
         :index='woman'
@@ -36,18 +38,18 @@ export default {
   components: {
     SMPersonBox,
   },
+  computed: {
+    solving() { return this.$store.getters.solving; },
+    n() { return this.$store.state.n; },
+    unmatched() { return this.$store.state.unmatched; },
+  },
   props: [
-    'n',
-    'colors',
-    'unmatched',
     'clickable',
-  ],
-  // end props
+  ], // end props
   data() {
     return {
     };
-  },
-  // end data
+  }, // end data
   methods: {
   },
 };

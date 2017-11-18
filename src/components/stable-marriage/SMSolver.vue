@@ -1,25 +1,33 @@
 <template lang='pug'>
-div
+div.container-fluid
   div.row
     h2 Solver
+  div.col-xs-12#alertContainer
+    transition(appear name='fade' key='solverAlert')
+      div.alert.alert-info.text-center(v-show='!solving') 
+        h3 You must be in 
+          button.btn.btn-lg.btn-primary(@click='$store.dispatch("switchMode")') Solve Mode
+          |  before trying to solve the problem
   div.row.text-center
     div.col-xs-6.col-md-4.text-center
       div.col-xs-12
         label Who proposes next?
-      div(v-if='!solved')
-        select.input-lg(v-model='nextMan.selected')
-          option(
-            v-for='option in nextMan.options'
-            :value='option.value'
-          ) {{option.text}}
+      transition(appear name='fade' key='nextMan')
+        div(v-show='solving && !solved')
+          select.input-lg(v-model='nextMan.selected')
+            option(
+              v-for='option in nextMan.options'
+              :value='option.value'
+            ) {{option.text}}
     div.col-xs-4.col-md-3.col-xl-2
       div.col-xs-12
         label Next Step
-      nice-button.btn-primary(
-        @click='proposeDispose'
-        :class='{disabled: locked}'
-        v-if='!clickable && !solved'
-      ) Propose / Dispose
+      transition(appear name='fade' key='proposeDispose')
+        nice-button.btn-primary(
+          @click='proposeDispose'
+          :class='{disabled: solved}'
+          v-show='solving && !solved'
+        ) Propose / Dispose
     div.col-xs-12.col-md-5.col-xl-4
       div.col-xs-12
         label Message
@@ -27,40 +35,25 @@ div
         div.alert.alert-info
           h4 {{message}}    
   div.row
-    div.col-xs-6.col-lg-4.col-xl-3
-      SMSolver-tentative#solver(
-        :n='problemSize'
-        :colors='colors'
-        :tentative='tentatives'
-      )
-    div.col-xs-6.col-lg-8.col-xl-9
-      div.col-xs-12.col-lg-6
+    div.col-xs-9.col-lg-4.col-xl-3
+      SMSolver-tentative
+    div.col-xs-3.col-lg-8.col-xl-9
+      div.col-xs-12.col-lg-8
         SMSolver-unmatched(
-          :n='problemSize'
-          :colors='colors'
-          :unmatched='unmatched'
           @nextManClickedEvent='nextManClickedEventHandler'
           :clickable='clickable'
         )
-      div.col-xs-12.col-lg-6
-        SMSolver-proposal(
-          :n='problemSize'
-          :colors='colors'
-          :proposingMan='proposal.man'
-          :proposedToWoman='proposal.woman'
-          :preferences='preferences'
-          :rejections='rejections'
-          :solved='solved'
-          :proposals='proposalCount'
-        )  
+      div.col-xs-12.col-lg-4
+        SMSolver-proposal
   hr
   div.row
-    nice-automator(
-      v-if='!clickable'
-      :funcs='[proposeDispose]'
-      :speed='500'
-      :finished='solved'
-    )
+    transition(name='fade' key='nice-automator')
+      nice-automator(
+        v-show='!clickable'
+        :funcs='[proposeDispose]'
+        :speed='500'
+        :finished='solved'
+      )
 </template>
 
 <script>
@@ -80,7 +73,6 @@ export default {
   ],
   // end props
   created() {
-    this.$store.commit('resetSolver');
   },
   // end updated
   data() {
@@ -89,7 +81,6 @@ export default {
       nextMan: {
         // Different ways of deciding which man gets to propose next
         selected: 0,
-        clickedMan: -1,
         options: [
           {
             text: 'Least Recently Unmatched',
@@ -105,23 +96,21 @@ export default {
             text: 'Random',
             value: 2,
             whoProposes(max) {
-              return Math.floor(0 + (1 + max - 1) * Math.random());
+              return Math.floor(0 + (max - 1) * Math.random());
             },
           },
           {
+            clickedMan: -1,
             text: 'Choose By Clicking',
             value: 3,
-            whoProposes() { return -1; },
+            whoProposes() { return this.clickedMan; },
           },
-        ],
-        // end options
+        ], // end options
       },
-    };
-    // end nextMan
-  },
-  // end data
+    }; // end nextMan
+  }, // end data
   computed: {
-    locked() { return this.$store.getters.editing; },
+    solving() { return this.$store.getters.solving; },
     problemSize() { return this.$store.state.problemSize; },
     preferences() { return this.$store.state.preferences; },
     unmatched() { return this.$store.state.unmatched; },
@@ -134,23 +123,20 @@ export default {
     clickable() {
       return this.nextMan.options[this.nextMan.selected].text.toLowerCase().includes('clicking');
     },
-  },
-  // end computed
-  watch: {},
+  }, // end computed
   methods: {
     proposeDispose() {
-      const proposingMan = this.unmatched.m[0];
+      const style = this.nextMan.selected;
+      const index = this.nextMan.options[style].whoProposes(this.unmatched.m.length);
+      const proposingMan = this.unmatched.m[index];
       this.$store.dispatch('proposeDispose', { proposingMan });
-    },
-    // end proposeDispose
-    changeNextManStyle() {
-      this.nextManStyle += 1;
-      this.nextManStyle %= this.nextMan.length;
-    },
+    }, // end proposeDispose
     nextManClickedEventHandler(man) {
       if (this.clickable) {
-        this.nextMan.clickedMan = this.unmatched.men.indexOf(man);
-        if (this.proposingMan === man) {
+        this.nextMan.options[3].clickedMan = this.unmatched.m.indexOf(man);
+        if (this.proposal.man === man) {
+          // eslint-disable-next-line
+          console.log('hi')
           // If the same man is clicked twice, move as normal
           this.proposeDispose();
         } else {
@@ -160,18 +146,32 @@ export default {
         }
         this.nextMan.clickedMan = -1;
       }
-    },
-  },
-  // end methods
+    }, // end nextManClickedEventHandler
+  }, // end methods
 };
 </script>
 
 <style scoped>
-#solver {
-  /*height: 300px;*/
-}
-
 .alert > h4 {
   margin: 0px;
+}
+
+#alertContainer {
+  padding: 0px;
+  margin-left: -1%;
+}
+
+#alertContainer > div{
+  position: absolute;
+  height: 390px;
+  width: 102%;
+  z-index: 1;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
 }
 </style>
