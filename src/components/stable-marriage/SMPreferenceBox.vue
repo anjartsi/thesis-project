@@ -44,13 +44,16 @@ export default {
     tentatives() {
       return this.$store.state.tentatives;
     },
+    myPreferenceList() {
+      return this.$store.state.preferences[this.isGender][this.i - 1];
+    },
     man() {
       if (this.isGender === 'm') return this.i - 1;
-      return this.j - 1;
+      return this.myPreferenceList[this.j - 1];
     },
     woman() {
       if (this.isGender === 'w') return this.i - 1;
-      return this.j - 1;
+      return this.myPreferenceList[this.j - 1];
     },
     hasRejected() {
       if (this.rejections[this.man] === undefined) return false;

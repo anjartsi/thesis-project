@@ -64,7 +64,7 @@ div.col-xs-4 {
   right: 0;
   bottom: 0;
   border-radius: 2em;
-  background-color: #101010;
+  background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -78,7 +78,7 @@ div.col-xs-4 {
   left: 4px;
   bottom: 4px;
   border-radius: 50%;
-  background-color: white;
+  background-color: black;
   -webkit-transition: .4s;
   transition: .4s;
 }

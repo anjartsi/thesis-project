@@ -37,6 +37,8 @@ export default new Vuex.Store({
       reject: (man, woman, current) => `Woman ${woman + 1} prefers her current match (Man ${current + 1}) so she rejects Man ${man + 1}`,
       solved: () => 'All people are matched! The algorithm terminates.',
     },
+    loadMessage: [],
+    loadError: false,
   },
   /* *******************************************************************************************
   **********************************************************************************************
@@ -251,6 +253,21 @@ export default new Vuex.Store({
       state.solved = true;
       state.message = state.messages.solved();
     },
+    loadPrefs(state, payload) {
+      state.preferences = payload.pref;
+      state.loadError = false;
+      state.loadMessage.push('Successfully Loaded File!');
+    },
+    addLoadMessage(state, payload) {
+      state.loadMessage.push(payload.msg);
+      if (payload.err) {
+        state.loadError = true;
+      }
+    },
+    loadStart(state) {
+      state.loadMessage = [];
+      state.loadError = false;
+    },
   }, // end mutations
   /* *******************************************************************************************
   **********************************************************************************************
@@ -315,5 +332,62 @@ export default new Vuex.Store({
         context.commit('problemSolved');
       }
     }, // end proposeDispose
+    loadFile(context, payload) {
+      context.commit('loadStart');
+      const text = payload.loadText.trim();
+      if (text.length === 0) return;
+      const pref = { m: [], w: [] };
+      let msg = '';
+      const rows = text.split('\n');
+      let len = rows.length;
+      for (let i = 0; i < len; i++) {
+        if (rows[i].length < 1) len--;
+      }
+      const zeroIndex = (text.indexOf(Math.floor(len / 2)) > -1) ? 1 : 0;
+      // Put values into 2 2-D arrays inside prefs object
+      rows.map((row, index) => {
+        // Turn the string into array of numbers
+        let nums = row.trim().split(' ');
+        nums = nums.map((val) => val - zeroIndex);
+        if (row.length > 1) {
+          if (index < len / 2) {
+            pref.m.push(nums);
+          } else {
+            pref.w.push(nums);
+          }
+        }
+        return false;
+      });
+      let valid = true;
+
+      if (pref.m.length !== pref.w.length) {
+        msg = `Error: Incorrect number of lines. Men: ${pref.m.length} - Women: ${pref.w.length}`;
+        context.commit('addLoadMessage', { err: true, msg });
+        valid = false;
+      } else {
+        len = Math.floor(len / 2);
+      }
+      let list = 'Men';
+      function checkNumbers(row, index) {
+        let correct = true;
+        // Each number in the list is between 0 and (len - 1)
+        // Also check to see if there is the correct number of elements
+        correct = row.filter((val) => val < len && val >= 0).length === len;
+        if (!correct) {
+          msg = `Error: ${list}'s Row# ${index + 1}`;
+          context.commit('addLoadMessage', { err: true, msg });
+        }
+        valid = valid && correct;
+        return valid;
+      }
+      pref.m.map(checkNumbers);
+      list = 'Women';
+      pref.w.map(checkNumbers);
+      if (valid) {
+        context.commit('changeProblemSize', { n: len });
+        context.commit('loadPrefs', { pref });
+        context.commit('resetSolver');
+      }
+    }, // end loadFile
   },
 });
