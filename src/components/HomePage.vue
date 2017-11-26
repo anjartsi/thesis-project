@@ -2,7 +2,7 @@
   div
     div.row
       div.col-xs-12
-        h1 Welcome to Fun with Algorithms!
+        h1.hello Welcome to Fun with Algorithms!
     div.row
       div.col-xs-12.col-lg-6
         div.col-xs-12

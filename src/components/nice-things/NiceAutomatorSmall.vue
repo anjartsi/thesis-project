@@ -26,72 +26,73 @@ div.row#automator
 </template>
 
 <script>
-  import NiceButton from './NiceButton'
+  import NiceButton from './NiceButton';
+
   export default {
     components: {
-      NiceButton
+      NiceButton,
     },
     props: [
       'funcs',
       'speed',
-      'finished'
+      'finished',
     ],
     // end props
-    data: function () {
+    data() {
       return {
         playing: false,
         t1: null,
         t2: null,
         dt: this.speed,
-        intervalID: null
-      }
+        intervalID: null,
+      };
     },
     // end data
     methods: {
-      play: function () {
+      play() {
         if (!this.playing) {
-          this.playing = true
-          this.automate()
+          this.playing = true;
+          this.automate();
         }
       },
-      pause: function () {
+      pause() {
         if (this.playing) {
-          this.playing = false
-          window.clearInterval(this.intervalID)
+          this.playing = false;
+          window.clearInterval(this.intervalID);
         }
       },
-      automate: function () {
+      automate() {
         if (this.playing) {
-          this.intervalID = window.setInterval(this.doEverythingOnce, this.dt)
+          this.intervalID = window.setInterval(this.doEverythingOnce, this.dt);
         }
       },
       // end automate
-      doEverythingOnce: function () {
+      doEverythingOnce() {
         if (!this.finished) {
           for (let i = 0; i < this.funcs.length; i++) {
-            this.funcs[i]()
+            this.funcs[i]();
           }
         } else {
-          this.pause()
+          this.pause();
         }
       },
       // end doEverythingOnce()
-      faster: function () {
-        this.dt = Math.max(this.dt / 2, 125)
+      faster() {
+        this.dt = Math.max(this.dt / 2, 125);
         if (this.playing) {
-          this.pause()
-          this.play()
+          this.pause();
+          this.play();
         }
       },
-      slower: function () {
-        this.dt = Math.min(this.dt * 2, 4000)
+      slower() {
+        this.dt = Math.min(this.dt * 2, 4000);
         if (this.playing) {
-          this.pause()
-          this.play()
+          this.pause();
+          this.play();
         }
-      }
-    }
-  }
+      },
+    },
+  };
 </script>
 
 <style scoped>
