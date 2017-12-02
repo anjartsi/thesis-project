@@ -5,7 +5,7 @@ div(
 )
   p(v-if='!tentative') {{ isGender }}
     sub {{index + 1}}
-  p(v-else).gold
+  p(v-else).matched
     i.fa.fa-diamond
   //- If the rejected flag is on, put a big red X on the box
   i.fa.fa-times.rejected(v-if='rejected')
@@ -105,11 +105,11 @@ div(
     color: red;
   }
 
-  .gold {
-    background-color: white;
+  .matched {
+    background-color: black;
   }
-  .gold i {
-    background-color: white;
+  .matched i {
+    color: white;
     border-radius: 10px;
   }
 </style>
