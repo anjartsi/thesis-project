@@ -31,3 +31,8 @@ server.ready.then(() => {
     throw err
   })
 })
+// AO - If the test won't run, do the following:
+// Go to C:\Users\aourf\AppData\Roaming\nvm\v8.8.1\node_modules\webdriver-manager\selenium
+// Copy the chromedriver executable in the following place
+// Go to C:\Users\aourf\Documents\workspace\fun-with-algorithms\node_modules\chromedriver\lib\chromedriver
+// remove the version number from it so it only says "chromedriver.exe"
