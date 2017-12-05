@@ -3,24 +3,22 @@ div#sm
   SM-navbar.cant-highlight-text
   div.container-fluid
     div.row.cant-highlight-text
-      SM-instance-maker(
-      )
+      SM-instance-maker
     hr
     //- Solver goes here
     div.row.cant-highlight-text
-      SM-solver(
-      )
+      SM-solver
 
 </template>
 
 <script>
 // TODO - figure out if these can go anywhere else
 import store from './store';
-import SMNavbar from './SMNavbar';
-import NiceButton from '../nice-things/NiceButton';
-import SMInstanceMaker from './SMInstanceMaker';
-import SMSolver from './SMSolver';
-import SMPersonBox from './SMPersonBox';
+import SMNavbar from './SM-Navbar';
+import NiceButton from '../nice-things/Nice-Button';
+import SMInstanceMaker from './SM-InstanceMaker';
+import SMSolver from './SM-Solver';
+import SMPersonBox from './SM-PersonBox';
 import stuff from '../../stuff.js';
 
 export default {
