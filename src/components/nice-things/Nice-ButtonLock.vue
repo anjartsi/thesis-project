@@ -24,15 +24,11 @@ export default {
   components: {
     NiceButton,
   },
-  props: [
-    'isLocked',
-  ],
-  // end props
   computed: {
     solving() { return this.$store.getters.solving; },
   },
   methods: {
-    click() { this.$store.dispatch('switchMode'); },
+    click() { this.$store.dispatch('switchMode', null, { root: true }); },
   },
 };
 </script>

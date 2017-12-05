@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import globals from '../../scripts/globalStoreMethods';
 
 Vue.use(Vuex);
 
@@ -45,12 +46,8 @@ export default new Vuex.Store({
   **********************************************************************************************
   ******************************************************************************************* */
   getters: {
-    editing(state) {
-      return !state.locked;
-    },
-    solving(state) {
-      return state.locked;
-    },
+    editing: globals.editing,
+    solving: globals.solving,
     getPreferenceList(state) {
       // E.G. Get the preference list of man 3
       return (gender, person) => state.preferences[gender][person];
@@ -111,20 +108,8 @@ export default new Vuex.Store({
   **********************************************************************************************
   ******************************************************************************************* */
   mutations: {
-    lockUnlock(state) {
-      state.locked = !state.locked;
-      if (!state.locked) {
-        state.message = state.messages.disabled();
-      }
-    },
-    changeProblemSize(state, payload) {
-      let { n } = payload;
-      const { max, min } = state;
-      n = Math.min(max, n);
-      n = Math.max(min, n);
-      state.problemSize = n;
-      return n;
-    },
+    lockUnlock: globals.lockUnlock,
+    changeProblemSize: globals.changeProblemSize,
     // end changeProblemSize
     checkNumRows(state, payload) {
       // Check to see that an array has exactly n arrays
@@ -274,11 +259,7 @@ export default new Vuex.Store({
   **********************************************************************************************
   ******************************************************************************************* */
   actions: {
-    switchMode(context) {
-      context.commit('lockUnlock');
-      // Since a change has been made, reset the solver
-      context.commit('resetSolver');
-    },
+    switchMode: globals.switchMode,
     updateProblemSize(context, payload) {
       if (context.getters.editing) {
         context.commit('changeProblemSize', payload);

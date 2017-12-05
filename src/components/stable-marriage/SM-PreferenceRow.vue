@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import stuff from '../../stuff';
+  import stuff from '../../scripts/stuff';
   import SMPersonBox from './SM-PersonBox';
   import SMPreferenceBox from './SM-PreferenceBox';
 

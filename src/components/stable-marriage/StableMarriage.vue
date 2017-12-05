@@ -19,7 +19,7 @@ import NiceButton from '../nice-things/Nice-Button';
 import SMInstanceMaker from './SM-InstanceMaker';
 import SMSolver from './SM-Solver';
 import SMPersonBox from './SM-PersonBox';
-import stuff from '../../stuff.js';
+import stuff from '../../scripts/stuff.js';
 
 export default {
   components: {

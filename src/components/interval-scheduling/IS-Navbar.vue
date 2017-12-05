@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       saveId: 'savemodal',
-      loadId: 'loadModal',
+      loadId: 'loadmodal',
     };
   },
 };

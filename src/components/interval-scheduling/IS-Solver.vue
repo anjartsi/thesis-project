@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  h1 Hello!!
+  h1 Solver
 </template>
 
 <script>

@@ -12,7 +12,7 @@ div(
 </template>
 
 <script>
-  import stuff from '../../stuff.js';
+  import stuff from '../../scripts/stuff.js';
 
   export default {
     props: [

@@ -48,14 +48,14 @@ div.container-fluid
     computed: {
       editing() { return this.$store.getters.editing; },
       minimumValue() {
-        const { min } = this.$store.state;
+        const { min } = this.$store.state.min;
         if (min) {
           return min;
         }
         return 1;
       },
       maximumValue() {
-        const { max } = this.$store.state;
+        const { max } = this.$store.state.max;
         if (max) {
           return max;
         }
@@ -64,7 +64,7 @@ div.container-fluid
       problemSize: {
         get() { return this.$store.state.problemSize; },
         set(newValue) {
-          this.$store.dispatch('updateProblemSize', { n: newValue });
+          this.$store.dispatch('updateProblemSize', { n: newValue }, { root: true });
         },
       },
     },

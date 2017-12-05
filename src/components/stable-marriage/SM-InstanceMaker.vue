@@ -40,7 +40,7 @@ div.container-fluid
 </template>
 
 <script>
-import stuff from '../../stuff';
+import stuff from '../../scripts/stuff';
 import NiceButton from '../nice-things/Nice-Button';
 import NiceButtonLock from '../nice-things/Nice-ButtonLock';
 import ProblemSizeControl from '../nice-things/Nice-ProblemSizeControl';
