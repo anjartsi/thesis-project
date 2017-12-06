@@ -1,6 +1,6 @@
 <template lang='pug'>
 div
-  nav.navbar.navbar-fixed-top.navbar-inverse
+  nav.navbar.navbar-fixed-top.navbar-inverse#navbar2
     div.container-fluid
       //- Navbar head
       div.navbar-header
