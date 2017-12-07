@@ -18,7 +18,10 @@ export default {
     // E.G. Who is man 3's second choice?
     return (gender, person, choice) => {
       const arr = getters.getPreferenceList(gender, person);
-      if (arr === []) {
+      // If arr is empty that means getPreferenceList found an error
+      if (arr.length === 0) {
+        return -1;
+      } else if (choice < 0 || choice >= state.problemSize) {
         return -1;
       }
       return arr[choice];
@@ -27,9 +30,13 @@ export default {
   getProposal(state, getters) {
     return (proposingMan) => {
       const list = getters.getPreferenceList('m', proposingMan);
+      // If getPreferenceList found an error, return
+      if (list.length === 0) {
+        return -1;
+      }
       const rejectedBy = state.rejections[proposingMan];
       let index = 0;
-      let woman;
+      let woman = -1;
       let rejected = true;
       while (rejected) {
         // Find the next woman on his preference list
