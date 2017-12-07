@@ -5,12 +5,22 @@ export default {
   solving: globals.solving,
   getPreferenceList(state) {
     // E.G. Get the preference list of man 3
-    return (gender, person) => state.preferences[gender][person];
+    return (gender, person) => {
+      if (person >= state.problemSize || person < 0 || person === undefined) {
+        return [];
+      } else if (!(gender === 'm' || gender === 'w')) {
+        return [];
+      }
+      return state.preferences[gender][person];
+    };
   }, // end getPreferenceList
   getPreference(state, getters) {
     // E.G. Who is man 3's second choice?
     return (gender, person, choice) => {
       const arr = getters.getPreferenceList(gender, person);
+      if (arr === []) {
+        return -1;
+      }
       return arr[choice];
     };
   }, // end getPreference

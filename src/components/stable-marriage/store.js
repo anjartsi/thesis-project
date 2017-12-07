@@ -46,6 +46,8 @@ const state = {
   loadError: false,
 };
 
+export { getters, mutations, actions };
+
 export default new Vuex.Store({
   plugins,
   modules,
