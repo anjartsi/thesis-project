@@ -1,7 +1,10 @@
+// Getters
 function editing(state) { return !state.locked; }
 function solving(state) { return state.locked; }
+// Mutations
 function lockUnlock(state) { state.locked = !state.locked; }
 function changeProblemSize(state, payload) {
+  if(state.locked) {}
   let { n } = payload;
   const { max, min } = state;
   n = Math.min(max, n);
@@ -9,6 +12,7 @@ function changeProblemSize(state, payload) {
   state.problemSize = n;
   return n;
 }
+// Actions
 function switchMode(context) {
   context.commit('lockUnlock');
   // Since a change has been made, reset the solver

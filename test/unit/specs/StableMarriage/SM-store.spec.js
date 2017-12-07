@@ -36,7 +36,7 @@ describe('Stable Marriage Store', () => {
   /* *******************************************************
   *******************   GETTERS   **************************
   ******************************************************* */
-  describe('getters', () => {
+  describe('Getters', () => {
     describe('getPreferenceList', () => {
       it('should return correct preference list for a man', () => {
         // mock state
