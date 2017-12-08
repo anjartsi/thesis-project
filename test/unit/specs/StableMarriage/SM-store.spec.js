@@ -1,21 +1,5 @@
 import { getters, mutations, actions } from '@/components/stable-marriage/store';
 // eslint-disable
-const state1 = {
-  problemSize: 1,
-  preferences: {
-    m: [[0]],
-    w: [[0]],
-  },
-};
-
-const state2 = {
-  problemSize: 2,
-  preferences: {
-    m: [[0, 1], [0, 1]],
-    w: [[0, 1], [0, 1]],
-  },
-};
-
 const state3 = {
   problemSize: 3,
   preferences: {
@@ -211,11 +195,86 @@ describe('Stable Marriage Store', () => {
   /* *******************************************************
   ******************   MUTATIONS   *************************
   ******************************************************* */
-  describe('mutations', () => {
+  describe('Mutations', () => {
+    describe('checkNumRows', () => {
+      it('should do nothing if an array has length equal to state.problemSize', () => {
+        const state = {
+          problemSize: 3,
+        };
+        const arr = [[], [], []];
+        // call the mutation
+        mutations.checkNumRows(state, { arr });
+        expect(arr).to.deep.equal([[], [], []]);
+      });
+      it('should remove extra elements if the array has too many', () => {
+        const state = {
+          problemSize: 3,
+        };
+        const arr = [[], [], [], []];
+        // call the mutation
+        mutations.checkNumRows(state, { arr });
+        expect(arr).to.deep.equal([[], [], []]);
+      });
+      it('should add empty arrays at the end if the array has too few elements', () => {
+        const state = {
+          problemSize: 3,
+        };
+        const arr = [[], []];
+        // call the mutation
+        mutations.checkNumRows(state, { arr });
+        expect(arr.length).to.deep.equal(state.problemSize);
+      });
+    });
+    describe('checkPreferenceRow', () => {
+      it('should do nothing if a given array has all the numbers in [0, state.problemSize)', () => {
+        const state = { problemSize: 3 };
+        const arr = [0, 1, 2];
+        const arrCopy = arr.slice();
+        // call the mutation
+        mutations.checkPreferenceRow(state, { arr });
+        expect(arr).to.deep.equal(arrCopy);
+      });
+      it('should do nothing if when the numbers are correct but out of order', () => {
+        const state = { problemSize: 3 };
+        const arr = [2, 0, 1];
+        const arrCopy = arr.slice(); // copy the array (by value)
+        // call the mutation
+        mutations.checkPreferenceRow(state, { arr });
+        expect(arr).to.deep.equal(arrCopy);
+      });
+      it('should remove any numbers that are n_i >= state.problemSize', () => {
+        const state = { problemSize: 3 };
+        const arr = [2, 0, 1, 3];
+        // call the mutation
+        mutations.checkPreferenceRow(state, { arr });
+        expect(arr).to.deep.equal([2, 0, 1]);
+      });
+      it('should add any missing numbers that are n_i < state.problemSize', () => {
+        const state = { problemSize: 3 };
+        const arr = [1, 0];
+        // call the mutation
+        mutations.checkPreferenceRow(state, { arr });
+        expect(arr).to.deep.equal([1, 0, 2]);
+      });
+    });
+    describe('swapPreferenceBoxes', () => {});
+    describe('propose', () => { });
+    describe('acceptProposal', () => { });
+    describe('state', () => { });
+    describe('rejectProposal', () => { });
+    describe('breakUp', () => { });
+    describe('addToUnmatched', () => { });
+    describe('removeFromUnmatched', () => { });
+    describe('proposalFinished', () => { });
+    describe('resetSolver', () => { });
+    describe('problemSolved', () => { });
+    describe('loadPrefs', () => { });
+    describe('addLoadMessage', () => { });
+    describe('loadStart', () => { });
   }); // end mutations
   /* *******************************************************
   *******************   ACTIONS   **************************
   ******************************************************* */
-  describe('actions', () => {
+  describe('Actions', () => {
   });
 });

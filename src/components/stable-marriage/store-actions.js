@@ -1,7 +1,6 @@
-import globals from '../../scripts/globalStoreMethods';
+import globals from '../../scripts/globalStore';
 
-export default {
-  switchMode: globals.switchMode,
+const actions = {
   updateProblemSize(context, payload) {
     if (context.getters.editing) {
       context.commit('changeProblemSize', payload);
@@ -113,3 +112,6 @@ export default {
     }
   }, // end loadFile
 };
+
+Object.assign(actions, globals.actions);
+export default actions;

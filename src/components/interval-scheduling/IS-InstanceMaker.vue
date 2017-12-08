@@ -4,15 +4,14 @@ div.container-fluid
     h2.pull-left The Problem Instance
   div.row
     div.col-xs-3.col-lg-2
-      //- Problem Size
       div.row
         problem-size-control
       transition(appear name='fade' key='instanceMaker')
-    div.col-xs-4
-      div.col-xs-6
-        nice-button.btn-primary(@click='addInterval') Add Interval
-      div.col-xs-6
-        nice-button.btn-danger(@click='removeInterval') Remove Interval
+        div.row(v-show='locked')
+          div.col-xs-12
+            nice-button.btn-primary(@click='addInterval') Add Interval
+          div.col-xs-12
+            nice-button.btn-danger(@click='removeInterval') Remove Interval
   div.row
     div.col-xs-12
       ul
