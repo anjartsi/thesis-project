@@ -22,41 +22,13 @@ export default {
     ...Vuex.mapState([
       'problemSize',
       'intervals',
+      'rows',
     ]),
-    rows() {
-      const arr = this.intervals;
-      return this.placeIntervals(arr);
-    },
   },
   methods: {
     ...Vuex.mapGetters([
       'getCollision',
     ]),
-    fitsInRow(interval, row) {
-      let conflict = false;
-      for (let i = 0; i < row.length; i++) {
-        conflict = conflict || this.getCollision(interval, row[i]);
-      }
-      return !conflict;
-    },
-    placeIntervals(arr) {
-      const rows = [[]];
-      let interval;
-      let rowNum = 0;
-      for (let i = 0; i < arr.length; i++) {
-        interval = arr[i];
-        if (this.fitsInRow(interval, rows[rowNum])) {
-          rows[rowNum].push(i);
-        } else {
-          rowNum++;
-          i--;
-          if (rowNum >= rows.length) {
-            rows.push([]);
-          }
-        }
-      }
-      return rows;
-    },
   }, // end methods
 };
 </script>

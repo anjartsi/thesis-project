@@ -1,5 +1,6 @@
+/* eslint-disable */
 import { getters, mutations, actions } from '@/components/stable-marriage/store';
-// eslint-disable
+
 const state3 = {
   problemSize: 3,
   preferences: {

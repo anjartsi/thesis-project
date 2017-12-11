@@ -1,10 +1,11 @@
 <template lang="pug">
-  div
-    IS-interval(
-      v-for='(interval, index) in rowData'
-      :key='index'
-      :index='interval'
-    ) 
+  div.trayRow
+    div
+      IS-interval(
+        v-for='(interval, index) in rowData'
+        :key='index'
+        :index='interval'
+      ) 
 </template>
 
 <script>
@@ -25,5 +26,14 @@ export default {
 </script>
 
 <style scoped>
-
+.trayRow {
+  position: relative;
+  height: 50px;;
+}
+.trayRow > div {
+  position: relative;
+}
+.trayRow:nth-child(even){
+  background-color: grey;
+}
 </style>

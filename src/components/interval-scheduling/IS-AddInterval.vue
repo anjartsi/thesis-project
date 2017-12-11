@@ -63,8 +63,8 @@ export default {
   methods: {
     incrementStart() {
       // If there's enough room
-      if (this.startTime < this.latestTime - 2) {
-        this.startTime = this.startTime - 0 + 1;
+      if (this.startTime < this.latestTime - 1) {
+        this.startTime = this.startTime + 1;
       }
       // check to see if start === finish
       if (this.startTime >= this.finishTime) {
@@ -82,7 +82,7 @@ export default {
       }
     },
     decrementFinish() {
-      if (this.finishTime > this.earliestTime + 2) {
+      if (this.finishTime > this.earliestTime + 1) {
         this.finishTime--;
       }
       if (this.finishTime <= this.startTime) {
