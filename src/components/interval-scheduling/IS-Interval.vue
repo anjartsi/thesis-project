@@ -20,9 +20,6 @@ export default {
   ],
   data() {
     return {
-      // colorIndex does not get updated, so the interval's color
-      // won't change if other intervals get added/removed
-      colorIndex: this.index,
       colors: stuff.colors,
       unit: 60,
     };
@@ -41,6 +38,11 @@ export default {
       num *= this.unit;
       num += 'px';
       return num;
+    },
+    colorIndex() {
+      let index = this.interval.finish + this.interval.start;
+      index %= this.colors.length;
+      return index;
     },
     style() {
       return {

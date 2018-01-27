@@ -3,6 +3,7 @@
     div#tray
       IS-row(
         v-for='(row, index) in rows'
+        :rowIndex='index'
         :rowData='row'
         :key='index'
         )
@@ -36,5 +37,6 @@ export default {
 <style scoped>
 div#tray {
   border: 1px solid black;
+  -webkit-user-select: none;
 }
 </style>

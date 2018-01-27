@@ -6,10 +6,10 @@ import Vuex from 'vuex';
 // import actions from './store-actions';
 import globals from '../../scripts/globalStore';
 
-Vue.use(Vuex);
-
 const plugins = [];
 const modules = {};
+
+Vue.use(Vuex);
 
 /* ****************************************************************
 STATE
@@ -101,7 +101,6 @@ storeGetters.getRowThatFits = (state, getters) => (index) => {
 /* ****************************************************************
 MUTATIONS
 **************************************************************** */
-
 const mutations = {};
 Object.assign(mutations, globals.mutations);
 
@@ -119,24 +118,33 @@ mutations.createInterval = (state, payload) => {
 mutations.destroyInterval = (state, { row, index }) => {
   const rowIndex = state.rows[row].indexOf(index);
   if (!state.locked) {
+    // remove from list of intervals
     state.intervals.splice(index, 1);
+    // remove from rows
     state.rows[row].splice(rowIndex, 1);
-  }
-  let ind;
-  for (let i = 0; i < state.rows.length; i++) {
-    for (let j = 0; j < state.rows[i].length; j++) {
-      ind = state.rows[i][j];
-      if (ind > index) {
-        // decrement the index to reflect its new value
-        // Need to use splice so that vue updates the elements
-        state.rows[i].splice(j, 1, ind - 1);
+    let ind;
+    for (let i = 0; i < state.rows.length; i++) {
+      for (let j = 0; j < state.rows[i].length; j++) {
+        ind = state.rows[i][j];
+        if (ind > index) {
+          // decrement the index to reflect its new value
+          // Need to use splice so that vue updates the elements
+          state.rows[i].splice(j, 1, ind - 1);
+        }
+      }
+    }
+    // if the row is now empty, remove the entire row
+    // todo - fix
+    if (state.rows[row].length === 0 && 0 === 1) {
+      state.rows.splice(row, 1);
+
+      for (let i = 0; i < state.intervals.length; i++) {
+        if (state.intervals[i].row > row) {
+          state.interval[i].row--;
+        }
       }
     }
   }
-  // eslint-disable-next-line
-  console.log(state.rows);
-  // eslint-disable-next-line
-  console.log(state.intervals);
 }; // end destroyInterval
 mutations.changeInterval = (state, { index, start, finish }) => {
   // don't forget to check rows after calling this mutation
@@ -152,6 +160,21 @@ mutations.changeInterval = (state, { index, start, finish }) => {
 }; // end changeInterval
 mutations.createNewRow = (state) => {
   state.rows.push([]);
+};
+mutations.removeRowIfEmpty = (state, { row }) => {
+  if (!state.locked && state.rows.length > 2) {
+    // if there are only 2 rows left, leave them alone
+    if (state.rows[row].length === 0) {
+      state.rows.splice(row, 1);
+      let interval;
+      for (let i = 0; i < state.intervals.length; i++) {
+        interval = state.intervals[i];
+        if (interval.row > row) {
+          interval.row--;
+        }
+      }
+    }
+  }
 };
 mutations.addIntervalToRow = (state, { index, row }) => {
   state.rows[row].push(index);
@@ -194,6 +217,7 @@ actions.addInterval = (context, { start, finish }) => {
 actions.removeInterval = (context, { index }) => {
   const { row } = context.getters.getInterval(index);
   context.commit('destroyInterval', { index, row });
+  context.commit('removeRowIfEmpty', { row });
   const n = context.state.problemSize - 1;
   context.dispatch('updateProblemSize', { n });
 };

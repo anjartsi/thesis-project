@@ -214,7 +214,17 @@ describe('Interval Scheduling Store==============================', () => {
   /* *******************************************************
   ******************   MUTATIONS   *************************
   ******************************************************* */
-  describe('Mutations---------------', () => {}); // end mutations
+  describe('Mutations---------------', () => {
+    describe('createInterval', () => { });
+    describe('destroyInterval', () => { });
+    describe('changeInterval', () => { });
+    describe('createNewRow', () => { });
+    describe('addIntervalToRow', () => { });
+    describe('resetSolver', () => { });
+    describe('changeProblemSize', () => { });
+    describe('', () => { });
+
+  }); // end mutations
   /* *******************************************************
   *******************   ACTIONS   **************************
   ******************************************************* */

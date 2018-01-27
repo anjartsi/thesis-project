@@ -9,7 +9,7 @@
 </template>
 
 <script>
-// import Vuex from 'vuex';
+import Vuex from 'vuex';
 import ISInterval from './IS-Interval';
 
 export default {
@@ -17,8 +17,16 @@ export default {
     ISInterval,
   },
   props: [
-    'rowData',
+    'rowIndex',
   ],
+  computed: {
+    ...Vuex.mapState([
+      'rows',
+    ]),
+    rowData() {
+      return this.rows[this.rowIndex];
+    },
+  },
   data() { return {}; },
   methods: {
   },
