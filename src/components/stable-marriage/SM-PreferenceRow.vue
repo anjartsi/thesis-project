@@ -1,4 +1,5 @@
 <template lang='pug'>
+transition(name='fade' key='SMPreferenceRow')
   div.row(:class='{highlight}')
     div.col-xs-1.border-right
       SM-person-box(

@@ -19,8 +19,9 @@ div
           :index='proposedToWoman'
         )
       div.row(v-else)
-        div.alert.alert-info.text-center
-          h4 Waiting for a proposal
+        transition(name='fade' key='SMSolverProposalNextProposal')
+          div.alert.alert-info.text-center
+            h4 Waiting for a proposal
     div(v-else)
       div.row
         div.col-xs-12

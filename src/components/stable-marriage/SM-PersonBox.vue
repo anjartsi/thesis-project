@@ -1,14 +1,15 @@
 <template lang='pug'>
-div(
-  :class='isGender'
-  :style='{"background-color": colors[index]}'
-)
-  p(v-if='!tentative') {{ isGender }}
-    sub {{index + 1}}
-  p(v-else).matched
-    i.fa.fa-diamond
-  //- If the rejected flag is on, put a big red X on the box
-  i.fa.fa-times.rejected(v-if='rejected')
+transition(appear)
+  div(
+    :class='isGender'
+    :style='{"background-color": colors[index]}'
+  )
+    p(v-if='!tentative') {{ isGender }}
+      sub {{index + 1}}
+    p(v-else).matched
+      i.fa.fa-diamond
+    //- If the rejected flag is on, put a big red X on the box
+    i.fa.fa-times.rejected(v-if='rejected')
 </template>
 
 <script>
@@ -58,11 +59,10 @@ div(
     methods: {
       animate: stuff.animate,
       draw(progress) {
-        const len = this.colors.length;
         // eslint-disable-next-line
-        this.$el.style['background-color'] = this.colors[len - 1];
+        this.$el.style['transform'] = `rotate(${360 * progress}deg)`;
         if (progress === 1) {
-          this.$el.style['background-color'] = this.colors[this.index];
+          // this.$el.style['background-color'] = this.colors[this.index];
         }
       },
     }, // end methods
@@ -111,5 +111,20 @@ div(
   .matched i {
     color: white;
     border-radius: 10px;
+  }
+
+  .v-enter-active, .v-leave-active {
+    transition-property: all;
+    transition-duration: 125ms;
+    transition-timing-function: ease;
+    transition-delay: 0ms;
+  }
+  .v-enter {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  .v-leave-to {
+    opacity: 0;
+    transform: translateY(50%);
   }
 </style>

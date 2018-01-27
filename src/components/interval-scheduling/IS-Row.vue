@@ -1,11 +1,12 @@
 <template lang="pug">
-  div.trayRow
-    div
-      IS-interval(
-        v-for='(interval, index) in rowData'
-        :key='index'
-        :index='interval'
-      ) 
+  transition
+    div.trayRow
+      div
+        IS-interval(
+          v-for='(interval, index) in rowData'
+          :key='index'
+          :index='interval'
+        ) 
 </template>
 
 <script>
@@ -42,6 +43,22 @@ export default {
   position: relative;
 }
 .trayRow:nth-child(even){
-  background-color: grey;
+  background-color: lightgray;
+}
+.trayRow:nth-child(odd){
+  background-color: rgba(211, 211, 211, 0.3);
+}
+
+.v-enter-active, .v-leave-active {
+  transition-property: all;
+  transition-duration: 500ms;
+  transition-timing-function: ease;
+  transition-delay: 0ms;
+}
+.v-enter {
+  transform: translateX(-100%);
+}
+.v-leave-to {
+  transform: translateX(100%);
 }
 </style>
