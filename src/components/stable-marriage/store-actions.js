@@ -57,44 +57,45 @@ const actions = {
   loadFile(context, payload) {
     context.commit('loadStart');
     const text = payload.loadText.trim();
-    if (text.length === 0) return;
     const pref = { m: [], w: [] };
+    let valid = true;
     let msg = '';
-    const rows = text.split('\n');
-    let len = rows.length;
-    for (let i = 0; i < len; i++) {
-      if (rows[i].length < 1) len--;
+    if (text.length === 0) return;
+    // split the text by line
+    let rows = text.split('\n');
+    // if a line is empty, it ignore it
+    rows = rows.filter((row) => row.trim().length > 0);
+    // there should be an even number of rows
+    valid = rows.length % 2 === 0;
+    if (!valid) {
+      msg = `Error - Expected even number of nonempty rows, but received ${rows.length} nonempty rows`;
+      context.commit('addLoadMessage', { err: true, msg });
+      return;
     }
-    const zeroIndex = (text.indexOf(Math.floor(len / 2)) > -1) ? 1 : 0;
+    const n = rows.length / 2;
+    // if n is not found in the text, then it is zero-indexed
+    const zeroIndex = (text.indexOf(n) > -1) ? 1 : 0;
     // Put values into 2 2-D arrays inside prefs object
     rows.map((row, index) => {
       // Turn the string into array of numbers
-      let nums = row.trim().split(' ');
+      let nums = row.trim().split(/\s+/);
       nums = nums.map((val) => val - zeroIndex);
-      if (row.length > 1) {
-        if (index < len / 2) {
-          pref.m.push(nums);
-        } else {
-          pref.w.push(nums);
-        }
+      if (index < n) {
+        // the first n lines are the men
+        pref.m.push(nums);
+      } else if (index < 2 * n) {
+        // the next n lines are the women
+        pref.w.push(nums);
       }
-      return false;
+      return row;
     });
-    let valid = true;
 
-    if (pref.m.length !== pref.w.length) {
-      msg = `Error: Incorrect number of lines. Men: ${pref.m.length} - Women: ${pref.w.length}`;
-      context.commit('addLoadMessage', { err: true, msg });
-      valid = false;
-    } else {
-      len = Math.floor(len / 2);
-    }
     let list = 'Men';
     function checkNumbers(row, index) {
       let correct = true;
       // Each number in the list is between 0 and (len - 1)
       // Also check to see if there is the correct number of elements
-      correct = row.filter((val) => val < len && val >= 0).length === len;
+      correct = row.filter((val) => val < n && val >= 0).length === n;
       if (!correct) {
         msg = `Error: ${list}'s Row# ${index + 1}`;
         context.commit('addLoadMessage', { err: true, msg });
@@ -106,7 +107,7 @@ const actions = {
     list = 'Women';
     pref.w.map(checkNumbers);
     if (valid) {
-      context.commit('changeProblemSize', { n: len });
+      context.commit('changeProblemSize', { n });
       context.commit('loadPrefs', { pref });
       context.commit('resetSolver');
     }

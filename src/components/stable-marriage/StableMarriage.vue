@@ -43,9 +43,6 @@ export default {
 </script>
 
 <style>
-  .cant-highlight-text {
-    user-select: none;
-  }
 
 html {
   overflow: scroll;

@@ -27,6 +27,9 @@ export default {
     padding-top: 100px;
   }
   
+  .cant-highlight-text {
+    user-select: none;
+  }
   /* Global transition  */
   .fade-enter-active, .fade-leave-active {
     transition: opacity .25s

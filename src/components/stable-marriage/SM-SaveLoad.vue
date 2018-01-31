@@ -18,42 +18,50 @@ div
   nice-modal(:id='loadId')
     h4(slot='title') Load Instance from File
     div.row
-      div.col-xs-5
-        h5 Paste your Instance Text here
-        textarea(
-          :rows='22'
-          :cols='45' 
-          v-model='loadInput'
-          :placeholder='getText()'
-        )
-      div.col-xs-7.text-center
+      div.col-xs-6
+        div#rules
+          h3 Rules
+          ul.text-left
+            li NUMBERS ONLY
+            li Numbers must be separated by at least one space
+            li The problem size (n) is automatically detected
+              ul
+                li The first n lines are the men's preference lists
+                li Any empty lines are ignored (so they are allowed)
+                li The next n lines are the women's preference lists
+            li Each row must have exactly n numbers in it
+              ul
+                li This means you only need to have the preferences
+                li For example: If the first row says "1 2 3 4 5" then that means Man 1 prefers Woman 1, then Woman 2, ... , then Woman 5
+            li Numbers can be zero-indexed OR one-indexed (but not both at the same time)
+              ul
+                li Zero-indexed: numbers must be in the range [0, n - 1]
+                li One-indexed: numbers must be in the range [1, n]
+      div.col-xs-6
+        div.row
+          h5 Paste your Instance Text here
+          textarea(
+            :rows='16'
+            :cols='40' 
+            v-model='loadInput'
+            :placeholder='getText()'
+          )
         div.row
           h5 Or Upload a File
           form(enctype="multipart/form-data" novalidate)
             div.dropbox
-              p Drag files here
+              label#fileInputLabel(for='fileInput').btn.btn-lg.btn-primary Choose a File
               input.input-file#fileInput(
+
                 @change='readFile'
                 type="file" 
                 accept=".txt"
               )
               //- label(for='fileInput') Or Choose a file
+        br
         div.row
-          h4 Rules
-          ul.text-left
-            li Don't include any letters please
-            li Empty lines are ignored
-            li Numbers must be separated by a single space
-              ul: li But any whitespace before/after the numbers is ignored
-            li Numbers can be zero-indexed OR one-indexed (but not both at the same time)
-              ul
-                li Zero-indexed: numbers must be in the range [0, n - 1]
-                li One-indexed: numbers must be in the range [1, n]
-            li The first n lines are the men's preference lists, and the next n lines are the women's preference lists
-            li Each row must have exactly n numbers in it
-              ul
-                li This means you only need to have the preferences
-                li For example: If the first row says "1 2 3 4 5" then that means Man 1 prefers Woman 1, then Woman 2, ... , then Woman 5
+          div.col-xs-11
+           
     div(slot='buttons')
       button.btn.btn-primary(
         type='button' 
@@ -142,13 +150,35 @@ export default {
 </script>
 
 <style scoped>
-  
+#fileInput {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+#fileInputLabel {
+}
+
 #loadError {
   opacity: 0.9;
   position: absolute;
   width: 97%;
+  height: 400px;;
   margin-left: -1%;
   margin-top: 2em;
   z-index: 2;
 }
+
+#rules {
+  background-color: #eeeeee;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+#rules h3 {
+  margin-left: 0.5em;
+}
+
 </style>

@@ -2,7 +2,7 @@
 transition(appear)
   div(
     :class='isGender'
-    :style='{"background-color": colors[index]}'
+    :style='boxStyle'
   )
     p(v-if='!tentative') {{ isGender }}
       sub {{index + 1}}
@@ -45,6 +45,17 @@ transition(appear)
         }
         return 'w';
       }, // end gender
+      widthResponsive() {
+        // eslint-disable-next-line
+        return screen.width * 0.025;
+      },
+      boxStyle() {
+        return {
+          'background-color': this.colors[this.index],
+          height: `${this.widthResponsive}px`,
+          width: `${this.widthResponsive}px`,
+        };
+      },
     }, // end computed
     watch: {
       index() {
@@ -52,7 +63,7 @@ transition(appear)
         this.animate({
           timing: stuff.timingLinear,
           draw: this.draw,
-          duration: 150,
+          duration: 500,
         });
       },
     }, // end watch
@@ -62,7 +73,7 @@ transition(appear)
         // eslint-disable-next-line
         this.$el.style['transform'] = `rotate(${360 * progress}deg)`;
         if (progress === 1) {
-          // this.$el.style['background-color'] = this.colors[this.index];
+          // do something?
         }
       },
     }, // end methods
@@ -74,8 +85,8 @@ transition(appear)
   div {
     display: inline-block;
     text-align: center;
-    width: 50px;
-    height: 50px;
+    /* width: 100%;
+    height: 50px; */
     border: 1px solid black;
     margin-left: 2px
   }

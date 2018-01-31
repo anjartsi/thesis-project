@@ -26,7 +26,8 @@ function animate({ timing, draw, duration }) {
     if (timeFraction > 1) timeFraction = 1;
     // calculate the current animation state
     const progress = (timing) ? timing(timeFraction) : timeFraction;
-    draw(progress); // draw it
+    // draw it
+    draw(progress);
     if (timeFraction < 1) {
       requestAnimationFrame(animate);
     }

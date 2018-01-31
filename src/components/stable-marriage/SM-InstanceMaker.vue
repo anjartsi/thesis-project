@@ -11,7 +11,7 @@ div.container-fluid
           //- Problem Size
           div.row
             problem-size-control
-          transition(appear name='fade' key='instanceMaker')
+          transition(appear name='fade' key='SMinstanceMaker')
             div.row(v-show='locked')#buttonContainer
               div.col-xs-12
                 nice-button(v-on:click.native='randomize') Randomize
