@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.container-fluid
+  div
     div#tray
       IS-row(
         v-for='(row, index) in rows'
@@ -37,6 +37,8 @@ export default {
 <style scoped>
 div#tray {
   border: 1px solid black;
-  -webkit-user-select: none;
+  user-select: none;
+  overflow-x: auto;
+  width: 100%;
 }
 </style>

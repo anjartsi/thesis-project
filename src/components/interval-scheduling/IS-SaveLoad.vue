@@ -6,7 +6,7 @@ div
     h4
       a(
         :href='"data:text/plain;charset=utf-8,"+ encodeURIComponent(getInstanceAsText())'
-        download='stable-marriage-instance.txt'
+        download='interval-scheduling-instance.txt'
         ) Download Text File
     h5 Or copy the following text
     textarea(
@@ -23,25 +23,22 @@ div
           h3 Rules
           ul.text-left
             li NUMBERS ONLY
-            li Numbers must be separated by at least one space
-            li The problem size (n) is automatically detected
+            li Write each interval on a new line
+              ul 
+                li the problem size (n) will be automatically detected
+            li Each line should have two integers separated by one or more spaces
               ul
-                li The first n lines are the men's preference lists
-                li Any empty lines are ignored (so they are allowed)
-                li The next n lines are the women's preference lists
-            li Each row must have exactly n numbers in it
-              ul
-                li This means you only need to have the preferences
-                li For example: If the first row says "1 2 3 4 5" then that means Man 1 prefers Woman 1, then Woman 2, ... , then Woman 5
-            li Numbers can be zero-indexed OR one-indexed (but not both at the same time)
-              ul
-                li Zero-indexed: numbers must be in the range [0, n - 1]
-                li One-indexed: numbers must be in the range [1, n]
+                li The first integer will be the start time of the interval
+                li The second integer will be the finish time of the interval
+                li Note: 
+                  em StartTime < FinishTime
+            li Any lines that don't meet the above criteria will be ignored
+            li Any empty lines will be ignored
       div.col-xs-6
         div.row
           h5 Paste your Instance Text here
           textarea(
-            :rows='16'
+            :rows='12'
             :cols='40' 
             v-model='loadInput'
             :placeholder='getInstanceAsText()'
@@ -52,7 +49,6 @@ div
             div.dropbox
               label#fileInputLabel(for='fileInput').btn.btn-lg.btn-primary Choose a File
               input.input-file#fileInput(
-
                 @change='readFile'
                 type="file" 
                 accept=".txt"
@@ -85,6 +81,7 @@ div
 </template>
 
 <script>
+import Vuex from 'vuex';
 import NiceModal from '../nice-things/Nice-Modal';
 
 export default {
@@ -103,31 +100,20 @@ export default {
     };
   },
   computed: {
-    problemSize() { return this.$store.state.problemSize; },
+    ...Vuex.mapState([
+      'problemSize',
+      'intervals',
+    ]),
     locked() { return this.$store.getters.editing; },
-    preferences() { return this.$store.state.preferences; },
     loadMessage() { return this.$store.state.loadMessage; },
     loadError() { return this.$store.state.loadError; },
   },
   methods: {
     getInstanceAsText() {
       let str = '';
-      const printArray = (val) => {
-        str += val;
-        str += ' ';
-        return val;
-      };
-      const printRowsOf2dArray = (val) => {
-        val.map(printArray);
-        // erase the extra space
-        str = str.substr(0, str.length - 1);
-        str += '\r\n';
-        return val;
-      };
-      this.preferences.m.map(printRowsOf2dArray);
-      str += '\r\n';
-      this.preferences.w.map(printRowsOf2dArray);
-      // eslint-disable-next-line
+      this.intervals.forEach(element => {
+        str += `${element.start} ${element.finish}\n`;
+      });
       return str;
     },
     loadFile() {

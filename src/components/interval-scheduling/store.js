@@ -20,7 +20,7 @@ Object.assign(storeState, globals.state);
 // Add state variables below
 // instance maker
 storeState.min = 0;
-storeState.max = 20;
+storeState.max = 50;
 // an interval looks like this: {start, finish, row}
 storeState.intervals = [
   { start: 3, finish: 5, row: 0 },
@@ -190,6 +190,11 @@ mutations.resetSolver = (state, payload) => {
 mutations.changeProblemSize = (state) => {
   state.problemSize = state.intervals.length;
 };
+
+mutations.loadStart = (state) => {
+  state.loadMessage = [];
+  state.loadError = false;
+};
 /* ****************************************************************
 ACTIONS
 **************************************************************** */
@@ -223,6 +228,48 @@ actions.removeInterval = (context, { index }) => {
 };
 
 // todo - changeInterval
+
+actions.loadFile = (context, payload) => {
+  context.commit('loadStart');
+  const text = payload.loadText.trim();
+  const intervals = [];
+  let valid = true;
+  let msg = '';
+  if (text.length === 0) return;
+  // split the text by line
+  let rows = text.split('\n');
+  // if a line is empty, it ignore it
+  rows = rows.filter((row) => row.trim().length > 0);
+  const n = rows.length;
+  rows.forEach((element, index) => {
+    let correct = true;
+    const row = element.trim().split(/\s+/);
+    const start = Number.parseInt(row[0], 10);
+    const finish = Number.parseInt(row[1], 10);
+    correct = row.length === 2;
+    correct = correct && start >= context.state.min;
+    correct = correct && finish <= context.state.max;
+    correct = correct && start < finish;
+    if (correct) {
+      intervals.push({ start, finish });
+    } else {
+      valid = false;
+      msg = `Error on row ${index + 1} --> "${element}"`;
+      context.commit('addLoadMessage', { err: true, msg });
+    }
+  });
+  if (valid) {
+    context.commit('changeProblemSize', { n });
+    const oldProblemSize = context.state.problemSize;
+    for (let i = 0; i < oldProblemSize; i++) {
+      context.dispatch('removeInterval', { index: 0 });
+      // eslint-disable-next-line
+      console.log(i);
+    }
+    intervals.forEach(element => context.dispatch('addInterval', element));
+    context.commit('resetSolver');
+  }
+}; // end loadFile
 export { storeGetters, mutations, actions, storeState };
 
 export default new Vuex.Store({

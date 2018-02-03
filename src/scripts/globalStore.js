@@ -28,6 +28,16 @@ const mutations = {
     state.problemSize = n;
     return n;
   },
+  loadStart(state) {
+    state.loadMessage = [];
+    state.loadError = false;
+  },
+  addLoadMessage(state, payload) {
+    state.loadMessage.push(payload.msg);
+    if (payload.err) {
+      state.loadError = true;
+    }
+  },
 };
 const actions = {
   switchMode(context) {
