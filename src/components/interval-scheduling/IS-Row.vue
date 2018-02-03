@@ -43,10 +43,10 @@ export default {
   position: relative;
 }
 .trayRow:nth-child(even){
-  background-color: lightgray;
+  /* background-color: lightgray; */
 }
 .trayRow:nth-child(odd){
-background-color: rgba(211, 211, 211, 0.3);
+/* background-color: rgba(211, 211, 211, 0.3); */
 }
 
 .v-enter-active, .v-leave-active {

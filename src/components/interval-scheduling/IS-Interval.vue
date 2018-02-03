@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       colors: stuff.colors,
-      unit: 29,
+      unit: 60,
     };
   },
   computed: {
@@ -52,7 +52,7 @@ export default {
         'background-color': this.colors[this.colorIndex],
         left: this.left,
         width: this.width,
-        'font-size': this.fontSize,
+        // 'font-size': this.fontSize,
       };
     },
   },
@@ -80,7 +80,7 @@ div.values {
 p {
   position: relative;
   top: 20px;
-  max-width: 50px;
+  max-width: 60px;
   margin: auto;
   background-color: #fff;
   border-radius: 10px;
