@@ -90,26 +90,43 @@ export default {
       },
     },
   },
-  methods: {
-    incrementStart() {
-      // If there's enough room
-      this.startTime = Math.max(this.startTime + 1, this.earliestTime);
-      // check to see if start === finish
-      if (this.startTime >= this.finishTime) {
-        this.incrementFinish();
+  watch: {
+    startTime(newVal) {
+      const num = this.coerce(newVal, this.earliestTime, this.latestTime - 1);
+      this.startTime = num;
+      if (num >= this.finishTime) {
+        this.finishTime = this.coerce(this.finishTime, num + 1, this.latestTime);
       }
+    },
+    finishTime(newVal) {
+      const num = this.coerce(newVal, this.earliestTime + 1, this.latestTime);
+      this.finishTime = num;
+      if (num <= this.startTime) {
+        this.startTime = this.coerce(this.startTime, this.earliestTime, num - 1);
+      }
+    },
+  },
+  methods: {
+    coerce(num, min, max) {
+      let val = Math.max(num, min);
+      val = Math.min(val, max);
+      return val;
+    },
+    incrementStart() {
+      this.startTime++;
+      this.startTime = this.coerce(this.startTime, this.earliestTime, this.latestTime - 1);
     },
     incrementFinish() {
-      this.finishTime = Math.min(this.finishTime + 1, this.latestTime);
+      this.finishTime++;
+      this.finishTime = this.coerce(this.finishTime, this.earliestTime + 1, this.latestTime);
     },
     decrementStart() {
-      this.startTime = Math.max(this.startTime - 1, this.earliestTime);
+      this.startTime--;
+      this.startTime = this.coerce(this.startTime, this.earliestTime, this.latestTime - 1);
     },
     decrementFinish() {
-      this.finishTime = Math.min(this.finishTime - 1, this.latestTime);
-      if (this.finishTime <= this.startTime) {
-        this.decrementStart();
-      }
+      this.finishTime--;
+      this.finishTime = this.coerce(this.finishTime, this.earliestTime + 1, this.latestTime);
     },
     createNewInterval() {
       this.$store.dispatch('addInterval', { start: this.startTime, finish: this.finishTime });
