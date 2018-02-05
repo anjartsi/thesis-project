@@ -1,5 +1,4 @@
 <template lang='pug'>
-transition
   div.interval.clearfix(:style='style')
     p {{interval.start}} - {{interval.finish}}
     div.topRight
@@ -15,12 +14,11 @@ export default {
     NiceButton,
   },
   props: [
-    'index',
+    'index', 'unit',
   ],
   data() {
     return {
       colors: stuff.colors,
-      unit: 60,
     };
   },
   computed: {
@@ -104,21 +102,5 @@ i.fa {
 i.fa:hover {
   color: black;
   background-color: white;
-}
-
-
-.v-enter-active, .v-leave-active {
-  transition-property: all;
-  transition-duration: 250ms;
-  transition-timing-function: ease;
-  transition-delay: 0ms;
-}
-.v-enter {
-  opacity: 0;
-  transform: translateY(-50%);
-}
-.v-leave-to {
-  opacity: 0;
-  transform: translateY(50%);
 }
 </style>

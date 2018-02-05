@@ -34,7 +34,7 @@ storeState.rows = [
 //  [[0, 2], [1]];
 storeState.problemSize = 3;
 storeState.earliestTime = 0;
-storeState.latestTime = 20;
+storeState.latestTime = 50;
 
 /* ****************************************************************
 GETTERS

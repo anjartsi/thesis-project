@@ -4,15 +4,15 @@ div
   nice-modal(:id='saveId')
     h4(slot='title') Save Instance as Text
     h4
-      a(
+      a.btn.btn-primary(
         :href='"data:text/plain;charset=utf-8,"+ encodeURIComponent(getInstanceAsText())'
         download='interval-scheduling-instance.txt'
         ) Download Text File
     h5 Or copy the following text
     textarea(
       readonly
-      :rows='problemSize * 2 + 2' 
-      :cols='problemSize * 2 + 10' 
+      :rows='12' 
+      :cols='40' 
     ) {{getInstanceAsText()}}
   //- LOAD 
   nice-modal(:id='loadId')

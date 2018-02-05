@@ -30,6 +30,14 @@ div.container-fluid
       button.btn.btn-success(
         @click='incrementFinish'
       ) &plus;
+    div.row
+      br
+      label(for='textInput') Interval:
+      input#textInput(
+        type='text'
+        v-model='intervalText'
+        @keyup.enter='createNewInterval'
+        )
   br
   div.row
     div.col-xs-12
@@ -59,32 +67,46 @@ export default {
       'earliestTime',
       'latestTime',
     ]),
+    intervalText: {
+      get() {
+        return `${this.startTime} ${this.finishTime}`;
+      },
+      set(newVal) {
+        let correct = true;
+        let start;
+        let finish;
+        correct = correct && newVal.split(' ').length === 2;
+        if (correct) {
+          start = Number.parseInt(newVal.split(' ')[0], 10);
+          finish = Number.parseInt(newVal.split(' ')[1], 10);
+        }
+        correct = correct && start < finish;
+        if (correct) {
+          this.startTime = Math.max(this.earliestTime, start);
+          this.finishTime = Math.min(this.latestTime, finish);
+        } else {
+          // do nothing
+        }
+      },
+    },
   },
   methods: {
     incrementStart() {
       // If there's enough room
-      if (this.startTime < this.latestTime - 1) {
-        this.startTime = this.startTime + 1;
-      }
+      this.startTime = Math.max(this.startTime + 1, this.earliestTime);
       // check to see if start === finish
       if (this.startTime >= this.finishTime) {
         this.incrementFinish();
       }
     },
     incrementFinish() {
-      if (this.finishTime < this.latestTime) {
-        this.finishTime++;
-      }
+      this.finishTime = Math.min(this.finishTime + 1, this.latestTime);
     },
     decrementStart() {
-      if (this.startTime > this.earliestTime) {
-        this.startTime--;
-      }
+      this.startTime = Math.max(this.startTime - 1, this.earliestTime);
     },
     decrementFinish() {
-      if (this.finishTime > this.earliestTime + 1) {
-        this.finishTime--;
-      }
+      this.finishTime = Math.min(this.finishTime - 1, this.latestTime);
       if (this.finishTime <= this.startTime) {
         this.decrementStart();
       }
@@ -119,6 +141,13 @@ export default {
     -moz-appearance:textfield;
     -webkit-appearance: none;
     margin: 0;
+}
+
+input#textInput {
+  font-size: 1.2em;
+  width: 50%;
+  margin-left: 10px;
+  padding-left: 3px;
 }
 
 #newIntervalForm button {
