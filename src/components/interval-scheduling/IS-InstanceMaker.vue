@@ -18,13 +18,18 @@ div.container-fluid
             IS-add-interval
     div.col-xs-9.col-lg-10
       h3 Tray
-      IS-tray
+      IS-tray(
+        :unit='unit'
+        :trayStyle='trayStyle'
+        :rowStyle='rowStyle'
+      )
   div.row
     div.col-xs-12
       ul
 </template>
 
 <script>
+import Vuex from 'vuex';
 import ProblemSizeControl from '../nice-things/Nice-ProblemSizeControl';
 import NiceButton from '../nice-things/Nice-Button';
 import ISAddInterval from './IS-AddInterval';
@@ -39,6 +44,7 @@ export default {
     ISTray,
 
   },
+  props: ['unit', 'trayStyle', 'rowStyle'],
   data() {
     return {
       startTime: 0,
@@ -46,14 +52,14 @@ export default {
     };
   },
   computed: {
-    problemSize() { return this.$store.state.problemSize; },
-    earliestTime() { return this.$store.state.earliestTime; },
-    latestTime() { return this.$store.state.latestTime; },
+    ...Vuex.mapState([
+      'problemSize',
+      'earliestTime',
+      'latestTime',
+      'intervals',
+    ]),
     locked() {
       return this.$store.getters.editing;
-    },
-    intervals() {
-      return this.$store.state.intervals;
     },
   }, // end computed
   methods: {

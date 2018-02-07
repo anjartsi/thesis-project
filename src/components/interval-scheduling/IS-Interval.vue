@@ -22,10 +22,6 @@ export default {
     };
   },
   computed: {
-    fontSize() {
-      if (this.interval.finish - this.interval.start > 1) return '13px';
-      return '11px';
-    },
     interval() {
       return this.$store.getters.getInterval(this.index);
     },
@@ -42,7 +38,7 @@ export default {
     },
     colorIndex() {
       let index = this.interval.finish + this.interval.start;
-      index %= this.colors.length - 1;
+      index %= this.colors.length - 2;
       return index;
     },
     style() {
@@ -50,7 +46,6 @@ export default {
         'background-color': this.colors[this.colorIndex],
         left: this.left,
         width: this.width,
-        // 'font-size': this.fontSize,
       };
     },
   },

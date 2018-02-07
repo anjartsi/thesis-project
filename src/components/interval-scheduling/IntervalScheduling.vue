@@ -3,14 +3,23 @@ div#is
   IS-navbar
   div.container-fluid
     div.row
-      IS-instance-maker
+      IS-instance-maker(
+        :unit='unit'
+        :trayStyle='trayStyle'
+        :rowStyle='rowStyle'
+        )
     hr
     div.row
-      IS-solver
+      IS-solver(
+        :unit='unit'
+        :trayStyle='trayStyle'
+        :rowStyle='rowStyle'
+        )
     
 </template>
 
 <script>
+import Vuex from 'vuex';
 import store from './store';
 import ISNavbar from './IS-Navbar';
 import ISInstanceMaker from './IS-InstanceMaker';
@@ -24,7 +33,30 @@ export default {
   },
   store,
   data() {
-    return {};
+    return {
+      unit: 60,
+    };
+  },
+  computed: {
+    ...Vuex.mapState([
+      'earliestTime', 'latestTime',
+    ]),
+    trayStyle() {
+      return {
+        'padding-left': `${this.unit}px`,
+        border: '1px solid black',
+        'user-select': 'none',
+        'overflow-x': 'auto',
+        width: '100%',
+      };
+    },
+    rowStyle() {
+      return {
+        width: `${this.unit * (this.latestTime - this.earliestTime)}px`,
+        position: 'relative',
+        height: '50px',
+      };
+    },
   },
 };
 </script>

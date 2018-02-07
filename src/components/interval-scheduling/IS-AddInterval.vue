@@ -59,6 +59,7 @@ export default {
     return {
       startTime: 0,
       finishTime: 1,
+      intervalTextError: false,
     };
   },
   computed: {
@@ -84,9 +85,8 @@ export default {
         if (correct) {
           this.startTime = Math.max(this.earliestTime, start);
           this.finishTime = Math.min(this.latestTime, finish);
-        } else {
-          // do nothing
         }
+        this.intervalTextError = !correct;
       },
     },
   },

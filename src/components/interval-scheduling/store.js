@@ -20,7 +20,7 @@ Object.assign(storeState, globals.state);
 // Add state variables below
 // instance maker
 storeState.min = 0;
-storeState.max = 50;
+storeState.max = 200;
 // an interval looks like this: {start, finish, row}
 storeState.intervals = [
   { start: 3, finish: 5, row: 0 },
@@ -32,6 +32,7 @@ storeState.rows = [
   [1],
 ];
 //  [[0, 2], [1]];
+storeState.solution = [0, 2];
 storeState.problemSize = 3;
 storeState.earliestTime = 0;
 storeState.latestTime = 50;
