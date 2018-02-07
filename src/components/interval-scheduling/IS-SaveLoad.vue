@@ -117,6 +117,7 @@ export default {
       return str;
     },
     loadFile() {
+      if (!this.$store.getters.editing) this.$store.dispatch('switchMode');
       this.$store.dispatch('loadFile', { loadText: this.loadInput });
     },
     readFile(event) {

@@ -36,7 +36,7 @@ div.container-fluid
       input#textInput(
         type='text'
         v-model='intervalText'
-        @keyup.enter='createNewInterval'
+        @keyup.enter='addTypedInterval'
         )
   br
   div.row
@@ -59,7 +59,7 @@ export default {
     return {
       startTime: 0,
       finishTime: 1,
-      intervalTextError: false,
+      correctIntervalText: false,
     };
   },
   computed: {
@@ -76,17 +76,22 @@ export default {
         let correct = true;
         let start;
         let finish;
-        correct = correct && newVal.split(' ').length === 2;
+        let s = newVal.replace(/-|,|\s+/, ' ');
+        s = s.split(' ');
+        correct = correct && s.length === 2;
         if (correct) {
-          start = Number.parseInt(newVal.split(' ')[0], 10);
-          finish = Number.parseInt(newVal.split(' ')[1], 10);
+          start = Number.parseInt(s[0], 10);
+          finish = Number.parseInt(s[1], 10);
         }
         correct = correct && start < finish;
+        this.correctIntervalText = correct;
         if (correct) {
           this.startTime = Math.max(this.earliestTime, start);
           this.finishTime = Math.min(this.latestTime, finish);
+        } else {
+          this.startTime = this.startTime;
+          this.finishTime = this.finishTime;
         }
-        this.intervalTextError = !correct;
       },
     },
   },
@@ -130,6 +135,12 @@ export default {
     },
     createNewInterval() {
       this.$store.dispatch('addInterval', { start: this.startTime, finish: this.finishTime });
+      this.startTime = this.startTime;
+    },
+    addTypedInterval() {
+      if (this.correctIntervalText) {
+        this.createNewInterval();
+      }
     },
   },
 };

@@ -1,6 +1,6 @@
 <template lang='pug'>
   div.tickContainer(:style='{ width: rowWidth}')
-        div.tickmark(v-for='i in ticks + 1'  :style='{ width: unit }') {{i - 1}}
+        div.tickmark(v-for='i in ticks + 1'  :style='{ width: unit+"px" }') {{i - 1}}
 </template>
 
 <script>
@@ -33,7 +33,6 @@ div.tickContainer {
 }
 div.tickmark {
   display:inline-block;
-  width: 60px;
   border-left: 1px dashed black;
 }
 

@@ -34,7 +34,7 @@ export default {
   store,
   data() {
     return {
-      unit: 60,
+      unit: 45,
     };
   },
   computed: {

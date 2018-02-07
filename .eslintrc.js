@@ -19,6 +19,8 @@ module.exports = {
   'rules': {
     // These rules only generate warnings instead of errors
     'no-unused-vars': 1,
+    // let me log to console without annoying me
+    'no-console': 0,
     // Vuex uses parameter-reassigning a lot
     'no-param-reassign': 0,
     // Windows line breaks are different than linux line breaks...

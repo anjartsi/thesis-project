@@ -18,7 +18,7 @@ const storeState = {};
 // copy the global state values into state
 Object.assign(storeState, globals.state);
 // Add state variables below
-// instance maker
+// for the instance maker
 storeState.min = 0;
 storeState.max = 200;
 // an interval looks like this: {start, finish, row}
@@ -30,12 +30,20 @@ storeState.intervals = [
 storeState.rows = [
   [0, 2],
   [1],
+  [],
+  [],
 ];
-//  [[0, 2], [1]];
-storeState.solution = [0, 2];
 storeState.problemSize = 3;
 storeState.earliestTime = 0;
 storeState.latestTime = 50;
+// for the solver
+storeState.sorted = false;
+storeState.removedFromSorted = [];
+storeState.sortedByFinishTime = [];
+storeState.solution = [];
+storeState.currentTime = 0;
+storeState.step = 0;
+storeState.maxSteps = 2;
 
 /* ****************************************************************
 GETTERS
@@ -48,6 +56,12 @@ storeGetters.getInterval = (state) => (index) => {
     return state.intervals[index];
   }
   return -1;
+};
+storeGetters.getRemoved = (state) => (index) => {
+  if (index < state.removedFromSorted.length) {
+    return state.removedFromSorted[index];
+  }
+  return undefined;
 };
 storeGetters.getCollision = (state) => (i, j) => {
   let collide = false;
@@ -163,7 +177,7 @@ mutations.createNewRow = (state) => {
   state.rows.push([]);
 };
 mutations.removeRowIfEmpty = (state, { row }) => {
-  if (!state.locked && state.rows.length > 2) {
+  if (!state.locked && state.rows.length > 4) {
     // if there are only 2 rows left, leave them alone
     if (state.rows[row].length === 0) {
       state.rows.splice(row, 1);
@@ -182,9 +196,48 @@ mutations.addIntervalToRow = (state, { index, row }) => {
   state.intervals[index].row = row;
 };
 // Todo - this method needs a body
-mutations.resetSolver = (state, payload) => {
+mutations.resetSolver = (state) => {
+  state.solution.splice(0);
+  state.sortedByFinishTime.splice(0);
+  for (let i = 0; i < state.problemSize; i++) {
+    state.sortedByFinishTime.push(i);
+    Vue.set(state.removedFromSorted, i, false);
+  }
+  state.currentTime = state.earliestTime;
+  state.sorted = false;
+  state.step = 0;
+};
+
+mutations.sortByFinishTime = (state) => {
+  state.sortedByFinishTime.sort((a, b) => state.intervals[a].finish - state.intervals[b].finish);
+  state.sorted = true;
+  for (let i = 0; i < state.problemSize; i++) {
+    state.removedFromSorted[i] = false;
+  }
   // eslint-disable-next-line
-  if (payload) console.log(payload);
+  console.log(state.intervals);
+  // eslint-disable-next-line
+  console.log(state.sortedByFinishTime);
+};
+
+mutations.addToSolution = (state, { earliestIndex }) => {
+  // add the interval to the solution
+  state.solution.push(earliestIndex);
+  // remove it from the sorted list
+  state.sortedByFinishTime.splice(0, 1);
+  // update solver information
+  const interval = state.intervals[earliestIndex];
+  state.currentTime = interval.finish;
+};
+
+mutations.removeFromSorted = (state, { index }) => {
+  const intervalIndex = state.sortedByFinishTime[index];
+  state.sortedByFinishTime.splice(index, 1);
+  Vue.set(state.removedFromSorted, intervalIndex, true);
+};
+
+mutations.performStep = (state) => {
+  state.step = (state.step + 1) % state.maxSteps;
 };
 
 // Override the globalStore method
@@ -229,6 +282,33 @@ actions.removeInterval = (context, { index }) => {
 };
 
 // todo - changeInterval
+actions.eft = (context) => {
+  if (context.getters.solving) {
+    if (!context.state.sorted) {
+      context.commit('sortByFinishTime');
+    }
+    if (context.state.sortedByFinishTime.length > 0) {
+      if (context.state.step === 0) {
+        const earliestIndex = context.state.sortedByFinishTime[0];
+        context.commit('addToSolution', { earliestIndex });
+      } else if (context.state.step === 1) {
+        const earliestIndex = context.state.solution[context.state.solution.length - 1];
+        let nextIntervalIndex;
+        let collided;
+        for (let i = 0; i < context.state.sortedByFinishTime.length; i++) {
+          nextIntervalIndex = context.state.sortedByFinishTime[i];
+          collided = context.getters.getCollision(earliestIndex, nextIntervalIndex);
+          if (collided) {
+            context.commit('removeFromSorted', { index: i });
+            i--;
+          }
+        }
+      }
+    } // end if (sortedByFinishTime.length > 0)
+    context.commit('performStep');
+  } // end if (solving)
+};
+
 
 actions.loadFile = (context, payload) => {
   context.commit('loadStart');
@@ -264,8 +344,6 @@ actions.loadFile = (context, payload) => {
     const oldProblemSize = context.state.problemSize;
     for (let i = 0; i < oldProblemSize; i++) {
       context.dispatch('removeInterval', { index: 0 });
-      // eslint-disable-next-line
-      console.log(i);
     }
     intervals.forEach(element => context.dispatch('addInterval', element));
     context.commit('resetSolver');

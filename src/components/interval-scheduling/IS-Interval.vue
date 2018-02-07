@@ -3,6 +3,7 @@
     p {{interval.start}} - {{interval.finish}}
     div.topRight
       i.fa.fa-window-close.fa-6(@click='remove')
+    i.fa.fa-times.removed(v-if='removed')
 </template>
 
 <script>
@@ -25,6 +26,9 @@ export default {
     interval() {
       return this.$store.getters.getInterval(this.index);
     },
+    removed() {
+      return this.$store.getters.getRemoved(this.index);
+    },
     left() {
       let num = this.interval.start * this.unit;
       num += 'px';
@@ -36,14 +40,15 @@ export default {
       num += 'px';
       return num;
     },
-    colorIndex() {
+    bColor() {
+      if (this.removed) return '#424242';
       let index = this.interval.finish + this.interval.start;
       index %= this.colors.length - 2;
-      return index;
+      return this.colors[index];
     },
     style() {
       return {
-        'background-color': this.colors[this.colorIndex],
+        'background-color': this.bColor,
         left: this.left,
         width: this.width,
       };
@@ -86,7 +91,7 @@ div.topRight {
   top: 0px;
   right: 0px;
 }
-i.fa {
+i.fa.fa-window-close {
   font-size: 1.3em;
   color: white;
   background-color: black;
@@ -94,8 +99,18 @@ i.fa {
   margin: 0px;
   cursor: pointer;
 }
-i.fa:hover {
+i.fa:hover.fa-window-close {
   color: black;
   background-color: white;
+}
+
+i.removed {
+  display: block;
+  width: 100%;
+  font-size: 49px;
+  opacity: 0.8;
+  position: absolute;
+  top:0px;
+  color: red;
 }
 </style>
