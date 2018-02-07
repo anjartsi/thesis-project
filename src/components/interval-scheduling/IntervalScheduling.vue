@@ -34,7 +34,7 @@ export default {
   store,
   data() {
     return {
-      unit: 45,
+      unit: 30,
     };
   },
   computed: {
@@ -55,6 +55,7 @@ export default {
         width: `${this.unit * (this.latestTime - this.earliestTime)}px`,
         position: 'relative',
         height: '50px',
+        'font-size': '11px',
       };
     },
   },

@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.interval.clearfix(:style='style')
+  div.interval.clearfix(:style='style'  :class='{highlight: latest}')
     p {{interval.start}} - {{interval.finish}}
     div.topRight
       i.fa.fa-window-close.fa-6(@click='remove')
@@ -28,6 +28,9 @@ export default {
     },
     removed() {
       return this.$store.getters.getRemoved(this.index);
+    },
+    latest() {
+      return this.index === this.$store.state.latest;
     },
     left() {
       let num = this.interval.start * this.unit;
@@ -69,6 +72,13 @@ export default {
   text-align: center;
   border: 1px solid black;
   border-radius: 6px;
+}
+.highlight {
+  background-color: white!important;
+}
+.highlight p {
+  background-color: black!important;
+  color: white;
 }
 div.values {
   position: relative;

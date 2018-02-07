@@ -41,6 +41,7 @@ storeState.sorted = false;
 storeState.removedFromSorted = [];
 storeState.sortedByFinishTime = [];
 storeState.solution = [];
+storeState.latest = -1;
 storeState.currentTime = 0;
 storeState.step = 0;
 storeState.maxSteps = 2;
@@ -228,6 +229,7 @@ mutations.addToSolution = (state, { earliestIndex }) => {
   // update solver information
   const interval = state.intervals[earliestIndex];
   state.currentTime = interval.finish;
+  state.latest = earliestIndex;
 };
 
 mutations.removeFromSorted = (state, { index }) => {
