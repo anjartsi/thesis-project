@@ -100,18 +100,25 @@ storeGetters.fitsInRow = (state, getters) => (intervalIndex, rowIndex) => {
 // returns the number of the lowest row where an interval is to be placed
 // This means a new row has to be created
 storeGetters.getRowThatFits = (state, getters) => (index) => {
-  let rowNum = 0;
   let found = false;
-
+  const rowList = [];
+  for (let i = 0; i < state.rows.length; i++) {
+    rowList.push(i);
+  }
+  // rowList is a list of row indeces sorted by the emptiest row first
+  rowList.sort((a, b) => state.rows[a].length - state.rows[b].length);
+  console.log(rowList);
+  rowList.push(rowList.length);
+  let rowNum = 0;
   while (!found) {
-    if (getters.fitsInRow(index, rowNum)) {
+    if (getters.fitsInRow(index, rowList[rowNum])) {
       found = true;
       break;
     } else {
       rowNum++;
     }
   } // end while
-  return rowNum;
+  return rowList[rowNum];
 };
 
 /* ****************************************************************
