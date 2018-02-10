@@ -214,6 +214,8 @@ mutations.resetSolver = (state) => {
   state.currentTime = state.earliestTime;
   state.sorted = false;
   state.step = 0;
+  state.currentTime = 0;
+  state.latest = -1;
 };
 
 mutations.sortByFinishTime = (state) => {
