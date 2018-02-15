@@ -16,7 +16,7 @@ div
       h4 Total Intervals in Solution: {{rowData.length}}
     div.alert.alert-warning.text-center
       h4 Number of Steps Performed: {{step}}
-
+  hr
 </template>
 
 <script>

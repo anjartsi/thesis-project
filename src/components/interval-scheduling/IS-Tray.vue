@@ -84,9 +84,9 @@ export default {
 
 .rowName {
   position: absolute;  
-  left: 25px;
+  left: 15px;
   z-index: 1;
-  background-color: rgba(20, 20, 20, 0.90);
+  background-color: rgba(20, 20, 20, 0.80);
   color: white;
   text-align: center;
   padding-left: 1em;
@@ -97,6 +97,6 @@ export default {
 
 #solutionRowName {
   transform: rotate(90deg);
-  left: 0px;
+  left: -10px;
 }
 </style>
