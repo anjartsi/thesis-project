@@ -4,12 +4,13 @@ transition(appear)
     :class='isGender'
     :style='boxStyle'
   )
+    //- If the rejected flag is on, put a big red X on the box
+    div.redExCont(v-if='rejected')
+      i.fa.fa-times.redEx
     p(v-if='!tentative') {{ isGender }}
       sub {{index + 1}}
     p(v-else).matched
       i.fa.fa-diamond
-    //- If the rejected flag is on, put a big red X on the box
-    i.fa.fa-times.rejected(v-if='rejected')
 </template>
 
 <script>
@@ -45,17 +46,14 @@ transition(appear)
         }
         return 'w';
       }, // end gender
-      widthResponsive() {
-        // eslint-disable-next-line
-        return screen.width * 0.025;
-      },
       boxStyle() {
         return {
           'background-color': this.colors[this.index],
-          height: `${this.widthResponsive}px`,
-          width: `${this.widthResponsive}px`,
+          height: `${this.unit}px`,
+          width: `${this.unit}px`,
         };
       },
+      unit() { return this.$store.state.unit; },
     }, // end computed
     watch: {
       index() {
@@ -85,8 +83,6 @@ transition(appear)
   div {
     display: inline-block;
     text-align: center;
-    /* width: 100%;
-    height: 50px; */
     border: 1px solid black;
     margin-left: 2px
   }
@@ -106,13 +102,16 @@ transition(appear)
   div.w {
     border-radius: 18px;
   }
-  i.rejected {
-    display: block;
-    width: 49px;
-    font-size: 49px;
-    opacity: 0.8;
+  div.redExCont {
     position: absolute;
-    top:0px;
+    border: none;
+    margin-left: -10px;
+    opacity: 0.75;
+  }
+  i.redEx {
+    display: block;
+    width: 50px;
+    font-size: 50px;
     color: red;
   }
 

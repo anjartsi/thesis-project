@@ -1,9 +1,9 @@
 <template lang='pug'>
-  div.interval.clearfix(:style='style'  :class='{highlight: latest}')
-    p {{interval.start}} - {{interval.finish}}
-    div.topRight
+  div.interval.clearfix(:style='style'  :class='{ highlight: latest, removed: removed }')
+    //- p {{interval.start}} - {{interval.finish}}
+    div.topRight(v-show='editing')
       i.fa.fa-window-close.fa-6(@click='remove')
-    i.fa.fa-times.removed(v-if='removed')
+    i.fa.fa-times.redEx(v-if='removed')
 </template>
 
 <script>
@@ -23,15 +23,10 @@ export default {
     };
   },
   computed: {
-    interval() {
-      return this.$store.getters.getInterval(this.index);
-    },
-    removed() {
-      return this.$store.getters.getRemoved(this.index);
-    },
-    latest() {
-      return this.index === this.$store.state.latest;
-    },
+    editing() { return this.$store.getters.editing; },
+    interval() { return this.$store.getters.getInterval(this.index); },
+    removed() { return this.$store.getters.getRemoved(this.index); },
+    latest() { return this.index === this.$store.state.latest; },
     left() {
       let num = this.interval.start * this.unit;
       num += 'px';
@@ -44,8 +39,8 @@ export default {
       return num;
     },
     bColor() {
-      if (this.removed) return '#424242';
-      let index = this.interval.finish + this.interval.start;
+      // if (this.removed) return '#424242';
+      let index = this.interval.start;
       index %= this.colors.length - 2;
       return this.colors[index];
     },
@@ -74,11 +69,16 @@ export default {
   border-radius: 6px;
 }
 .highlight {
-  background-color: white!important;
+  /* background-color: white!important; */
+  border: 10px solid black;
 }
 .highlight p {
   background-color: black!important;
   color: white;
+}
+
+.removed {
+  background-color: #424242!important;
 }
 div.values {
   position: relative;
@@ -114,7 +114,7 @@ i.fa:hover.fa-window-close {
   background-color: white;
 }
 
-i.removed {
+i.redEx {
   display: block;
   width: 100%;
   font-size: 49px;
@@ -123,4 +123,5 @@ i.removed {
   top:0px;
   color: red;
 }
+
 </style>

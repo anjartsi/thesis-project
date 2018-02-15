@@ -107,7 +107,6 @@ storeGetters.getRowThatFits = (state, getters) => (index) => {
   }
   // rowList is a list of row indeces sorted by the emptiest row first
   rowList.sort((a, b) => state.rows[a].length - state.rows[b].length);
-  console.log(rowList);
   rowList.push(rowList.length);
   let rowNum = 0;
   while (!found) {
@@ -216,6 +215,7 @@ mutations.resetSolver = (state) => {
   state.step = 0;
   state.currentTime = 0;
   state.latest = -1;
+  state.solved = false;
 };
 
 mutations.sortByFinishTime = (state) => {
@@ -224,10 +224,6 @@ mutations.sortByFinishTime = (state) => {
   for (let i = 0; i < state.problemSize; i++) {
     state.removedFromSorted[i] = false;
   }
-  // eslint-disable-next-line
-  console.log(state.intervals);
-  // eslint-disable-next-line
-  console.log(state.sortedByFinishTime);
 };
 
 mutations.addToSolution = (state, { earliestIndex }) => {
@@ -248,9 +244,17 @@ mutations.removeFromSorted = (state, { index }) => {
 };
 
 mutations.performStep = (state) => {
-  state.step = (state.step + 1) % state.maxSteps;
+  state.step++;
 };
 
+mutations.checkIfSolved = (state) => {
+  // There are no intervals left to check
+  state.solved = state.sortedByFinishTime.length === 0;
+  // All steps that must be performed have been performed
+  state.solved = state.solved && state.step % state.maxSteps === 0;
+  // clear the latest interval so it doesn't remain highlighted
+  if (state.solved) state.latest = -1;
+};
 // Override the globalStore method
 mutations.changeProblemSize = (state) => {
   state.problemSize = state.intervals.length;
@@ -299,10 +303,10 @@ actions.eft = (context) => {
       context.commit('sortByFinishTime');
     }
     if (context.state.sortedByFinishTime.length > 0) {
-      if (context.state.step === 0) {
+      if (context.state.step % context.state.maxSteps === 0) {
         const earliestIndex = context.state.sortedByFinishTime[0];
         context.commit('addToSolution', { earliestIndex });
-      } else if (context.state.step === 1) {
+      } else if (context.state.step % context.state.maxSteps === 1) {
         const earliestIndex = context.state.solution[context.state.solution.length - 1];
         let nextIntervalIndex;
         let collided;
@@ -317,6 +321,7 @@ actions.eft = (context) => {
       }
     } // end if (sortedByFinishTime.length > 0)
     context.commit('performStep');
+    context.commit('checkIfSolved');
   } // end if (solving)
 };
 

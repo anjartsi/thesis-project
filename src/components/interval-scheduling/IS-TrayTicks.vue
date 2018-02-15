@@ -33,7 +33,7 @@ div.tickContainer {
 }
 div.tickmark {
   display:inline-block;
-  border-left: 1px dashed black;
+  border-left: 1px solid black;
 }
 
 </style>

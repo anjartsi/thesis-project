@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.trayRow(:style='rowStyle')
+  div.trayRow(:style='rowStyle'  :class='[rowColor]')
     IS-interval(
       v-for='(interval, index) in rowData'
       :key='index + "interval"'
@@ -30,6 +30,10 @@ export default {
     rowData() {
       return this.rows[this.rowIndex];
     },
+    rowColor() {
+      if (this.rowIndex % 2 === 0) return 'evenRow';
+      return 'oddRow';
+    },
   },
   data() { return {}; },
   methods: {
@@ -38,10 +42,10 @@ export default {
 </script>
 
 <style>
-.trayRow:nth-child(even){
+.evenRow{
   background-color: lightgray;
 }
-.trayRow:nth-child(odd){
+.oddRow{
 background-color: rgba(211, 211, 211, 0.3);
 }
 </style>

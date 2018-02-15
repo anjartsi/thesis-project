@@ -3,14 +3,15 @@ div.container-fluid
   div.row
     h2.pull-left The Problem Instance
   div.row
-    div.col-xs-3.col-lg-2
+    div.col-xs-2
       div.row
       br
       div.row
         div
           //- Problem Size
           div.row
-            problem-size-control
+            div.col-xs-12
+              problem-size-control
           transition(appear name='fade' key='SMinstanceMaker')
             div.row(v-show='locked')#buttonContainer
               div.col-xs-12
@@ -18,10 +19,10 @@ div.container-fluid
               div.col-xs-12
                 nice-button(v-on:click.native='reset') Reset
     //- Preference Lists
-    div.col-xs-9.col-lg-10
+    div.col-xs-10
       h3(style="text-align:center") Preference Lists
       div.row
-        div.col-xs-12.col-lg-6
+        div.col-xs-6
           h4(style="text-align:center") Men
           SM-preference-list(
             isGender='m'
@@ -29,7 +30,7 @@ div.container-fluid
             :colors='colors'
             v-on:reorderBoxes='swap'
             )
-        div.col-xs-12.col-lg-6
+        div.col-xs-6
           h4(style="text-align:center") Women
           SM-preference-list(
             isGender='w'

@@ -8,7 +8,6 @@ div.container-fluid
     :key='i'
     :locked='locked'
     :colors='colors'
-    v-on:reorderBoxes='reorderBoxes'
   )
 </template>
 
@@ -36,10 +35,6 @@ div.container-fluid
     },
     // end data
     methods: {
-      reorderBoxes(gender, person, pref1, pref2) {
-        // Forward the emitted event to parent
-        this.$emit('reorderBoxes', gender, person, pref1, pref2);
-      },
     },
   };
 </script>

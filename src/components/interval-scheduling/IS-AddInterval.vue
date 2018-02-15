@@ -35,13 +35,13 @@ div.container-fluid
       label(for='textInput') Interval:
       input#textInput(
         type='text'
-        v-model='intervalText'
+        v-model.lazy='intervalText'
         @keyup.enter='addTypedInterval'
         )
   br
   div.row
     div.col-xs-12
-      nice-button.btn-primary(@click='createNewInterval') Add Interval
+      nice-button.btn-success(@click='createNewInterval') Add Interval
 </template>
 
 <script>

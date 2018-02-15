@@ -28,23 +28,25 @@ div.container-fluid
           ) 
   transition(appear name='fade')
     div.row(v-show='editing')
-      div.col-xs-2
-        button.btn.btn-lg.btn-danger.pull-left(@click='decrement') -
-      div.col-xs-8
+      div.col-xs-3
+        nice-button.btn-danger(@click='decrement') -
+      div.col-xs-6
         input(
           type='range'
           :min='minimumValue'
           :max='maximumValue'
           v-model='problemSize'
         )
-      div.col-xs-2
-        button.btn.btn-lg.btn-success.pull-right(@click='increment') +
-
+      div.col-xs-3
+        nice-button.btn-success(@click='increment') +
   
 </template>
 
 <script>
+  import NiceButton from './Nice-Button';
+
   export default {
+    components: { NiceButton },
     computed: {
       editing() { return this.$store.getters.editing; },
       minimumValue() {
@@ -72,8 +74,6 @@ div.container-fluid
       increment() { this.problemSize++; },
       decrement() { this.problemSize--; },
     }, // end methods
-    components: {
-    }, // end components
     data() {
       return {
       };

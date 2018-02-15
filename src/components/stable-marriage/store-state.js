@@ -3,6 +3,7 @@ import globals from '../../scripts/globalStore';
 const state = {};
 // copy the global state values into state
 Object.assign(state, globals.state);
+state.unit = 50;
 // instance maker
 state.preferences = {
   m: [[0, 1], [0, 1]],

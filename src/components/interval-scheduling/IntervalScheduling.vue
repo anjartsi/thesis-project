@@ -5,15 +5,6 @@ div#is
     div.row
       IS-instance-maker(
         :unit='unit'
-        :trayStyle='trayStyle'
-        :rowStyle='rowStyle'
-        )
-    hr
-    div.row
-      IS-solver(
-        :unit='unit'
-        :trayStyle='trayStyle'
-        :rowStyle='rowStyle'
         )
     
 </template>
@@ -41,23 +32,6 @@ export default {
     ...Vuex.mapState([
       'earliestTime', 'latestTime',
     ]),
-    trayStyle() {
-      return {
-        'padding-left': `${this.unit}px`,
-        border: '1px solid black',
-        'user-select': 'none',
-        'overflow-x': 'auto',
-        width: '100%',
-      };
-    },
-    rowStyle() {
-      return {
-        width: `${this.unit * (this.latestTime - this.earliestTime)}px`,
-        position: 'relative',
-        height: '50px',
-        'font-size': '11px',
-      };
-    },
   },
 };
 </script>

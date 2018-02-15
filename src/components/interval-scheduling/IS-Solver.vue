@@ -2,29 +2,20 @@
 div
   div.row 
     h1 Solver
-  div.col-xs-12#alertContainer
-    transition(appear name='fade' key='solverAlert')
-      div.alert.alert-info.text-center(v-show='!solving') 
-        h3 You must be in 
-          button.btn.btn-lg.btn-primary(@click='$store.dispatch("switchMode")') Solve Mode
-          |  before trying to solve the problem
   div.row
-    div.col-xs-2
-      nice-button.btn-primary(@click='dosomething') {{buttonMsg[step]}}
-      br
-      div.alert.alert-success.text-center
-        h4 Total: {{rowData.length}}
-    div.col-xs-10
-      div#solverTray(:style='trayStyle')
-        IS-tray-ticks(:unit='unit')
-        div.trayRow(:style='rowStyle')
-          IS-interval(
-            v-for='(interval, index) in rowData'
-            :key='index + "interval"'
-            :index='interval'
-            :unit='unit'
-          )
-        IS-tray-ticks(:unit='unit')
+    div.col-xs-12
+      nice-button.btn-primary(
+        @click='dosomething'
+        :class='{ disabled: solved }'
+        ) Click Me! 
+      h4.text-center(v-if='!solved') {{buttonMsg[step % maxSteps]}}
+      h4.text-center(v-else) Finished!
+  br
+  div.row
+    div.alert.alert-success.text-center
+      h4 Total Intervals in Solution: {{rowData.length}}
+    div.alert.alert-warning.text-center
+      h4 Number of Steps Performed: {{step}}
 
 </template>
 
@@ -40,13 +31,13 @@ export default {
     ISRow, ISInterval, ISTrayTicks, NiceButton,
   },
   props: [
-    'unit', 'trayStyle', 'rowStyle',
+    'unit',
   ],
   data() {
     return {
       buttonMsg: [
-        'Add Next Interval',
-        'Remove Conflicts',
+        'Take Next Interval',
+        'Remove any Overlaps',
       ],
     };
   },
@@ -55,6 +46,8 @@ export default {
       'earliestTime',
       'latestTime',
       'step',
+      'maxSteps',
+      'solved',
     ]),
     solving() {
       return this.$store.getters.solving;
@@ -65,7 +58,9 @@ export default {
   }, // end computed
   methods: {
     dosomething() {
-      this.$store.dispatch('eft');
+      if (!this.solved) {
+        this.$store.dispatch('eft');
+      }
     },
   },
 };

@@ -1,9 +1,14 @@
 <template lang='pug'>
 div.preferenceBox(
+  :class='{red: touched && editing}'
   @mousedown='$emit("boxMouseDown", j)'
   @mouseup='$emit("boxMouseUp", j)'
   @mouseenter='$emit("boxMouseEnter", j)'
   @mouseleave='$emit("boxMouseLeave", j)'
+  
+  @touchstart.prevent='daTouchStart'
+  @touchend.prevent='daTouchEnd'
+  @touchmove.prevent='daTouchMove'
 )
   SM-person-box(
   :gender='likesGender'
@@ -28,10 +33,12 @@ export default {
   // end props
   data() {
     return {
+      touched: false,
     };
   },
   // end data
   computed: {
+    editing() { return this.$store.getters.editing; },
     preferenceBox() {
       const gender = this.isGender;
       const personIndex = this.i - 1;
@@ -69,6 +76,17 @@ export default {
     },
   },
   methods: {
+    daTouchStart() {
+      if (this.editing) this.$emit('boxTouchStart', this.j);
+    },
+    daTouchMove() {
+      // console.log(e);
+      // this.$emit('boxTouchMove', this.j);
+    },
+    daTouchEnd() {
+      // console.log(e);
+      // this.$emit('boxTouchStop', this.j);
+    },
   },
 };
 </script>
@@ -79,5 +97,12 @@ export default {
   }
   div.preferenceBox {
     display: inline-block;
+  }
+
+  .red {
+    background-color: #444;
+  }
+  .red * {
+    opacity: 0.6
   }
 </style>

@@ -2,31 +2,32 @@
 div
   div.row
     div.col-xs-12.text-center
-      h3 Next Proposal ({{proposalCount}} total)
-    div.col-xs-12(v-if='!solved')
-      div.row.text-center(v-if='proposingMan > -1')
-        //- The proposing man
-        SM-person-box(
-          :gender='"m"'
-          :index='proposingMan'
-        ) 
-        div#proposing(style='display: inline-block')
-          i.fa.fa-arrow-right.fa-3x
-        //- The woman he's proposing to
-        SM-person-box(
-          v-show='proposedToWoman > -1'
-          :gender='"w"'
-          :index='proposedToWoman'
-        )
-      div.row(v-else)
-        transition(name='fade' key='SMSolverProposalNextProposal')
-          div.alert.alert-info.text-center
-            h4 Waiting for a proposal
-    div(v-else)
-      div.row
-        div.col-xs-12
-          div.alert.alert-success.text-center
-            h4 All people have been matched. Hooray!
+      h3 Next Proposal   ({{proposalCount}} total)
+    transition(name='fade' key='SMSolverProposal')
+      div.col-xs-12(v-if='!solved')
+        transition(name='slide' key='SMSolverProposalNextProposal' mode='out-in')
+          div.row.text-center(v-if='proposingMan > -1' key='proposal')
+            //- The proposing man
+            SM-person-box(
+              :gender='"m"'
+              :index='proposingMan'
+            ) 
+            div#proposing(style='display: inline-block')
+              i.fa.fa-arrow-right.fa-3x
+            //- The woman he's proposing to
+            SM-person-box(
+              v-show='proposedToWoman > -1'
+              :gender='"w"'
+              :index='proposedToWoman'
+            )
+          div.row(v-else  key='noProposal')
+              div.alert.alert-info.text-center
+                h4 Waiting for a proposal
+      div(v-else)
+        div.row
+          div.col-xs-12
+            div.alert.alert-success.text-center
+              h4 All people have been matched. Hooray!
 </template>
 
 <script>
@@ -81,5 +82,20 @@ div#proposing {
 .alert > h4, .alert > h3 {
   margin: 0px;
 }
+.alert-info {
+  height: 60px;
+}
 
+.slide-enter-active, .slide-leave-active {
+  transition: all 0.1s;
+}
+
+.slide-enter{
+  opacity: 0;
+  transform: translateY(-50%);
+}
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(50%);
+}
 </style>

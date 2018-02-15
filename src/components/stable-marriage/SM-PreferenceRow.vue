@@ -1,18 +1,17 @@
 <template lang='pug'>
 transition(name='fade' key='SMPreferenceRow')
   div.row(:class='{highlight}')
-    div.col-xs-1.border-right
+    div.rowOwner
       SM-person-box(
         :gender='isGender'
         :index='i-1'
       )
-    div.col-xs-10(
+    div.rowPreferences(
       @mouseup='dragStop'
       @mouseleave='dragStop'
       ).boxContainer
       SM-preference-box(
         v-for='j in problemSize'
-        :class='{unlocked: !locked}'
         :isGender='isGender' 
         :likesGender='likesGender'
         :i='i'
@@ -23,6 +22,7 @@ transition(name='fade' key='SMPreferenceRow')
         v-on:boxMouseUp='dragStop'
         v-on:boxMouseEnter='dragCommence'
         v-on:boxMouseLeave=''
+        v-on:boxTouchStart='touchAction'
         )
 </template>
 
@@ -46,13 +46,16 @@ transition(name='fade' key='SMPreferenceRow')
     data() {
       return {
         dragging: false,
+        touch1: null,
+        touch2: null,
         boxToDrag: null,
       };
     },
     // end data
     computed: {
-      locked() { return this.$store.state.locked; },
+      editing() { return this.$store.getters.editing; },
       problemSize() { return this.$store.state.problemSize; },
+      unit() { return this.$store.state.unit; },
       highlight() {
         if (this.isGender === 'm') {
           return this.$store.state.proposal.man === this.i - 1;
@@ -72,11 +75,32 @@ transition(name='fade' key='SMPreferenceRow')
         }
       },
       dragStop() {
-        this.dragging = false;
-        this.boxToDrag = null;
+        if (this.dragging) {
+          this.dragging = false;
+          this.boxToDrag = null;
+        }
+      },
+      touchAction(j) {
+        if (this.touch1 === null) {
+          this.touch1 = j;
+          this.$children[j].touched = true;
+        } else {
+          this.touch2 = j;
+          this.reorder(this.touch1, this.touch2);
+          this.$children[this.touch1].touched = false;
+          this.touch1 = null;
+          this.touch2 = null;
+        }
       },
       reorder(j1, j2) {
-        this.$emit('reorderBoxes', this.isGender, this.i - 1, j1 - 1, j2 - 1);
+        const payload = {
+          gender: this.isGender,
+          person: this.i - 1,
+          pref1: j1 - 1,
+          pref2: j2 - 1,
+        };
+        this.$store.dispatch('swap', payload);
+        // this.$emit('reorderBoxes', this.isGender, this.i - 1, j1 - 1, j2 - 1);
       },
       darken(progress) {
         const num = Math.floor((1 - progress) * 255);
@@ -97,6 +121,12 @@ transition(name='fade' key='SMPreferenceRow')
       },
     }, // end methods
     watch: {
+      editing(newVal) {
+        if (!newVal && this.touch1 !== null) {
+          this.$children[this.touch1].touched = false;
+          this.touch1 = null;
+        }
+      },
       highlight(newVal) {
         const todo = (newVal) ? this.darken : this.lighten;
         stuff.animate({
@@ -113,6 +143,12 @@ transition(name='fade' key='SMPreferenceRow')
     padding: 0px 0px 0px 0px;
   }
 
+  div.rowOwner {
+    display: inline-block;
+  }
+  div.rowPreferences {
+    display: inline-block;
+  }
   div.row {
     border-bottom: 1px solid black;
     -webkit-user-select: none;
@@ -129,4 +165,5 @@ transition(name='fade' key='SMPreferenceRow')
   .highlight .boxContainer {
     border-left: 2px solid white;
   }
+
 </style>

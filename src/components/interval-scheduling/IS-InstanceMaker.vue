@@ -10,14 +10,17 @@ div.container-fluid
         div.col-xs-12
           label n = {{problemSize}}
 
-      transition(appear name='fade' key='instanceMaker')
-        div.row(v-show='locked')
+      transition(appear name='fade' mode='out-in')
+        div.row(v-if='locked' key='instanceMaker')
           div.col-xs-12
             h4 Add New Interval
           div.col-xs-12
             IS-add-interval
+        div.row(v-else key='solver')
+          div.col-xs-12
+            IS-solver
     div.col-xs-9.col-lg-10
-      h3 Tray
+      h3 Intervals
       IS-tray(
         :unit='unit'
         :trayStyle='trayStyle'
@@ -34,7 +37,7 @@ import ProblemSizeControl from '../nice-things/Nice-ProblemSizeControl';
 import NiceButton from '../nice-things/Nice-Button';
 import ISAddInterval from './IS-AddInterval';
 import ISTray from './IS-Tray';
-
+import ISSolver from './IS-Solver';
 
 export default {
   components: {
@@ -42,7 +45,7 @@ export default {
     ProblemSizeControl,
     ISAddInterval,
     ISTray,
-
+    ISSolver,
   },
   props: ['unit', 'trayStyle', 'rowStyle'],
   data() {

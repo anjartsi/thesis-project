@@ -1,4 +1,5 @@
 const stateObj = {
+  unit: 60,
   min: 1,
   max: 10,
   locked: false,

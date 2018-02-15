@@ -35,16 +35,15 @@ div.container-fluid
         div.alert.alert-info
           h4 {{message}}    
   div.row
-    div.col-xs-9.col-lg-4.col-xl-3
+    div.col-xs-6.col-lg-4
       SMSolver-tentative
-    div.col-xs-3.col-lg-8.col-xl-9
-      div.col-xs-12.col-lg-8
-        SMSolver-unmatched(
-          @nextManClickedEvent='nextManClickedEventHandler'
-          :clickable='clickable'
-        )
-      div.col-xs-12.col-lg-4
-        SMSolver-proposal
+    div.col-xs-6.col-lg-4
+      SMSolver-unmatched(
+        @nextManClickedEvent='nextManClickedEventHandler'
+        :clickable='clickable'
+      )
+    div.col-xs-12.col-lg-4
+      SMSolver-proposal
   hr
   div.row
     transition(name='fade' key='nice-automator')
@@ -163,7 +162,7 @@ export default {
 
 #alertContainer > div{
   position: absolute;
-  height: 390px;
+  height: 400px;
   width: 102%;
   z-index: 1;
 }
