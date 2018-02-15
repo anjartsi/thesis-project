@@ -144,7 +144,7 @@ describe('Interval Scheduling Store==============================', () => {
     });
 
     describe('getRowThatFits', () => {
-      it('should return the smallest row possible where an interval fits (0)', () => {
+      it('should return the emptiest row possible where an interval fits (0)', () => {
         const state = {
           problemSize: 3,
           intervals: [
@@ -164,7 +164,7 @@ describe('Interval Scheduling Store==============================', () => {
           fitsInRow: getters.fitsInRow(state, mockGetters1),
         };
         const result = getters.getRowThatFits(state, mockGetters2)(2);
-        expect(result).to.deep.equal(0);
+        expect(result).to.deep.equal(1);
       });
       it('should return the smallest row possible where an interval fits (1)', () => {
         const state = {

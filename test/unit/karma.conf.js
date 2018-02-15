@@ -3,7 +3,9 @@
 // we are also using it with karma-webpack
 //   https://github.com/webpack/karma-webpack
 
-var webpackConfig = require('../../build/webpack.test.conf')
+/* eslint-disable */
+
+var webpackConfig = require('../../build/webpack.test.conf');
 
 module.exports = function (config) {
   config.set({
@@ -11,7 +13,7 @@ module.exports = function (config) {
     // 1. install corresponding karma launcher
     //    http://karma-runner.github.io/0.13/config/browsers.html
     // 2. add it to the `browsers` array below.
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
     reporters: ['spec', 'coverage'],
     files: [
@@ -30,7 +32,7 @@ module.exports = function (config) {
       reporters: [
         { type: 'lcov', subdir: '.' },
         { type: 'text-summary' }
-      ]
-    }
-  })
-}
+      ],
+    },
+  });
+};
