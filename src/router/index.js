@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import HomePage from '@/components/HomePage';
 import StableMarriage from '@/components/stable-marriage/StableMarriage';
 import IntervalScheduling from '@/components/interval-scheduling/IntervalScheduling';
+import ClosestPairOfPoints from '@/components/closest-pair-of-points/ClosestPairOfPoints';
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/interval-scheduling',
       name: 'Interval Scheduling',
       component: IntervalScheduling,
+    },
+    {
+      path: '/closest-pair-of-points',
+      name: 'Closest Pair of Points',
+      component: ClosestPairOfPoints,
     },
   ],
 });

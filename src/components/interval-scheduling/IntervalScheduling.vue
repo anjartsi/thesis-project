@@ -18,7 +18,7 @@ div#is
 
 <script>
 import Vuex from 'vuex';
-import store from './store';
+import store from './IS-store';
 import ISNavbar from './IS-Navbar';
 import ISInstanceMaker from './IS-InstanceMaker';
 import ISSolver from './IS-Solver';

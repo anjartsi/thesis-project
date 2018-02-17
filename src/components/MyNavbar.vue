@@ -22,6 +22,7 @@ export default{
         { link: '/', text: 'Home' },
         { link: '/stable-marriage', text: 'Stable Marriage' },
         { link: '/interval-scheduling', text: 'Interval Scheduling' },
+        { link: '/closest-pair-of-points', text: 'Closest Pair of Points' },
       ],
     };
   },
