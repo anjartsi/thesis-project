@@ -23,10 +23,10 @@ export default {
     };
   },
   computed: {
-    editing() { return this.$store.getters.editing; },
-    interval() { return this.$store.getters.getInterval(this.index); },
-    removed() { return this.$store.getters.getRemoved(this.index); },
-    latest() { return this.index === this.$store.state.latest; },
+    editing() { return this.$store.getters['intervalScheduling/editing']; },
+    interval() { return this.$store.getters['intervalScheduling/getInterval'](this.index); },
+    removed() { return this.$store.getters['intervalScheduling/getRemoved'](this.index); },
+    latest() { return this.index === this.$store.state.intervalScheduling.latest; },
     left() {
       let num = this.interval.start * this.unit;
       num += 'px';
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     remove() {
-      this.$store.dispatch('removeInterval', { index: this.index });
+      this.$store.dispatch('intervalScheduling/removeInterval', { index: this.index });
     },
   },
 };

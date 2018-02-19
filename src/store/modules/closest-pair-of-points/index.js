@@ -1,11 +1,9 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import globals from '../../scripts/globalStore';
+import globals from '../global/index';
 
 const plugins = [];
 const modules = {};
 
-Vue.use(Vuex);
+// Vue.use(Vuex);
 
 /* ****************************************************************
 STATE
@@ -16,7 +14,16 @@ Object.assign(storeState, globals.state);
 storeState.min = 0;
 storeState.max = 200;
 storeState.problemSize = 3;
-storeState.points = [{ x: 10, y: 10 }, { x: 50, y: 50 }]; // A point is {x, y}
+storeState.points = [
+  { x: 10, y: 10 },
+  { x: 150, y: 150 },
+  { x: 210, y: 210 },
+  { x: 350, y: 350 },
+  { x: 410, y: 410 },
+  { x: 450, y: 450 },
+  { x: 350, y: 250 },
+  { x: 150, y: 350 },
+]; // A point is {x, y}
 
 // for drawings
 storeState.pointRadius = 5;
@@ -57,7 +64,9 @@ Object.assign(actions, globals.actions);
 
 actions.addPoint = (context, payload) => {
   const { point } = payload;
-  context.commit('createPoint', { point });
+  const x = point.split(' ').map(Number)[0];
+  const y = point.split(' ').map(Number)[1];
+  context.commit('createPoint', { point: { x, y } });
 };
 
 actions.deletePoint = (context, payload) => {
@@ -70,11 +79,12 @@ actions.updateProblemSize = (context, payload) => {
 
 // Export each part of the store separately to help with testing
 export { storeGetters, mutations, actions, storeState };
-export default new Vuex.Store({
+export default {
   plugins,
   modules,
+  namespaced: true,
   state: storeState,
   getters: storeGetters,
   mutations,
   actions,
-});
+};

@@ -20,11 +20,13 @@ div
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
 import ISRow from './IS-Row';
 import ISInterval from './IS-Interval';
 import ISTrayTicks from './IS-TrayTicks';
 import NiceButton from '../nice-things/Nice-Button';
+
+const { mapState, mapGetters } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
@@ -42,24 +44,22 @@ export default {
     };
   },
   computed: {
-    ...Vuex.mapState([
-      'earliestTime',
-      'latestTime',
-      'step',
-      'maxSteps',
-      'solved',
+    ...mapState({
+      earliestTime: 'earliestTime',
+      latestTime: 'latestTime',
+      step: 'step',
+      maxSteps: 'maxSteps',
+      solved: 'solved',
+      rowData: 'solution',
+    }),
+    ...mapGetters([
+      'solving',
     ]),
-    solving() {
-      return this.$store.getters.solving;
-    },
-    rowData() {
-      return this.$store.state.solution;
-    },
   }, // end computed
   methods: {
     dosomething() {
       if (!this.solved) {
-        this.$store.dispatch('eft');
+        this.$store.dispatch('intervalScheduling/eft');
       }
     },
   },

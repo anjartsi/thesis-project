@@ -1,5 +1,5 @@
 <template lang="pug">
-nice-second-nav(:saveId='saveId'  :loadId='loadId')
+nice-second-nav(:saveId='saveId'  :loadId='loadId'  :namespace='namespace')
   div(slot='brand') Interval Scheduling
   div(slot='modal')
     IS-save-load(:saveId='saveId' :loadId='loadId')
@@ -17,6 +17,7 @@ export default {
     return {
       saveId: 'savemodal',
       loadId: 'loadmodal',
+      namespace: 'intervalScheduling',
     };
   },
 };

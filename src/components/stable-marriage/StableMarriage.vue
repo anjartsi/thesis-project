@@ -13,7 +13,6 @@ div#sm
 
 <script>
 // TODO - figure out if these can go anywhere else
-import store from './SM-store';
 import SMNavbar from './SM-Navbar';
 import NiceButton from '../nice-things/Nice-Button';
 import SMInstanceMaker from './SM-InstanceMaker';
@@ -30,7 +29,6 @@ export default {
     SMNavbar,
   },
   // end components
-  store,
   data() {
     return {
       colors: stuff.colors,

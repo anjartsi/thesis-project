@@ -1,4 +1,4 @@
-import globals from '../../scripts/globalStore';
+import globals from '../global/index';
 
 const storeGetters = {};
 Object.assign(storeGetters, globals.getters);

@@ -1,5 +1,5 @@
 <template lang="pug">
-nice-second-nav(:saveId='saveId'  :loadId='loadId')
+nice-second-nav(:saveId='saveId'  :loadId='loadId'  :namespace='namespace')
   div(slot='brand') Closest Pair of Points
   div(slot='modal')
     //- TODO - Save/Load for Closest Pair of Points
@@ -17,6 +17,7 @@ export default {
     return {
       saveId: 'savemodal',
       loadId: 'loadmodal',
+      namespace: 'closestPairOfPoints',
     };
   },
 };

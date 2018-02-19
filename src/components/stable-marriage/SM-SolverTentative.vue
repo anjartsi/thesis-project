@@ -59,8 +59,8 @@ export default {
     };
   }, // end data
   computed: {
-    n() { return this.$store.state.problemSize; },
-    tentative() { return this.$store.state.tentatives; },
+    n() { return this.$store.state.stableMarriage.problemSize; },
+    tentative() { return this.$store.state.stableMarriage.tentatives; },
   }, // end computed
 };
 </script>

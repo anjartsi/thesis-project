@@ -85,7 +85,10 @@ div
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import NiceModal from '../nice-things/Nice-Modal';
+
+const { mapState, mapGetters } = createNamespacedHelpers('stableMarriage');
 
 export default {
   components: {
@@ -103,11 +106,15 @@ export default {
     };
   },
   computed: {
-    problemSize() { return this.$store.state.problemSize; },
-    locked() { return this.$store.getters.editing; },
-    preferences() { return this.$store.state.preferences; },
-    loadMessage() { return this.$store.state.loadMessage; },
-    loadError() { return this.$store.state.loadError; },
+    ...mapGetters({
+      locked: 'editing',
+    }),
+    ...mapState([
+      'problemSize',
+      'preferences',
+      'loadMessage',
+      'loadError',
+    ]),
   },
   methods: {
     getInstanceAsText() {
@@ -131,7 +138,7 @@ export default {
       return str;
     },
     loadFile() {
-      this.$store.dispatch('loadFile', { loadText: this.loadInput });
+      this.$store.dispatch('stableMarriage/loadFile', { loadText: this.loadInput });
     },
     readFile(event) {
       // eslint-disable-next-line

@@ -1,4 +1,4 @@
-import globals from '../../scripts/globalStore';
+import globals from '../global/index';
 
 const state = {};
 // copy the global state values into state

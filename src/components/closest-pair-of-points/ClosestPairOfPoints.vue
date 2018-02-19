@@ -16,7 +16,6 @@ import CPOPNavbar from './CPOP-Navbar';
 import CPOPInstanceMaker from './CPOP-InstanceMaker';
 import CPOPCanvas from './CPOP-Canvas';
 import CPOPPoints from './CPOP-Points';
-import store from './CPOP-store';
 
 export default {
   components: {
@@ -25,7 +24,6 @@ export default {
     CPOPCanvas,
     CPOPPoints,
   },
-  store,
 };
 </script>
 

@@ -19,7 +19,10 @@ div.preferenceBox(
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import SMPersonBox from './SM-PersonBox';
+
+const { mapState, mapGetters } = createNamespacedHelpers('stableMarriage');
 
 export default {
   components: { SMPersonBox },
@@ -38,21 +41,21 @@ export default {
   },
   // end data
   computed: {
-    editing() { return this.$store.getters.editing; },
+    ...mapState([
+      'rejections',
+      'tentatives',
+    ]),
+    ...mapGetters([
+      'editing',
+    ]),
     preferenceBox() {
       const gender = this.isGender;
       const personIndex = this.i - 1;
       const preferenceIndex = this.j - 1;
-      return this.$store.getters.getPreference(gender, personIndex, preferenceIndex);
-    },
-    rejections() {
-      return this.$store.state.rejections;
-    },
-    tentatives() {
-      return this.$store.state.tentatives;
+      return this.$store.getters['stableMarriage/getPreference'](gender, personIndex, preferenceIndex);
     },
     myPreferenceList() {
-      return this.$store.state.preferences[this.isGender][this.i - 1];
+      return this.$store.state.stableMarriage.preferences[this.isGender][this.i - 1];
     },
     man() {
       if (this.isGender === 'm') return this.i - 1;
@@ -80,12 +83,8 @@ export default {
       if (this.editing) this.$emit('boxTouchStart', this.j);
     },
     daTouchMove() {
-      // console.log(e);
-      // this.$emit('boxTouchMove', this.j);
     },
     daTouchEnd() {
-      // console.log(e);
-      // this.$emit('boxTouchStop', this.j);
     },
   },
 };

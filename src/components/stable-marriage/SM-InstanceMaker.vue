@@ -11,7 +11,7 @@ div.container-fluid
           //- Problem Size
           div.row
             div.col-xs-12
-              problem-size-control
+              problem-size-control(:namespace='namespace')
           transition(appear name='fade' key='SMinstanceMaker')
             div.row(v-show='locked')#buttonContainer
               div.col-xs-12
@@ -41,11 +41,14 @@ div.container-fluid
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import stuff from '../../scripts/stuff';
 import NiceButton from '../nice-things/Nice-Button';
 import NiceButtonLock from '../nice-things/Nice-ButtonLock';
 import ProblemSizeControl from '../nice-things/Nice-ProblemSizeControl';
 import SMPreferenceList from './SM-PreferenceList';
+
+const { mapState, mapGetters } = createNamespacedHelpers('stableMarriage');
 
 export default {
   components: {
@@ -58,15 +61,20 @@ export default {
   // end props
   data() {
     return {
+      namespace: 'stableMarriage',
     };
   },
   // end data
   computed: {
-    locked() { return this.$store.getters.editing; },
-    problemSize() { return this.$store.state.problemSize; },
-    min() { return this.$store.state.min; },
-    max() { return this.$store.state.max; },
-    preferences() { return this.$store.state.preferences; },
+    ...mapState([
+      'problemSize',
+      'min',
+      'max',
+      'preferences',
+    ]),
+    ...mapGetters({
+      locked: 'editing',
+    }),
   },
   watch: {
     problemSize(newValue) {
@@ -79,13 +87,13 @@ export default {
   // end computed
   methods: {
     changeProblemSize(n) {
-      this.$store.dispatch('updateProblemSize', { n });
+      this.$store.dispatch('stableMarriage/updateProblemSize', { n });
     },
     // end checkPreferenceRow()
     swap(gender, person, pref1, pref2) {
       // eslint-disable-next-line
       let payload = { gender, person, pref1, pref2 };
-      this.$store.dispatch('swap', payload);
+      this.$store.dispatch('stableMarriage/swap', payload);
     },
     // end swap
     randomize() {
@@ -115,7 +123,7 @@ export default {
     },
     // End reset()
     lock() {
-      this.$store.commit('lockUnlock');
+      this.$store.dispatch('stableMarriage/switchMode');
     },
   },
   // end methods

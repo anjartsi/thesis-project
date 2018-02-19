@@ -11,11 +11,13 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
+
+const { mapState } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
   computed: {
-    ...Vuex.mapState({
+    ...mapState({
       points: 'points',
       r: 'pointRadius',
     }),

@@ -4,22 +4,22 @@ div
   ul
     li(v-for='(point, index) in points') 
       | ({{point.x}}, {{point.y}}) 
-      button.btn.btn-danger(@click='removeMe(index)') X
+      button.btn.btn-danger(@click='deletePoint({ index })') X
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
+
+const { mapState, mapActions } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
   computed: {
-    ...Vuex.mapState([
+    ...mapState([
       'points',
     ]),
   },
   methods: {
-    removeMe(index) {
-      this.$store.dispatch('deletePoint', { index });
-    },
+    ...mapActions(['deletePoint']),
   },
 };
 </script>

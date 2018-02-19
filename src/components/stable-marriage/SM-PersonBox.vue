@@ -53,7 +53,7 @@ transition(appear)
           width: `${this.unit}px`,
         };
       },
-      unit() { return this.$store.state.unit; },
+      unit() { return this.$store.state.stableMarriage.unit; },
     }, // end computed
     watch: {
       index() {

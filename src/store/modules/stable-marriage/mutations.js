@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import globals from '../../scripts/globalStore';
+import globals from '../global/index';
 
 const mutations = {};
 Object.assign(mutations, globals.mutations);

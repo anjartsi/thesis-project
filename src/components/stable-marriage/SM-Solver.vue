@@ -6,7 +6,7 @@ div.container-fluid
     transition(appear name='fade' key='solverAlert')
       div.alert.alert-info.text-center(v-show='!solving') 
         h3 You must be in 
-          button.btn.btn-lg.btn-primary(@click='$store.dispatch("switchMode")') Solve Mode
+          button.btn.btn-lg.btn-primary(@click='$store.dispatch("stableMarriage/switchMode")') Solve Mode
           |  before trying to solve the problem
   div.row.text-center
     div.col-xs-6.col-md-4.text-center
@@ -48,19 +48,21 @@ div.container-fluid
   div.row
     transition(name='fade' key='nice-automator')
       nice-automator(
-        v-show='!clickable'
         :funcs='[proposeDispose]'
         :speed='500'
-        :finished='solved'
+        :disableIf='solved || clickable || !solving'
       )
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
 import NiceAutomator from '../nice-things/Nice-Automator';
 import SMSolverUnmatched from './SM-SolverUnmatched';
 import SMSolverTentative from './SM-SolverTentative';
 import SMSolverProposal from './SM-SolverProposal';
+
+const { mapState, mapGetters } = createNamespacedHelpers('stableMarriage');
 
 export default {
   components: {
@@ -109,16 +111,18 @@ export default {
     }; // end nextMan
   }, // end data
   computed: {
-    solving() { return this.$store.getters.solving; },
-    problemSize() { return this.$store.state.problemSize; },
-    preferences() { return this.$store.state.preferences; },
-    unmatched() { return this.$store.state.unmatched; },
-    tentatives() { return this.$store.state.tentatives; },
-    rejections() { return this.$store.state.rejections; },
-    proposal() { return this.$store.state.proposal; },
-    solved() { return this.$store.state.solved; },
-    proposalCount() { return this.$store.state.proposalCount; },
-    message() { return this.$store.state.message; },
+    ...mapState([
+      'problemSize',
+      'unmatched',
+      'preferences',
+      'rejections',
+      'tentatives',
+      'solved',
+      'proposal',
+      'message',
+      'proposalCount',
+    ]),
+    ...mapGetters(['solving']),
     clickable() {
       return this.nextMan.options[this.nextMan.selected].text.toLowerCase().includes('clicking');
     },
@@ -128,14 +132,12 @@ export default {
       const style = this.nextMan.selected;
       const index = this.nextMan.options[style].whoProposes(this.unmatched.m.length);
       const proposingMan = this.unmatched.m[index];
-      this.$store.dispatch('proposeDispose', { proposingMan });
+      this.$store.dispatch('stableMarriage/proposeDispose', { proposingMan });
     }, // end proposeDispose
     nextManClickedEventHandler(man) {
       if (this.clickable) {
         this.nextMan.options[3].clickedMan = this.unmatched.m.indexOf(man);
         if (this.proposal.man === man) {
-          // eslint-disable-next-line
-          console.log('hi')
           // If the same man is clicked twice, move as normal
           this.proposeDispose();
         } else {

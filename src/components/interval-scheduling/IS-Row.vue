@@ -9,8 +9,10 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
 import ISInterval from './IS-Interval';
+
+const { mapState } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
@@ -20,7 +22,7 @@ export default {
     'rowIndex', 'unit', 'rowStyle',
   ],
   computed: {
-    ...Vuex.mapState([
+    ...mapState([
       'rows',
       'max',
       'min',

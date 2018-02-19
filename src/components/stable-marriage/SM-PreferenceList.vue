@@ -12,7 +12,10 @@ div.container-fluid
 </template>
 
 <script>
+  import { createNamespacedHelpers } from 'vuex';
   import SMPreferenceRow from './SM-PreferenceRow';
+
+  const { mapState } = createNamespacedHelpers('stableMarriage');
 
   export default {
     components: {
@@ -26,8 +29,10 @@ div.container-fluid
     ],
     // end props
     computed: {
-      locked() { return this.$store.state.locked; },
-      problemSize() { return this.$store.state.problemSize; },
+      ...mapState([
+        'locked',
+        'problemSize',
+      ]),
     },
     data() {
       return {

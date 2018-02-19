@@ -81,8 +81,10 @@ div
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
 import NiceModal from '../nice-things/Nice-Modal';
+
+const { mapState, mapGetters } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
@@ -100,13 +102,15 @@ export default {
     };
   },
   computed: {
-    ...Vuex.mapState([
+    ...mapState([
       'problemSize',
       'intervals',
+      'loadError',
+      'loadMessage',
     ]),
-    locked() { return this.$store.getters.editing; },
-    loadMessage() { return this.$store.state.loadMessage; },
-    loadError() { return this.$store.state.loadError; },
+    ...mapGetters({
+      locked: 'editing',
+    }),
   },
   methods: {
     getInstanceAsText() {
@@ -117,8 +121,8 @@ export default {
       return str;
     },
     loadFile() {
-      if (!this.$store.getters.editing) this.$store.dispatch('switchMode');
-      this.$store.dispatch('loadFile', { loadText: this.loadInput });
+      if (!this.$store.getters['intervalScheduling/editing']) this.$store.dispatch('intervalScheduling/switchMode');
+      this.$store.dispatch('intervalScheduling/loadFile', { loadText: this.loadInput });
     },
     readFile(event) {
       // eslint-disable-next-line

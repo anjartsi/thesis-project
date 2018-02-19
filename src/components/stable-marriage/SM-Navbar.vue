@@ -1,6 +1,6 @@
 <template lang='pug'>
 div
-  nice-second-nav(:saveId='saveId'  :loadId='loadId')
+  nice-second-nav(:saveId='saveId'  :loadId='loadId'  :namespace='namespace')
     div(slot='brand') Stable Marriage
     div(slot='modal')
       SM-save-load(:saveId='saveId'  :loadId='loadId')
@@ -17,6 +17,7 @@ export default {
       // the menu buttons to their respectival modals
       saveId: 'saveModal',
       loadId: 'loadModal',
+      namespace: 'stableMarriage',
     };
   },
   components: {

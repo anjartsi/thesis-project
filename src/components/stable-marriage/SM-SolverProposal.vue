@@ -31,7 +31,10 @@ div
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import SMPersonBox from './SM-PersonBox';
+
+const { mapState, mapGetters } = createNamespacedHelpers('stableMarriage');
 
 export default {
   components: {
@@ -43,14 +46,20 @@ export default {
     };
   }, // end data
   computed: {
-    solving() { return this.$store.getters.solving; },
-    n() { return this.$store.state.problemSize; },
-    proposingMan() { return this.$store.state.proposal.man; },
-    proposedToWoman() { return this.$store.state.proposal.woman; },
-    preferences() { return this.$store.state.preferences; },
-    rejections() { return this.$store.state.rejections; },
-    solved() { return this.$store.state.solved; },
-    proposalCount() { return this.$store.state.proposalCount; },
+    ...mapGetters([
+      'solving',
+    ]),
+    ...mapState([
+      'preferences',
+      'rejections',
+      'solved',
+      'proposalCount',
+    ]),
+    ...mapState({
+      n: 'problemSize',
+    }),
+    proposingMan() { return this.$store.state.stableMarriage.proposal.man; },
+    proposedToWoman() { return this.$store.state.stableMarriage.proposal.woman; },
   },
   methods: {
     getMansPreference(man, index) {

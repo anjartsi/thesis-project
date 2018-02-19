@@ -4,14 +4,16 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
+
+const { mapState } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   props: [
     'unit',
   ],
   computed: {
-    ...Vuex.mapState([
+    ...mapState([
       'latestTime',
       'earliestTime',
     ]),

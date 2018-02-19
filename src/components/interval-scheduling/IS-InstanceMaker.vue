@@ -32,12 +32,14 @@ div.container-fluid
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
 import ProblemSizeControl from '../nice-things/Nice-ProblemSizeControl';
 import NiceButton from '../nice-things/Nice-Button';
 import ISAddInterval from './IS-AddInterval';
 import ISTray from './IS-Tray';
 import ISSolver from './IS-Solver';
+
+const { mapState, mapGetters } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
@@ -55,15 +57,15 @@ export default {
     };
   },
   computed: {
-    ...Vuex.mapState([
+    ...mapState([
       'problemSize',
       'earliestTime',
       'latestTime',
       'intervals',
     ]),
-    locked() {
-      return this.$store.getters.editing;
-    },
+    ...mapGetters({
+      locked: 'editing',
+    }),
   }, // end computed
   methods: {
   },

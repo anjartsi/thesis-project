@@ -9,7 +9,7 @@ div.container-fluid
         div.alert.alert-info.text-center
           h4 You must be in 
             button.btn.btn-primary(
-              @click='$store.dispatch("switchMode")'
+              @click='$store.dispatch(namespace +"/switchMode")'
               ) Edit Mode 
             |  to change the problem size
           h4 
@@ -47,26 +47,33 @@ div.container-fluid
 
   export default {
     components: { NiceButton },
+    props: [
+      'namespace',
+    ],
+    data() {
+      return {
+      };
+    }, // end data
     computed: {
-      editing() { return this.$store.getters.editing; },
+      editing() { return this.$store.getters[`${this.namespace}/editing`]; },
       minimumValue() {
-        const { min } = this.$store.state.min;
+        const { min } = this.$store.state[this.namespace].min;
         if (min) {
           return min;
         }
         return 1;
       },
       maximumValue() {
-        const { max } = this.$store.state.max;
+        const { max } = this.$store.state[this.namespace].max;
         if (max) {
           return max;
         }
         return 10;
       },
       problemSize: {
-        get() { return this.$store.state.problemSize; },
+        get() { return this.$store.state[this.namespace].problemSize; },
         set(newValue) {
-          this.$store.dispatch('updateProblemSize', { n: newValue }, { root: true });
+          this.$store.dispatch(`${this.namespace}/updateProblemSize`, { n: newValue }, { root: true });
         },
       },
     },
@@ -74,10 +81,6 @@ div.container-fluid
       increment() { this.problemSize++; },
       decrement() { this.problemSize--; },
     }, // end methods
-    data() {
-      return {
-      };
-    }, // end data
   };
 </script>
 

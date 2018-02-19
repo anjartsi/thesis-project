@@ -45,8 +45,10 @@ div.container-fluid
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
+
+const { mapState } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
@@ -63,7 +65,7 @@ export default {
     };
   },
   computed: {
-    ...Vuex.mapState([
+    ...mapState([
       'problemSize',
       'earliestTime',
       'latestTime',
@@ -134,7 +136,10 @@ export default {
       this.finishTime = this.coerce(this.finishTime, this.earliestTime + 1, this.latestTime);
     },
     createNewInterval() {
-      this.$store.dispatch('addInterval', { start: this.startTime, finish: this.finishTime });
+      this.$store.dispatch('intervalScheduling/addInterval', {
+        start: this.startTime,
+        finish: this.finishTime,
+      });
       this.startTime = this.startTime;
     },
     addTypedInterval() {

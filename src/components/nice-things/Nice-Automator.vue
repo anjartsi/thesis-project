@@ -5,28 +5,28 @@ div.row
   div.col-xs-5.col-lg-6.col-xl-7
     div.btn-group.btn-group-lg
       button.btn.btn-primary.fastSlow(
-        @click='slower' 
-        :class='{disabled:finished}'
+        @click='decreaseSpeed' 
+        :class='{disabled:disableIf}'
       ) Slower
         br
         | (&divide; 2)
       button.btn.btn-success.playPause(
-        v-if='!playing && !finished'
+        v-if='!playing && !disableIf'
         @click='play'
-        :class='{disabled:finished}'
+        :class='{disabled:disableIf}'
       ) Run Algorithm
         br
         i.fa.fa-play    
       button.btn.btn-warning.playPause(
         v-else
         @click='pause'
-        :class='{disabled:finished}'
+        :class='{disabled:disableIf}'
       ) Pause Algorithm
         br
         i.fa.fa-pause
       button.btn.btn-danger.fastSlow(
-        @click='faster'
-        :class='{disabled:finished}'
+        @click='increaseSpeed'
+        :class='{disabled:disableIf}'
         ) Faster
           br
           | (&times; 2)
@@ -53,7 +53,7 @@ div.row
     props: [
       'funcs',
       'speed',
-      'finished',
+      'disableIf',
     ],
     // end props
     data() {
@@ -86,7 +86,7 @@ div.row
       },
       // end automate
       doEverythingOnce() {
-        if (!this.finished) {
+        if (!this.disableIf) {
           for (let i = 0; i < this.funcs.length; i++) {
             this.funcs[i]();
           }
@@ -95,22 +95,22 @@ div.row
         }
       },
       // end doEverythingOnce()
-      faster() {
+      increaseSpeed() {
         this.dt = Math.max(this.dt / 2, 125);
         if (this.playing) {
           this.pause();
           this.play();
         }
       },
-      // end faster()
-      slower() {
+      // end increaseSpeed()
+      decreaseSpeed() {
         this.dt = Math.min(this.dt * 2, 4000);
         if (this.playing) {
           this.pause();
           this.play();
         }
       },
-      // end slower()
+      // end decreaseSpeed()
     },
     // end methods
   };

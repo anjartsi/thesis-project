@@ -9,20 +9,21 @@ div#is
     div.row
       transition(name='fade' key='nice-automator')
         nice-automator(
-          :funcs='[dosomething]'
+          :funcs='[eft]'
           :speed='500'
-          :finished='solved || !solving'
+          :disableIf='solved || !solving'
         )
     
 </template>
 
 <script>
-import Vuex from 'vuex';
-import store from './IS-store';
+import { createNamespacedHelpers } from 'vuex';
 import ISNavbar from './IS-Navbar';
 import ISInstanceMaker from './IS-InstanceMaker';
 import ISSolver from './IS-Solver';
 import NiceAutomator from '../nice-things/Nice-Automator';
+
+const { mapState, mapGetters, mapActions } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
@@ -31,21 +32,21 @@ export default {
     ISSolver,
     NiceAutomator,
   },
-  store,
   data() {
     return {
       unit: 30,
     };
   },
   computed: {
-    ...Vuex.mapState([
+    ...mapState([
       'earliestTime', 'latestTime', 'solved',
     ]),
-    ...Vuex.mapGetters([
+    ...mapGetters([
       'solving',
     ]),
   },
   methods: {
+    ...mapActions(['eft']),
     dosomething() {
       this.$store.dispatch('eft');
     },

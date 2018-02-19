@@ -24,11 +24,14 @@ export default {
   components: {
     NiceButton,
   },
+  props: [
+    'namespace',
+  ],
   computed: {
-    solving() { return this.$store.getters.solving; },
+    solving() { return this.$store.getters[`${this.namespace}/solving`]; },
   },
   methods: {
-    click() { this.$store.dispatch('switchMode', null, { root: true }); },
+    click() { this.$store.dispatch(`${this.namespace}/switchMode`, null, { root: true }); },
   },
 };
 </script>

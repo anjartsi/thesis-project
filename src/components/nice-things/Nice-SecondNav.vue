@@ -44,7 +44,7 @@ div
         //- The Lock-Unlock button
         ul.nav.navbar-nav.navbar-right
           li
-            nice-button-lock.bg-primary
+            nice-button-lock.bg-primary(:namespace='namespace')
   //- Add modal to save/load here
   slot(name='modal') 
     div.alert.alert-danger#error
@@ -60,6 +60,7 @@ export default {
     NiceButtonLock, NiceButton,
   },
   props: [
+    'namespace',
     'saveId',
     'loadId',
   ],

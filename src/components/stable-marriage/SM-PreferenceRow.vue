@@ -27,9 +27,12 @@ transition(name='fade' key='SMPreferenceRow')
 </template>
 
 <script>
+  import { createNamespacedHelpers } from 'vuex';
   import stuff from '../../scripts/stuff';
   import SMPersonBox from './SM-PersonBox';
   import SMPreferenceBox from './SM-PreferenceBox';
+
+  const { mapState } = createNamespacedHelpers('stableMarriage');
 
   export default {
     components: {
@@ -53,14 +56,16 @@ transition(name='fade' key='SMPreferenceRow')
     },
     // end data
     computed: {
-      editing() { return this.$store.getters.editing; },
-      problemSize() { return this.$store.state.problemSize; },
-      unit() { return this.$store.state.unit; },
+      ...mapState([
+        'editing',
+        'problemSize',
+        'unit',
+      ]),
       highlight() {
         if (this.isGender === 'm') {
-          return this.$store.state.proposal.man === this.i - 1;
+          return this.$store.state.stableMarriage.proposal.man === this.i - 1;
         }
-        return this.$store.state.proposal.woman === this.i - 1;
+        return this.$store.state.stableMarriage.proposal.woman === this.i - 1;
       },
     },
     methods: {
@@ -99,7 +104,7 @@ transition(name='fade' key='SMPreferenceRow')
           pref1: j1 - 1,
           pref2: j2 - 1,
         };
-        this.$store.dispatch('swap', payload);
+        this.$store.dispatch('stableMarriage/swap', payload);
         // this.$emit('reorderBoxes', this.isGender, this.i - 1, j1 - 1, j2 - 1);
       },
       darken(progress) {

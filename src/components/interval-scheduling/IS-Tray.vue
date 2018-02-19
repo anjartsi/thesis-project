@@ -28,10 +28,12 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
 import ISRow from './IS-Row';
 import ISInterval from './IS-Interval';
 import ISTrayTicks from './IS-TrayTicks';
+
+const { mapState, mapGetters } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: { ISRow, ISTrayTicks, ISInterval },
@@ -40,7 +42,7 @@ export default {
   ],
   data() { return {}; },
   computed: {
-    ...Vuex.mapState([
+    ...mapState([
       'problemSize',
       'intervals',
       'rows',
@@ -49,7 +51,9 @@ export default {
       'earliestTime',
       'latestTime',
     ]),
-    solutionRowData() { return this.$store.state.solution; },
+    ...mapState({
+      solutionRowData: 'solution',
+    }),
     trayStyle() {
       return {
         'padding-left': `${this.unit}px`,
@@ -69,7 +73,7 @@ export default {
     },
   },
   methods: {
-    ...Vuex.mapGetters([
+    ...mapGetters([
       'getCollision',
     ]),
   }, // end methods

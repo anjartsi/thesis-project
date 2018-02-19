@@ -6,11 +6,13 @@ div#app
 </template>
 
 <script>
+import store from './store/index';
 import MyNavbar from './components/MyNavbar';
 import MyFooter from './components/MyFooter';
 
 export default {
   name: 'app',
+  store,
   components: {
     MyNavbar, MyFooter,
   },
