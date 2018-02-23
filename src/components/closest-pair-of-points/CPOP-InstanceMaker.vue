@@ -3,8 +3,10 @@ div
   div.row
     h2 Instance Maker
   div.row
-    input(type='text' v-model='point')
+    input(type='text' v-model='point'   @keyup.enter='addPoint({ point })')
     button.btn.btn-primary(@click='addPoint({ point })') Click Me
+  div.row
+    div {{text}}
 </template>
 
 <script>
@@ -19,6 +21,9 @@ export default {
     };
   },
   computed: {
+    text() {
+
+    },
     ...mapState([
       'points',
     ]),

@@ -3,7 +3,7 @@ div
   h2 Points
   ul
     li(v-for='(point, index) in points') 
-      | ({{point.x}}, {{point.y}}) 
+      div.pt ({{point.x}}, {{point.y}}) 
       button.btn.btn-danger(@click='deletePoint({ index })') X
 </template>
 
@@ -27,6 +27,10 @@ export default {
 <style scoped>
 ul{
   list-style-type: none;
+}
+div.pt {
+  display: inline-block;
+  width: 100px;
 }
 </style>
 

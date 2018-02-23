@@ -23,7 +23,7 @@
               p This website is designed to help teach (and learn) the process of some algorithms (also makes them fun)
             li 
               p You can create an instance of a problem, and see how the solution is found, step by step!
-      
+        div.col-xs-12  
 
 
 </template>
@@ -35,6 +35,8 @@
   Vue.use(VueRouter);
 
   export default {
+    components: {
+    },
     data() {
       return {
         chapters: [

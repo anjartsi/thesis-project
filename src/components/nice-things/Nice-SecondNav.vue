@@ -39,6 +39,22 @@ div
                 :data-target='"#" + loadId'
               ) Load Text File
               slot(name='file')
+        ul.nav.navbar-nav
+          //- The File Dropdown
+          li.dropdown
+            a#dropdownFile.dropdown-toggle(
+              role='button'
+              data-toggle='dropdown'
+              aria-haspopup='true'
+              aria-expanded='true'
+            ) Examples
+              span.caret
+            ul.dropdown-menu(aria-labelledby='dropdownFile')
+              li: a(
+                v-for='instance in instances'
+                role='button'
+                @click='showExample(instance.instance_text)'
+                ) {{instance.instance_name}}
           slot(name='menu')
 
         //- The Lock-Unlock button
@@ -64,6 +80,35 @@ export default {
     'saveId',
     'loadId',
   ],
+  data() {
+    return {
+      loading: true,
+      instances: null,
+      error: null,
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: 'fetchData',
+  },
+  methods: {
+    showExample(text) {
+      this.$store.dispatch(`${this.namespace}/loadFile`, { loadText: text });
+    },
+    fetchData() {
+      this.$http.get(`/api${this.$route.path}`)
+        .then((data) => {
+          this.instances = data.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.error = err.toString();
+          this.loading = false;
+        });
+    },
+  },
 };
 </script>
 
@@ -78,7 +123,7 @@ export default {
     top:50px;
     height: min-content;
     width: 95%;
-    z-index: ;
+    z-index: 1;
     opacity: 0.75;
   }
 </style>

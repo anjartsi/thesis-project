@@ -17,7 +17,13 @@ module.exports = {
   ],
   // add your custom rules here
   'rules': {
-    // These rules only generate warnings instead of errors
+    // 1 means to only generate warnings instead of errors
+    
+    // let me have some trailing spaces
+    'no-trailing-spaces': 1,
+    // let me forget the space between the if/for and the parenthesis
+    'keyword-spacing': 1,
+    // let me declare variables without using them
     'no-unused-vars': 1,
     // let me log to console without annoying me
     'no-console': 0,

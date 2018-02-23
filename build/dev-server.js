@@ -24,6 +24,7 @@ const autoOpenBrowser = !!config.dev.autoOpenBrowser
 const proxyTable = config.dev.proxyTable
 
 const app = express()
+
 const compiler = webpack(webpackConfig)
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -38,12 +39,12 @@ const hotMiddleware = require('webpack-hot-middleware')(compiler, {
 // force page reload when html-webpack-plugin template changes
 // currently disabled until this is resolved:
 // https://github.com/jantimon/html-webpack-plugin/issues/680
-// compiler.plugin('compilation', function (compilation) {
-//   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-//     hotMiddleware.publish({ action: 'reload' })
-//     cb()
-//   })
-// })
+compiler.plugin('compilation', function (compilation) {
+  compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+    hotMiddleware.publish({ action: 'reload' })
+    cb()
+  })
+})
 
 // enable hot-reload and state-preserving
 // compilation error display
@@ -67,6 +68,25 @@ app.use(devMiddleware)
 // serve pure static assets
 const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
+
+app.get('/api/:problem', function (req, res) {
+
+  const { Client } = require('pg');
+  const client = new Client({
+    connectionString: 'postgres://vvrvipfefhondb:59b1d674a96deaffdf2e7b10660697f053fa65952e6828bca1fab61887714db7@ec2-184-73-202-179.compute-1.amazonaws.com:5432/dbhb0lcuq5o9kg',
+    ssl: true,
+  });
+
+  client.connect();
+  client.query(`SELECT * FROM instances WHERE problem_link='${req.params.problem}';`, (err, response) => {
+    if (err) throw err;
+    // for (let row of response.rows) {
+    //   console.log(JSON.stringify(row));
+    // }
+    res.send(response.rows);
+    client.end();
+  });
+})
 
 const uri = 'http://localhost:' + port
 

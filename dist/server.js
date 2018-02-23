@@ -1,10 +1,10 @@
 // eslint-disable
-let express = require('express');
-let path = require('path');
-let serveStatic = require('serve-static');
+const express = require('express');
+const serveStatic = require('serve-static');
+const path = require('path');
 
-let app = express();
+const app = express();
 app.use(serveStatic(__dirname));
-let port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 app.listen(port);
-console.log('Server started on port '+ port);
+console.log(`Server started on port + ${port}`);
