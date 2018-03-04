@@ -1,7 +1,7 @@
 /* eslint-disable */
-import { storeGetters, mutations, actions } from '@/components/interval-scheduling/store';
+import { getters, mutations, actions } from '@/store/modules/interval-scheduling/index';
 
-const getters = storeGetters;
+// const getters = storeGetters;
 
 describe('Interval Scheduling Store==============================', () => {
   /* *******************************************************

@@ -13,7 +13,10 @@ actions.addPoint = (context, payload) => {
   const xRange = x <= context.state.max && x >= context.state.min;
   const yRange = y <= context.state.max && y >= context.state.min;
 
-  if (xRange && yRange) context.commit('createPoint', { point: { x, y } });
+  if (xRange && yRange) {
+    context.commit('createPoint', { point: { x, y } });
+    context.commit('sortPointsByX');
+  }
 };
 
 actions.deletePoint = (context, payload) => {

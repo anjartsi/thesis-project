@@ -13,6 +13,15 @@ mutations.deletePoint = (state, payload) => {
   state.points.splice(index, 1);
 };
 
+mutations.sortPointsByX = (state) => {
+  const arr = state.points.slice();
+  state.points = arr.sort((a, b) => {
+    let comparison = a.x - b.x;
+    if (comparison === 0) comparison = a.y - b.y;
+    return comparison;
+  });
+};
+
 mutations.resetSolver = () => {
 };
 

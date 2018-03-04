@@ -3,12 +3,13 @@ div#cpop
   CPOP-navbar
   div.container-fluid
     div.row
-      div.col-xs-4
-        CPOP-instance-maker()
-      div.col-xs-4
+      div.col-xs-3
+        div.col-xs-12
+          CPOP-instance-maker()
+        div.col-xs-12
+          CPOP-points
+      div.col-xs-9
         CPOP-canvas
-      div.col-xs-4
-        CPOP-points
 </template>
 
 <script>

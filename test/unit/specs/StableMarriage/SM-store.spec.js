@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { getters, mutations, actions } from '@/components/stable-marriage/store';
+import { getters, mutations, actions } from '@/store/modules/stable-marriage/index';
 
 const state3 = {
   problemSize: 3,

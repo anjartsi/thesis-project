@@ -1,4 +1,4 @@
-import globals from '@/scripts/globalStore.js';
+import globals from '@/store/modules/global/index';
 
 describe('Global Store', () => {
   describe('Getters', () => {

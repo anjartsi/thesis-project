@@ -4,21 +4,23 @@ const state = {};
 // copy the global state values into state
 Object.assign(state, globals.state);
 
-state.min = 0;
-state.max = 200;
-state.problemSize = 3;
+state.problemSize = {
+  max: 500,
+  min: 0,
+  current: 8,
+};
 state.points = [
-  { x: 10, y: 10 },
-  { x: 150, y: 150 },
-  { x: 210, y: 210 },
-  { x: 350, y: 350 },
-  { x: 410, y: 410 },
-  { x: 450, y: 450 },
-  { x: 350, y: 250 },
-  { x: 150, y: 350 },
+  { x: 10, y: 10, color: 'black' },
+  { x: 150, y: 150, color: 'black' },
+  { x: 210, y: 210, color: 'black' },
+  { x: 350, y: 350, color: 'black' },
+  { x: 410, y: 410, color: 'black' },
+  { x: 450, y: 450, color: 'black' },
+  { x: 350, y: 250, color: 'black' },
+  { x: 150, y: 350, color: 'black' },
 ]; // A point is {x, y}
 
 // for drawings
-state.pointRadius = 5;
+state.pointRadius = 2;
 
 export default state;

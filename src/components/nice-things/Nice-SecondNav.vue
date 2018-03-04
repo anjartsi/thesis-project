@@ -50,10 +50,11 @@ div
             ) Examples
               span.caret
             ul.dropdown-menu(aria-labelledby='dropdownFile')
-              li: a(
-                v-for='instance in instances'
-                role='button'
-                @click='showExample(instance.instance_text)'
+              li(:class='{ disabled: solving }')
+                a(
+                  v-for='instance in instances'
+                  role='button'
+                  @click='showExample(instance.instance_text)'
                 ) {{instance.instance_name}}
           slot(name='menu')
 
@@ -80,6 +81,9 @@ export default {
     'saveId',
     'loadId',
   ],
+  computed: {
+    solving() { return this.$store.getters[`${this.namespace}/solving`]; },
+  },
   data() {
     return {
       loading: true,
@@ -95,7 +99,7 @@ export default {
   },
   methods: {
     showExample(text) {
-      this.$store.dispatch(`${this.namespace}/loadFile`, { loadText: text });
+      if (!this.solving) this.$store.dispatch(`${this.namespace}/loadFile`, { loadText: text });
     },
     fetchData() {
       this.$http.get(`/api${this.$route.path}`)

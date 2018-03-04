@@ -4,10 +4,10 @@
     h2 Canvas
     div.row
       canvas(
-      ref='can'
-      width='500'
-      height='500'
-    )
+        ref='can'
+        width='500'
+        height='500'
+      )
 </template>
 
 <script>
@@ -17,28 +17,42 @@ const { mapState } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
   computed: {
-    ...mapState({
-      points: 'points',
-      r: 'pointRadius',
-    }),
+    ...mapState([
+      'points',
+      'pointRadius',
+    ]),
   },
   data() {
     return {
-      // ctx: this.$refs.can.getContext('2d'),
+      ctx: null,
+      canvas_height: 500,
+      canvas_width: 500,
     };
   },
   methods: {
     draw() {
-      const ctx = this.$refs.can.getContext('2d');
-      const { r } = this;
-      ctx.fillStyle = 'white';
-      ctx.fillRect(0, 0, 500, 500);
-      ctx.fillStyle = 'black';
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillRect(0, 0, 500, 500);
+      this.ctx.fillStyle = 'black';
       for (let i = 0; i < this.points.length; i++) {
-        const point = this.points[i];
-        ctx.fillRect(point.x - r / 2, point.y - r / 2, r, r);
+        this.drawPoint(i);
       }
     },
+    drawPoint(index) {
+      const point = this.points[index];
+      this.ctx.save();
+      this.ctx.beginPath();
+      this.ctx.arc(point.x, point.y, this.pointRadius, 0, Math.PI * 2, true);
+      this.ctx.fillStyle = 'black';
+      this.ctx.fill();
+      this.ctx.restore();
+    },
+  },
+  mounted() {
+    this.ctx = this.$refs.can.getContext('2d');
+    this.ctx.translate(0, this.canvas_height);
+    this.ctx.scale(1, -1);
+    this.draw();
   },
   watch: {
     points() {
