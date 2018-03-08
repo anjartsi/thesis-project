@@ -33,6 +33,12 @@ module.exports = {
         "enforceForRenamedProperties": false
       }
     ], // let me assign var a = arr[0] 
+    'indent': 1, // let me indent the wrong way
+    'space-in-parens': 1,
+    'space-before-function-paren': 1, // let me put an extra space before function paren
+    'semi': 1, // let me forget a semicolon
+    'brace-style': 1, // let me put the else statement on a new line
+    'comma-dangle': 1, // let me forget the dangling comma
     'padded-blocks': 1, // let me have a newline between blocks
     'no-trailing-spaces': 1, // let me have some trailing spaces
     'keyword-spacing': 1, // let me forget the space between the if/for and the parenthesis

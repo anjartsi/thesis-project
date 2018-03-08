@@ -10,6 +10,7 @@ div.fixed
             type='checkbox'
             :checked='solving' 
             @click='click'
+            @touchstart.prevent='click'
           )
           span.slider.round
       div.col-xs-4.text-left

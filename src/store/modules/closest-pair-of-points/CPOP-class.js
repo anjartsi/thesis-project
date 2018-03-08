@@ -1,13 +1,14 @@
 class ClosestPairOfPoints {
   constructor(points, level) {
-    this.points = points.slice(); // array of points, sorted by x-value
+    this.points = points.slice();
+    // array of points, pre-sorted by x-value
     // points shoule be {x, y}
     this.level = level; // what level in the subproblem-tree it's in
     this.size = this.points.length; // this is just for convenience
     if (this.size > 0) this.medianIndex = Math.floor((this.size - 1) / 2);
     else this.medianIndex = null;
 
-    this.shortest = null;
+    this.shortest = Infinity;
     this.closestA = null; // index of one of the two closest points
     this.closestB = null; // index of one of the two closest points
 
@@ -28,25 +29,32 @@ class ClosestPairOfPoints {
     return Math.sqrt(dx + dy);
   }
 
+  // If a pair of points are closer than the current min, set all the properties accordingly
+  seeIfShortest(i, j) {
+    // only if the values are correct
+    if (i < this.size && j < this.size && i >= 0 && j >= 0) {
+      const d = this.calculateDistance(i, j);
+      if (d >= this.shortest) return false;
+      // Remember which pair of points was closest
+      this.closestA = i;
+      this.closestB = j;
+      this.shortest = d;
+      return true;
+    }
+    return false;
+  }
+
   bruteForce() {
     if (this.size === 1) {
       this.closestA = 0;
       this.shortest = 0;
       return;
     }
-    let smallestDistance = Infinity;
     for (let i = 0; i < this.size - 1; i++) {
       for (let j = i + 1; j < this.size; j++) {
-        const d = this.calculateDistance(i, j);
-        if (d < smallestDistance) {
-          smallestDistance = d;
-          // Remember which pair of points was closest
-          this.closestA = i;
-          this.closestB = j;
-        }
+        this.seeIfShortest(i, j);
       } // end for(j)
     } // end for(i)
-    this.shortest = smallestDistance;
   } // end bruteForce
 
   divide() {
@@ -61,6 +69,7 @@ class ClosestPairOfPoints {
   }
 
   findPointsInStrip() {
+    if (this.shortest === Infinity) return null;
     const pointsInStrip = [];
     for (let i = 0; i < this.size; i++) {
       // horizontal distance from strip
@@ -78,6 +87,7 @@ class ClosestPairOfPoints {
   }
   checkStrip() {
     const pointsInStrip = this.findPointsInStrip();
+    if (pointsInStrip === null) return;
     for (let i = 0; i < pointsInStrip.length - 1; i++) {
       // for each point in the strip...
       const point1 = pointsInStrip[i];
@@ -85,19 +95,17 @@ class ClosestPairOfPoints {
         // ... check its distance to the next 16
         if (j >= pointsInStrip.length) break; // array out of bounds
         const point2 = pointsInStrip[j];
-        const d = this.calculateDistance(point1, point2);
-        if (d < this.shortest) {
-          this.shortest = d;
-          this.closestA = point1;
-          this.closestB = point2;
-        }
+        this.seeIfShortest(point1, point2);
       } // end for(j)
     } // end for(i)
   } // end checkStrip()
 
   conquer() {
     // Can't do anything if the two subproblems haven't been solved yet
-    if (this.leftHalf.shortest === null || this.rightHalf.shortest === null) {
+    if (this.leftHalf.shortest === null ||
+       this.rightHalf.shortest === null ||
+       this.leftHalf.shortest === Infinity ||
+       this.rightHalf.shortest === Infinity) {
       return null;
     }
     this.shortest = Math.min(this.leftHalf.shortest, this.rightHalf.shortest);

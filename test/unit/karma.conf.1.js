@@ -14,15 +14,15 @@ module.exports = function (config) {
     //    http://karma-runner.github.io/0.13/config/browsers.html
     // 2. add it to the `browsers` array below.
     // You can also use ChromeHeadless or PhantomJS
-    browsers: ['Chrome', 'Firefox'],
-    frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
-    reporters: ['spec', 'coverage'],
+    browsers: ['Chrome'],
+    frameworks: ['mocha', 'sinon-chai'],
+    reporters: ['spec'],
     files: [
       '../../node_modules/babel-polyfill/dist/polyfill.js',
-      './index2.js'
+      './index.1.js'
     ],
     preprocessors: {
-      './index.js': ['webpack', 'sourcemap']
+      './index.1.js': ['webpack', 'sourcemap']
     },
     webpack: webpackConfig,
     webpackMiddleware: {
