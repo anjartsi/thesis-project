@@ -5,7 +5,7 @@ const getters = {};
 Object.assign(getters, globals.getters);
 
 // Get the left or right child canvas of a given problem
-getters.getLeftChildCanvas = (state) => (canvasNum) => state.problems[2 * canvasNum + 1] || null;
-getters.getLeftChildCanvas = (state) => (canvasNum) => state.problems[2 * canvasNum + 2] || null;
+getters.getLeftChildCanvasNum = () => (index) => 2 * index + 1;
+getters.getRightChildCanvasNum = () => (index) => 2 * index + 2;
 
 export default getters;

@@ -17,11 +17,8 @@ actions.deletePoint = (context, { index }) => {
   context.commit('deletePoint', { index });
   context.commit('changeProblemSize');
 };
-actions.highlightPoint = (context, { index }) => {
-  context.commit('highlightPoint', { index });
-};
-actions.unhighlightPoint = (context, { index }) => {
-  context.commit('unhighlightPoint', { index });
+actions.changePointColor = (context, { index, oldColor, newColor }) => {
+  context.commit('changePointColor', { index, oldColor, newColor });
 };
 
 actions.selectCanvas = (context, { canvasNum }) => {
@@ -43,6 +40,9 @@ actions.bruteForceOne = (context) => {
   if (context.getters.solving) {
     context.commit('bruteForceOne');
   }
+};
+actions.divide = (context) => {
+  context.commit('divide');
 };
 
 

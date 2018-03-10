@@ -44,14 +44,17 @@ export default {
   methods: {
     ...mapActions([
       'deletePoint',
-      'highlightPoint',
-      'unhighlightPoint',
+      'changePointColor',
     ]),
     vueHighlightPoint(index) {
-      this.highlightPoint({ index });
+      const oldColor = 'black';
+      const newColor = 'red';
+      this.changePointColor({ index, oldColor, newColor });
     },
     vueUnhighlightPoint(index) {
-      this.unhighlightPoint({ index });
+      const oldColor = 'red';
+      const newColor = 'black';
+      this.changePointColor({ index, oldColor, newColor });
     },
   },
 };
@@ -62,7 +65,7 @@ ul{
   list-style-type: none;
 }
 div {
-  height: 500px;
+  max-height: 500px;
 }
 table {
   font-size: 16px;

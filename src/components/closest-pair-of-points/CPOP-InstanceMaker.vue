@@ -69,6 +69,39 @@ export default {
       this.addPoint({ point: { x, y } });
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      // todo - remove this before deploy
+      if (this.points.length === 0) {
+        for (let i = 0; i <= 5; i++) {
+          let str = '';
+          str += 50 * i;
+          str += ' ';
+          str += 50 * i;
+          this.vueAddPoint(str);
+        }
+        for (let i = 2; i <= 5; i++) {
+          let str = '';
+          str += 100 * i;
+          str += ' ';
+          str += 100 * i;
+          this.vueAddPoint(str);
+        }
+        // this.vueAddPoint('1 1');
+        // this.vueAddPoint('150 150');
+        // this.vueAddPoint('150 350');
+        // this.vueAddPoint('210 210');
+        // this.vueAddPoint('10 10');
+        // this.vueAddPoint('350 250');
+        // this.vueAddPoint('450 450');
+        // this.vueAddPoint('410 410');
+        // this.vueAddPoint('350 350');
+        for (let i = 0; i < 100; i++) {
+          // this.addRandomPoint();
+        }
+      }
+    });
+  },
 };
 </script>
 

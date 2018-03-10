@@ -7,22 +7,19 @@ export default {
   mixins: [NiceCanvasItem],
   props: [
     'index',
-    'frameNum',
+    'point',
+    'canvasNum',
+    'offset',
   ],
   computed: {
     ...mapState([
       'pointRadius',
-      'points',
     ]),
-    pointX() {
-      return this.points[this.index].x;
-    },
-    pointY() {
-      return this.points[this.index].y;
-    },
-    pointColor() {
-      return this.points[this.index].color;
-    },
+    ...mapState({
+      pointColor(state) { return state.problems[0].colors[this.index + this.offset]; },
+    }),
+    pointX() { return this.point.x; },
+    pointY() { return this.point.y; },
   },
   methods: {
     draw() {
@@ -32,7 +29,7 @@ export default {
       ctx.beginPath();
       if (this.pointColor) {
         ctx.fillStyle = this.pointColor;
-        pointSize = this.pointColor === 'red' ? 3 : 1;
+        pointSize = this.pointColor !== 'black' ? 3 : 1;
       }
       ctx.arc(this.pointX, this.pointY, pointSize * this.pointRadius, 0, Math.PI * 2, true);
       ctx.fill();

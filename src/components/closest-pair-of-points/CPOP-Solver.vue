@@ -1,15 +1,10 @@
 <template lang="pug">
   div
     h1 Solver
-    div.alert.alert-info.text-center
-      h4 {{ messages.solver }}
     nice-Button(@click='bruteForceOne') Brute Force (one step)
     nice-Button(@click='bruteForceAll') Brute Force (auto)
-    nice-Button(@click='vueBruteForce') Divide
+    nice-Button(@click='divide') Divide
     nice-Button(@click='vueBruteForce') Conquer
-    h2 state
-    ul  
-      li {{$store.state.closestPairOfPoints.solver}}
 </template>
 
 <script>
@@ -30,6 +25,7 @@ export default {
     ...mapActions([
       'bruteForceAll',
       'bruteForceOne',
+      'divide',
     ]),
     vueBruteForceAll() {
     },

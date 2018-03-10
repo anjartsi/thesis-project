@@ -49,7 +49,10 @@ helpers.bruteForceTest = (testName, { arr }, { shortest_distance, point_a, point
 helpers.divideTest = (testName, { arr, level }, { left_half_size, right_half_size })=> {
   describe(testName, () => {
     const cpop = new ClosestPairOfPoints(arr.slice(), level);
-    cpop.divide();
+    const res = cpop.divide();
+    it('should return true', () => {
+      expect(res).to.equal(true);
+    });
     it('should create two subproblems with a combined size equal to the original problem', () => {
       const result = cpop.leftHalf.size + cpop.rightHalf.size;
       expect(result).to.equal(cpop.size);

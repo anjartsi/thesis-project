@@ -385,25 +385,28 @@ describe('Class: ClosestPairOfPoints:', () => {
     });
   }); // end bruteForce
   describe('divide:', () => {
-    describe('When there are 3 or fewer points in the problem, run brute force:', () => {
+    describe('When there are 3 or fewer points in the problem,:', () => {
       const arr = [
         { x: 0, y: 0 },
         { x: 1, y: 1 },
         { x: 4, y: 5 },
       ];
       const cpop = new ClosestPairOfPoints(arr, 0);
-      cpop.divide();
-      it('should set this.closest to the correct distance', () => {
+      const res = cpop.divide();
+      it('should return false', () => {
+        expect(res).to.equal(false);
+      });
+      it('should set this.shortest to the anything', () => {
         const result = cpop.shortest;
-        expect(result).to.equal(Math.sqrt(2));
+        expect(result).to.equal(Infinity);
       });
-      it('should set this.closestA to the correct index', () => {
+      it('should not set this.closestA toanything', () => {
         const result = cpop.closestA;
-        expect(result).to.equal(0);
+        expect(result).to.equal(null);
       });
-      it('should set this.closestB to the correct index', () => {
+      it('should not set this.closestB toanything', () => {
         const result = cpop.closestB;
-        expect(result).to.equal(1);
+        expect(result).to.equal(null);
       });
     });
     describe('When there are more than 3 points:', () => {

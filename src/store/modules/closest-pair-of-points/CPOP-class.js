@@ -59,13 +59,13 @@ class ClosestPairOfPoints {
 
   divide() {
     if (this.size <= 3) {
-      this.bruteForce();
-      return;
+      return false;
     }
     const left = this.points.slice(0, this.medianIndex + 1);
     const right = this.points.slice(this.medianIndex + 1);
     this.leftHalf = new ClosestPairOfPoints(left, this.level + 1);
     this.rightHalf = new ClosestPairOfPoints(right, this.level + 1);
+    return true;
   }
 
   findPointsInStrip() {
