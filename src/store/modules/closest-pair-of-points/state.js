@@ -4,21 +4,17 @@ const state = {};
 // copy the global state values into state
 Object.assign(state, globals.state);
 state.refresh = 0;
-state.problems = {
+state.problemTree = {
   0: {
     problem: null,
-    offset: 0,
-    firstPointIndex: 0,
-    rightPointIndex: 0,
-    leftX: 0,
-    rightX: 0,
     i: 0,
     j: 1,
     colors: [],
+    finished: false,
   },
 };
 state.solver = {
-  canvasNum: null,
+  canvasNum: 0,
 };
 state.valueRange = { min: 0, max: 500 };
 state.problemSize = {

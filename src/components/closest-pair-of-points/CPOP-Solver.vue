@@ -4,6 +4,7 @@
     nice-Button(@click='bruteForceOne') Brute Force (one step)
     nice-Button(@click='bruteForceAll') Brute Force (auto)
     nice-Button(@click='divide') Divide
+    nice-Button(@click='divideLevel') Divide Entire Level
     nice-Button(@click='vueBruteForce') Conquer
 </template>
 
@@ -26,6 +27,7 @@ export default {
       'bruteForceAll',
       'bruteForceOne',
       'divide',
+      'divideLevel',
     ]),
     vueBruteForceAll() {
     },

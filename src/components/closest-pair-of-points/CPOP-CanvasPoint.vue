@@ -9,14 +9,13 @@ export default {
     'index',
     'point',
     'canvasNum',
-    'offset',
   ],
   computed: {
     ...mapState([
       'pointRadius',
     ]),
     ...mapState({
-      pointColor(state) { return state.problems[0].colors[this.index + this.offset]; },
+      pointColor(state) { return state.problemTree[this.canvasNum].colors[this.index]; },
     }),
     pointX() { return this.point.x; },
     pointY() { return this.point.y; },
@@ -29,10 +28,21 @@ export default {
       ctx.beginPath();
       if (this.pointColor) {
         ctx.fillStyle = this.pointColor;
-        pointSize = this.pointColor !== 'black' ? 3 : 1;
+        switch (this.pointColor) {
+          case 'red':
+            pointSize = 3;
+            break;
+          case 'yellow':
+            pointSize = 1.25;
+            break;
+          default:
+            pointSize = 1;
+            break;
+        }
       }
       ctx.arc(this.pointX, this.pointY, pointSize * this.pointRadius, 0, Math.PI * 2, true);
       ctx.fill();
+      ctx.stroke();
       ctx.restore();
     },
   },

@@ -43,6 +43,7 @@ module.exports = {
     'no-trailing-spaces': 1, // let me have some trailing spaces
     'keyword-spacing': 1, // let me forget the space between the if/for and the parenthesis
     'no-unused-vars': 1, // let me declare variables without using them
+    'object-curly-newline': 0, // let me put more than 3 properties on the same line in an object
     'no-console': 0, // let me log to console without annoying me
     'no-param-reassign': 0, // Vuex uses parameter-reassigning a lot
     "linebreak-style": 0, // Windows line breaks are different than linux line breaks...

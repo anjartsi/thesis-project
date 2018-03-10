@@ -1,6 +1,7 @@
 <template lang="pug">
 div
   h2 Points ({{problemSize.current}} total)
+  h3 Shortest Distance: {{shortest}}
   div.scrollable
     table.text-center.table.table-striped.table-hover
       thead
@@ -12,14 +13,14 @@ div
           th(v-else)
       tbody
         tr(
-          v-for='(point, index) in points'
+          v-for='(point, index) in myPoints'
           :key='index'
           @mouseenter='vueHighlightPoint(index)'
           @mouseleave='vueUnhighlightPoint(index)'
           )
-          td.border-right {{index}}
-          td {{point.x}}
-          td {{point.y}}
+          td.border-right(:style='{"background-color": indexColumnColor(index)}') {{index}}
+          td(:style='xyStyle(index)') {{point.x}}
+          td(:style='xyStyle(index)') {{point.y}}
           td.danger(@click='deletePoint({ index })' v-if='editing')
             span.fa.fa-times.text-danger
           td(v-else)
@@ -36,25 +37,73 @@ export default {
     ...mapState([
       'points',
       'problemSize',
+      'problemTree',
+      'solver',
     ]),
     ...mapGetters([
       'editing',
     ]),
+    canvasNum() {
+      return this.solver.canvasNum;
+    },
+    myPoints() {
+      if (this.canvasNum === 0 || this.canvasNum === null) return this.points;
+      return this.problemTree[this.canvasNum].problem.points;
+    },
+    colors() {
+      return this.problemTree[this.canvasNum].colors;
+    },
+    closestA() {
+      if (!this.problemTree[this.canvasNum].problem) return null;
+      return this.problemTree[this.canvasNum].problem.closestA;
+    },
+    closestB() {
+      if (!this.problemTree[this.canvasNum].problem) return null;
+      return this.problemTree[this.canvasNum].problem.closestB;
+    },
+    shortest() {
+      if (!this.problemTree[this.canvasNum].problem) return '';
+      const { shortest } = this.problemTree[this.canvasNum].problem;
+      return shortest.toFixed(2) || '?';
+    },
   },
   methods: {
     ...mapActions([
       'deletePoint',
       'changePointColor',
     ]),
+    indexColumnColor(index) {
+      const col = this.colors[index];
+      if (col === 'black') return null;
+      return col;
+    },
+    xyStyle(index) {
+      if ((index === this.closestA || index === this.closestB) && index !== null) {
+        return {
+          'background-color': '#AAFFAA',
+        };
+      }
+      return null;
+    },
     vueHighlightPoint(index) {
       const oldColor = 'black';
       const newColor = 'red';
-      this.changePointColor({ index, oldColor, newColor });
+      this.changePointColor({
+        index,
+        oldColor,
+        newColor,
+        canvasNum: this.canvasNum,
+      });
     },
     vueUnhighlightPoint(index) {
       const oldColor = 'red';
       const newColor = 'black';
-      this.changePointColor({ index, oldColor, newColor });
+      this.changePointColor({
+        index,
+        oldColor,
+        newColor,
+        canvasNum: this.canvasNum,
+      });
     },
   },
 };

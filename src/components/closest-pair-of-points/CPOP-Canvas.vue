@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   hr
-  div.canvas-wrapper(:style='{"min-height": 1.5 * canvasHeight + "px"}')
+  div.canvasCont
     canvas(
       ref='the-canvas' 
       :class='{highlightable: solving && !selected, selected: selected}'
@@ -13,7 +13,6 @@ div
         :index='index'
         :point='point'
         :canvasNum='canvasNum'
-        :offset='problem.offset'
         @drawEvent='redrawFrame'
         )  
     div.children
@@ -52,11 +51,10 @@ export default {
   ],
   computed: {
     ...mapState([
-      'points',
       'pointRadius',
       'valueRange',
       'solver',
-      'problems',
+      'problemTree',
     ]),
     ...mapGetters([
       'solving',
@@ -64,31 +62,35 @@ export default {
       'getRightChildCanvasNum',
     ]),
     canvasHeight() {
-      return this.valueRange.max - this.valueRange.min;
+      return this.valueRange.max - this.valueRange.min + 4 * this.pointRadius;
     },
     canvasWidth() {
       if (this.canvasNum === 0) {
         // The root problem has the whole range as its width
-        return this.valueRange.max - this.valueRange.min;
+        return this.valueRange.max - this.valueRange.min + 4 * this.pointRadius;
       }
-      return this.problem.rightX - this.problem.leftX;
+      return this.myPoints[this.problem.size - 1].x - this.myPoints[0].x + 2 * this.pointRadius;
     },
     problem() {
-      return this.problems[this.canvasNum];
+      return this.problemTree[this.canvasNum].problem;
+    },
+    allPoints() {
+      return this.$store.state.closestPairOfPoints.points;
     },
     myPoints() {
-      const start = this.problem.firstPointIndex;
-      const end = this.problem.lastPointIndex;
-      return this.points.slice(start, end + 1);
+      if (this.canvasNum === 0) {
+        return this.allPoints;
+      }
+      return this.problem.points;
     },
     selected() { return this.canvasNum === this.solver.canvasNum; },
     leftChild() {
       const childCanvasNum = this.getLeftChildCanvasNum(this.canvasNum);
-      return this.problems[childCanvasNum] !== undefined;
+      return this.problemTree[childCanvasNum] !== undefined;
     },
     rightChild() {
       const childCanvasNum = this.getRightChildCanvasNum(this.canvasNum);
-      return this.problems[childCanvasNum] !== undefined;
+      return this.problemTree[childCanvasNum] !== undefined;
     },
   },
   data() {
@@ -106,8 +108,9 @@ export default {
     redrawFrame() {
       // erase the canvas
       // eslint-disable-next-line
-      const a = this.valueRange.max;
-      this.provider.context.clearRect(0, 0, a, a);
+      const a = this.canvasWidth + 4 * this.pointRadius;
+      const b = this.canvasHeight + 4 * this.pointRadius;
+      this.provider.context.clearRect(-2 * this.pointRadius, -2 * this.pointRadius, a, b);
       // all your children redraw themselves
       this.$children.forEach(child => {
         if (typeof child.draw === 'function') child.draw();
@@ -117,9 +120,12 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.ctx = this.$refs['the-canvas'].getContext('2d');
-      this.ctx.translate(-this.problem.leftX, this.canvasHeight);
+      // translate down so that y = 0 is at the bottom not the top
+      this.ctx.translate(0, this.canvasHeight - 2 * this.pointRadius);
+      // make the y-axis upside down so that positive y-values go up
       this.ctx.scale(1, -1);
-      console.log(`translating by ${this.problem.leftX}`);
+      // translate left so that the leftmost point in myPoints starts from the left
+      this.ctx.translate(2 * this.pointRadius - this.myPoints[0].x, 0);
       this.redrawFrame();
     });
   },
@@ -130,20 +136,21 @@ export default {
 <style scoped>
 canvas {
   outline: 1px solid black;
+  background-color: gray;
 }
 canvas.highlightable:hover {
   cursor: pointer;
   background-color: lightgray;
 }
 canvas.selected {
-  background-color: gray;
-}
+  background-color: lightyellow;
+} 
 div.leftChild, div.rightChild {
   display: inline-block;
   vertical-align: top;
 }
-div.canvas-wrapper {
-  overflow-x: visible;
-  min-height: max-content;
+div.canvasCont {
+  text-align: center;
+  overflow: visible;
 }
 </style>

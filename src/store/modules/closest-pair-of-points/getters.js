@@ -7,5 +7,5 @@ Object.assign(getters, globals.getters);
 // Get the left or right child canvas of a given problem
 getters.getLeftChildCanvasNum = () => (index) => 2 * index + 1;
 getters.getRightChildCanvasNum = () => (index) => 2 * index + 2;
-
+getters.finished = (state) => (canvasNum) => state.problemTree[canvasNum].finished;
 export default getters;

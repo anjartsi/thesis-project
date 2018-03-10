@@ -96,8 +96,8 @@ export default {
         // this.vueAddPoint('450 450');
         // this.vueAddPoint('410 410');
         // this.vueAddPoint('350 350');
-        for (let i = 0; i < 100; i++) {
-          // this.addRandomPoint();
+        for (let i = 0; i < 10; i++) {
+          this.addRandomPoint();
         }
       }
     });
