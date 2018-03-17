@@ -38,21 +38,34 @@ div.container-fluid
         v-model.lazy='intervalText'
         @keyup.enter='addTypedInterval'
         )
+    div.row
+      br
+      vue-slider(
+        :min='earliestTime'
+        :max='latestTime'
+        v-model='sliderInterval'
+        :tooltipDir='["left", "right"]'
+        :dot-width='15'
+        :dot-height='40'
+      )
   br
   div.row
     div.col-xs-12
       nice-button.btn-success(@click='createNewInterval') Add Interval
+      nice-button.btn-warning(@click='createRandomInterval') Add Random Interval
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
-
+import VueSlider from 'vue-slider-component';
+import { randomInt } from '../../scripts/stuff';
 const { mapState } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
     NiceButton,
+    VueSlider,
   },
   props: [
     'index',
@@ -60,7 +73,7 @@ export default {
   data() {
     return {
       startTime: 0,
-      finishTime: 1,
+      finishTime: 5,
       correctIntervalText: false,
     };
   },
@@ -95,7 +108,15 @@ export default {
           this.finishTime = this.finishTime;
         }
       },
-    },
+    }, // end intervalText
+    sliderInterval: {
+      get() {
+        return [this.startTime, this.finishTime];
+      },
+      set(newVal) {
+        [this.startTime, this.finishTime] = newVal;
+      }
+    }
   },
   watch: {
     startTime(newVal) {
@@ -140,7 +161,16 @@ export default {
         start: this.startTime,
         finish: this.finishTime,
       });
-      this.startTime = this.startTime;
+    },
+    createRandomInterval() {
+      const start = randomInt(this.earliestTime, this.latestTime - 1);
+      const finish = randomInt(start + 1, this.latestTime);
+      this.$store.dispatch('intervalScheduling/addInterval', {
+        start,
+        finish,
+      });
+      this.startTime = start;
+      this.finishTime = finish;
     },
     addTypedInterval() {
       if (this.correctIntervalText) {

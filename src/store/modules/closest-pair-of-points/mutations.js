@@ -32,20 +32,21 @@ mutations.addPoint = (state, { point }) => {
   }
   state.messages.instanceMaker.push(`Point (${point.x}, ${point.y}) has been ADDED!`);
   state.points.push({ x, y });
-  state.problemTree[0].colors.push('black');
+  state.problemTree[0].colors.push(state.colors.default);
 };
 mutations.deletePoint = (state, { index }) => {
   if (index < state.points.length && index >= 0) {
     const point = state.points[index];
     state.points.splice(index, 1);
+    state.problemTree[0].colors.splice(index, 1);
     state.messages.instanceMaker.push(`Point (${point.x}, ${point.y}) has been DELETED!`);
   }
 };
 // eslint-disable-next-line
 mutations.changePointColor = (state, { canvasNum, index, newColor, oldColor }) => {
   // changes the color of a point only if the current color is oldColor
-  const newCol = newColor || 'black';
-  const oldCol = oldColor || 'black';
+  const newCol = newColor || state.colors.default;
+  const oldCol = oldColor || state.colors.default;
   if (index < state.points.length && index >= 0) {
     // if the color was the old color make it the new color
     const col = state.problemTree[canvasNum].colors[index];
@@ -56,7 +57,7 @@ mutations.changePointColor = (state, { canvasNum, index, newColor, oldColor }) =
 };
 mutations.forcePointColor = (state, { canvasNum, index, newColor }) => {
   // changes the color of a point no matter what
-  const newCol = newColor || 'black';
+  const newCol = newColor || state.colors.default;
   if (index < state.points.length && index >= 0) {
     Vue.set(state.problemTree[canvasNum].colors, index, newCol);
   }
@@ -79,13 +80,13 @@ mutations.lockUnlock = (state) => {
   state.locked = !state.locked;
 };
 mutations.resetSolver = (state) => {
+  Vue.set(state.solver, 'canvasNum', 0);
   if (state.locked) {
-    state.solver = {
-      canvasNum: 0,
-    };
+    // solve mode
     Vue.set(state.problemTree[0], 'problem', new Cpop(state.points, 0));
     state.messages.solver = ['Let\'s solve this problem!'];
   } else {
+    // edit mode
     // only keep the root problem
     state.messages.instanceMaker = ['Add some points!'];
     const zero = {};
@@ -95,7 +96,7 @@ mutations.resetSolver = (state) => {
     zero.j = 1;
     zero.colors = [];
     for (let a = 0; a < state.problemSize.current; a++) {
-      zero.colors.push('black');
+      zero.colors.push(state.colors.default);
     }
     Vue.set(state, 'problemTree', { 0: zero });
   }
@@ -103,6 +104,10 @@ mutations.resetSolver = (state) => {
 
 mutations.bruteForceOne = (state) => {
   const { canvasNum } = state.solver;
+  if (state.problemTree[canvasNum].divided) {
+    state.messages.solver.push('This problem has been divided, solve the subproblems first.');
+    return;
+  }
   const {
     problem,
     i,
@@ -111,8 +116,8 @@ mutations.bruteForceOne = (state) => {
     finished,
   } = state.problemTree[canvasNum];
   if (!finished) {
-    Vue.set(colors, i, 'orange');
-    Vue.set(colors, j, 'yellow');
+    Vue.set(colors, i, state.colors.checked_i);
+    Vue.set(colors, j, state.colors.checked_j);
     // check the current i and j values
     problem.seeIfShortest(i, j);
     let a = i;
@@ -125,32 +130,42 @@ mutations.bruteForceOne = (state) => {
       b = a + 1;
       // reset all the colors of the j's
       for (let ii = b - 1; ii < problem.size; ii++) {
-        Vue.set(colors, ii, 'black');
+        Vue.set(colors, ii, state.colors.default);
       }
-      Vue.set(colors, a, 'orange');
+      Vue.set(colors, a - 1, state.colors.checked_done);
+      Vue.set(colors, a, state.colors.checked_i);
     }
     state.problemTree[canvasNum].i = a;
     state.problemTree[canvasNum].j = b;
     if (a === problem.size) {
-      Vue.set(state.problemTree, 'finished', true);
-      Vue.set(colors, problem.closestA, '#AAFFAA');
-      Vue.set(colors, problem.closestB, '#AAFFAA');
+      Vue.set(state.problemTree[canvasNum], 'finished', true);
+      Vue.set(colors, problem.closestA, state.colors.closest);
+      Vue.set(colors, problem.closestB, state.colors.closest);
     }
   }
 };
 mutations.bruteForceAll = (state) => {
   const { canvasNum } = state.solver;
+  // If this problem has been divided, we can't brute force it
+  if (state.problemTree[canvasNum].divided) {
+    state.messages.solver.push('This problem has been divided, solve the subproblems first.');
+    return;
+  }
   const { problem } = state.problemTree[canvasNum];
   problem.bruteForce();
-  console.log(problem.shortest);
-  console.log(problem.closestA);
-  console.log(problem.closestB);
+  Vue.set(state.problemTree, 'finished', true);
+  for (let ii = 0; ii < state.problemTree[canvasNum].problem.size; ii++) {
+    Vue.set(state.problemTree[canvasNum].colors, ii, state.colors.checked_done);
+  }
+  Vue.set(state.problemTree[canvasNum].colors, problem.closestA, state.colors.closest);
+  Vue.set(state.problemTree[canvasNum].colors, problem.closestB, state.colors.closest);
+  Vue.set(state.problemTree[canvasNum], 'finished', true);
 };
 mutations.divide = (state) => {
   const { canvasNum } = state.solver;
   const parent = state.problemTree[canvasNum];
-  // check to see if this has already been divided
-  if (parent.problem.leftHalf && parent.problem.rightHalf) {
+  // If this problem has been divided, we can't brute force it
+  if (state.problemTree[canvasNum].divided) {
     state.messages.solver.push('This problem has already been divided!');
     return;
   }
@@ -158,22 +173,34 @@ mutations.divide = (state) => {
   if (canDivide) {
     const leftChild = 2 * canvasNum + 1;
     const rightChild = 2 * canvasNum + 2;
+    const lColors = [];
+    const rColors = [];
+
+    for (let ii = 0; ii < parent.problem.leftHalf.size; ii++) {
+      lColors.push(state.colors.default);
+    }
+    for (let ii = 0; ii < parent.problem.rightHalf.size; ii++) {
+      rColors.push(state.colors.default);
+    }
     const leftProblem = {
       problem: parent.problem.leftHalf,
       i: 0,
       j: 1,
-      divide: false,
-      colors: parent.colors.slice(0, parent.problem.medianIndex),
+      divided: false,
+      finished: false,
+      colors: lColors,
     };
     const rightProblem = {
       problem: parent.problem.rightHalf,
       i: 0,
       j: 1,
-      divide: false,
-      colors: parent.colors.slice(parent.problem.medianIndex),
+      divided: false,
+      finished: false,
+      colors: rColors,
     };
     Vue.set(state.problemTree, leftChild, leftProblem);
     Vue.set(state.problemTree, rightChild, rightProblem);
+    Vue.set(state.problemTree[canvasNum], 'divided', true);
     state.messages.solver.push('This problem has been divided into 2 subproblems!');
   } else {
     state.messages.solver.push('WARNING! This subproblem has 3 points or fewer. No need to divide!');

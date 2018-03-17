@@ -4,54 +4,128 @@ div
     h2 Instance Maker
   div.row
     p To add a point, type in a x-value, followed by a space, followed by a y-value
-    p For Example to add the point (50, 100) type: 50 100 
   div.row
-    div.col-xs-5
-      h4(for='addPoint') Add Point: 
-    div.col-xs-7
-      input.form-control(
+    div.col-xs-6
+      h4.verticalCenter(for='addPoint') Add Point: 
+    div.col-xs-6
+      input.form-control.text-center(
         type='text'
         name='addPoint'
         v-model='point'
         @keyup.enter='vueAddPoint(point)'
-        )
-    div.col-xs-12
-      p x- and y- coordinates must be between 0 and 500 (inclusive)
-    br
-    nice-button.btn.btn-primary(@click='vueAddPoint(point)') Add Point
-    nice-button.btn.btn-warning(@click='addRandomPoint') Add Random Point
+      )
   div.row
-    div {{text}}
+    div.col-xs-12
+      label() x-coordinate 
+      vue-slider(
+        :min='valueRange.min'
+        :max='valueRange.max'
+        v-model='coordX'
+        tooltipDir='right'
+        :dotSize='30'
+      )
+    div.col-xs-12
+      label() y-coordinate 
+      vue-slider(
+        :min='valueRange.min'
+        :max='valueRange.max'
+        v-model='coordY'
+        tooltipDir='right'
+        :dotSize='30'
+      )
+    nice-button.btn.btn-primary(@click='vueAddPoint(point)') Add Point
+    br
+  div.row
+    nice-button.btn.btn-warning(@click='addRandomPoint') Add a Random Point
+  div.row
+    h3 Add Multiple Points
+    div.row
+      label How Many? 
+      div.col-xs-10.offset-xs-2
+        vue-slider(
+          :min='this.problemSize.min'
+          :max='this.problemSize.max - this.problemSize.current'
+          v-model='howMany'
+          :dotSize='30'
+          tooltipDir='right'
+        )
+    div.row
+      label Range (x) 
+      div.col-xs-10.offset-xs-2
+        vue-slider#xSlider(
+          :min='valueRange.min'
+          :max='valueRange.max'
+          v-model='sliderX'
+          :dotSize='30'
+          :tooltipDir='["left", "right"]'
+        )
+    br      
+    div.row
+      label Range (y)
+      div.col-xs-10.offset-xs-2
+        vue-slider#ySlider(
+          :min='valueRange.min'
+          :max='valueRange.max'
+          v-model='sliderY'
+          :dotSize='30'
+          :tooltipDir='["left", "right"]'
+        )
+    br
+    nice-button.prevent.btn-primary(@click='addMultiplePoints' ) Add Multiple Points
+    hr
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
+import VueSlider from 'vue-slider-component';
 import { randomInt } from '../../scripts/stuff';
-
 const { mapState, mapActions } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
   components: {
     NiceButton,
+    VueSlider,
+    VueSlider,
   },
   data() {
     return {
       point: '',
+      howMany: 50,
+      sliderX: [0, 500],
+      sliderY: [0, 500],
     };
   },
   computed: {
-    text() {
-
-    },
     ...mapState([
       'points',
       'messages',
       'valueRange',
+      'problemSize',
     ]),
     alertColor() {
       return 'alert-info';
     },
+    coordX: {
+      get() {
+        return this.point.split(' ')[0] || 0;
+      },
+      set(newVal) {
+        let str = '';
+        str += newVal + ' ' + this.coordY;
+        this.point = str;
+      }
+    },
+    coordY: {
+      get() {
+        return this.point.split(' ')[1] || 0;
+      },
+      set(newVal) {
+        let str = '';
+        str += this.coordX + ' ' + newVal;
+        this.point = str;
+      }
+    }
   },
   methods: {
     ...mapActions([
@@ -68,37 +142,21 @@ export default {
       this.point = `${x} ${y}`;
       this.addPoint({ point: { x, y } });
     },
+    addMultiplePoints() {
+      for (let i = 0; i < this.howMany; i++) {
+        const [ xmin, xmax ] = this.sliderX;
+        const [ ymin, ymax ] = this.sliderY;
+        const x = randomInt(xmin, xmax);
+        const y = randomInt(ymin, ymax);
+        this.addPoint({ point: { x, y } });
+      }
+    },
   },
   mounted() {
     this.$nextTick(() => {
-      // todo - remove this before deploy
-      if (this.points.length === 0) {
-        for (let i = 0; i <= 5; i++) {
-          let str = '';
-          str += 50 * i;
-          str += ' ';
-          str += 50 * i;
-          this.vueAddPoint(str);
-        }
-        for (let i = 2; i <= 5; i++) {
-          let str = '';
-          str += 100 * i;
-          str += ' ';
-          str += 100 * i;
-          this.vueAddPoint(str);
-        }
-        // this.vueAddPoint('1 1');
-        // this.vueAddPoint('150 150');
-        // this.vueAddPoint('150 350');
-        // this.vueAddPoint('210 210');
-        // this.vueAddPoint('10 10');
-        // this.vueAddPoint('350 250');
-        // this.vueAddPoint('450 450');
-        // this.vueAddPoint('410 410');
-        // this.vueAddPoint('350 350');
-        for (let i = 0; i < 10; i++) {
-          this.addRandomPoint();
-        }
+      if (this.points.length > 0) return;
+      for (let i = 0; i < 20; i++) {
+        this.addRandomPoint();
       }
     });
   },
@@ -113,4 +171,8 @@ div#addPointAlert {
   z-index: 1;
   opacity: 0.9;
 }
+#xSlider, #ySlider {
+  width: 100%;
+}
+
 </style>

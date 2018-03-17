@@ -1,6 +1,6 @@
 <template lang="pug">
-div
-  h2 Points ({{problemSize.current}} total)
+div#pointsCont
+  h2 Points ({{myPoints.length}} total)
   h3 Shortest Distance: {{shortest}}
   div.scrollable
     table.text-center.table.table-striped.table-hover
@@ -33,6 +33,11 @@ import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
+  data() {
+    return {
+      oldColor: '',
+    };
+  },
   computed: {
     ...mapState([
       'points',
@@ -86,18 +91,19 @@ export default {
       return null;
     },
     vueHighlightPoint(index) {
-      const oldColor = 'black';
+      // remember the color it previously was
+      this.oldColor = this.colors[index];
       const newColor = 'red';
       this.changePointColor({
         index,
-        oldColor,
+        oldColor: this.oldColor,
         newColor,
         canvasNum: this.canvasNum,
       });
     },
     vueUnhighlightPoint(index) {
       const oldColor = 'red';
-      const newColor = 'black';
+      const newColor = this.oldColor;
       this.changePointColor({
         index,
         oldColor,
@@ -110,6 +116,10 @@ export default {
 </script>
 
 <style scoped>
+#pointsCont {
+  background-color: #fff;
+  min-height: max-content;
+}
 ul{
   list-style-type: none;
 }

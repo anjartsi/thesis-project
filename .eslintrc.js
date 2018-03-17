@@ -2,10 +2,10 @@
 
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
-  parserOptions: {
-    sourceType: 'module'
-  },
+  // parser: 'babel-eslint',
+  // parserOptions: {
+  //   sourceType: 'module'
+  // },
   env: {
     browser: true,
   },
@@ -34,6 +34,7 @@ module.exports = {
       }
     ], // let me assign var a = arr[0] 
     'indent': 1, // let me indent the wrong way
+    'object-curly-spacing': 1, // let me forget the space between the {} in an object
     'space-in-parens': 1,
     'space-before-function-paren': 1, // let me put an extra space before function paren
     'semi': 1, // let me forget a semicolon

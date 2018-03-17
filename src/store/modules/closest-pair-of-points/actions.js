@@ -18,7 +18,7 @@ actions.deletePoint = (context, { index }) => {
   context.commit('changeProblemSize');
 };
 actions.changePointColor = (context, { canvasNum, index, newColor, oldColor }) => {
-  context.commit('changePointColor', { canvasNum, index, newColor, oldColor });
+  context.commit('forcePointColor', { canvasNum, index, newColor, oldColor });
 };
 
 actions.selectCanvas = (context, { canvasNum }) => {
@@ -26,22 +26,10 @@ actions.selectCanvas = (context, { canvasNum }) => {
     context.commit('selectCanvas', { canvasNum });
   }
 };
-actions.bruteForce = (context) => {
-  if (context.getters.solving) {
-    context.commit('bruteForce');
-  }
-};
+
 actions.bruteForceAll = (context) => {
   if (context.getters.solving) {
-    const { canvasNum } = context.state.solver;
-    let a = 200;
-    do {
-      console.log(a);
-      a--;
-      console.log(context.state.problemTree[canvasNum].finished);
-      context.commit('bruteForceOne');
-    } while (!context.getters.finished(canvasNum) && a > 0);
-    // todo - the first part of the condition always returns true
+    context.commit('bruteForceAll');
   }
 };
 actions.bruteForceOne = (context) => {
@@ -65,5 +53,10 @@ actions.divideLevel = (context) => {
   context.commit('selectCanvas', { canvasNum });
 };
 
+actions.conquerOne = (context) => {
+  if (context.getters.solving) {
+    console.log('hi');
+  }
+};
 
 export default actions;

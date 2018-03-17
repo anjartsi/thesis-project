@@ -11,7 +11,16 @@ state.problemTree = {
     j: 1,
     colors: [],
     finished: false,
+    divided: false,
   },
+};
+state.colors = {
+  default: 'black',
+  highlight: 'red',
+  checked_i: 'white',
+  checked_j: 'yellow',
+  checked_done: 'orange',
+  closest: '#AAFFAA',
 };
 state.solver = {
   canvasNum: 0,

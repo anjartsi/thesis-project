@@ -13,6 +13,7 @@ export default {
   computed: {
     ...mapState([
       'pointRadius',
+      'colors',
     ]),
     ...mapState({
       pointColor(state) { return state.problemTree[this.canvasNum].colors[this.index]; },
@@ -29,11 +30,20 @@ export default {
       if (this.pointColor) {
         ctx.fillStyle = this.pointColor;
         switch (this.pointColor) {
-          case 'red':
-            pointSize = 3;
+          case this.colors.highlight:
+            pointSize = 1.75;
             break;
-          case 'yellow':
-            pointSize = 1.25;
+          case this.colors.checked_i:
+            pointSize = 2;
+            break;
+          case this.colors.checked_j:
+            pointSize = 1.5;
+            break;
+          case this.colors.checked_done:
+            pointSize = 1;
+            break;
+          case this.colors.closest:
+            pointSize = 2.5;
             break;
           default:
             pointSize = 1;
@@ -50,9 +60,6 @@ export default {
     // When you need to redraw, emit a drawEvent
     // Then wait for the canvas to erase everything and update frameNum,
     // Then you can draw again
-    points() {
-      this.$emit('drawEvent');
-    },
     pointX() {
       this.$emit('drawEvent');
     },

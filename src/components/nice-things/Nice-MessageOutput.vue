@@ -3,13 +3,14 @@
     div.row
       h2.col-xs-12
         slot Messages:
-    div.row.col-xs-12
-      div.messagesCont(v-if='displayHistory' :style='style')
-        ol
-          li(v-for='msg in messages') {{msg}}
-        div.whitespace()
-      div(v-else)
-        p {{messages[messages.length - 1]}}
+    div.row
+      div.col-xs-12
+        div.messagesCont(v-if='displayHistory' :style='style')
+          ol
+            li(v-for='msg in messages') {{msg}}
+          div.whitespace()
+        div(v-else)
+          p {{messages[messages.length - 1]}}
 </template>
 
 <script>

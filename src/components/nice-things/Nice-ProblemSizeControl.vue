@@ -31,11 +31,12 @@ div.container-fluid
       div.col-xs-3
         nice-button.btn-danger(@click='decrement') -
       div.col-xs-6
-        input(
-          type='range'
+        vue-slider(
           :min='minimumValue'
           :max='maximumValue'
           v-model='problemSize'
+          :tooltip='false'
+          :dot-size='30'
         )
       div.col-xs-3
         nice-button.btn-success(@click='increment') +
@@ -44,9 +45,10 @@ div.container-fluid
 
 <script>
   import NiceButton from './Nice-Button';
+  import VueSlider from 'vue-slider-component';
 
   export default {
-    components: { NiceButton },
+    components: { NiceButton, VueSlider},
     props: [
       'namespace',
     ],

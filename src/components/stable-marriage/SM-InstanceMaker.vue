@@ -15,9 +15,9 @@ div.container-fluid
           transition(appear name='fade' key='SMinstanceMaker')
             div.row(v-show='locked')#buttonContainer
               div.col-xs-12
-                nice-button(v-on:click.native='randomize') Randomize
+                nice-button.btn-warning(v-on:click.native='randomize') Randomize
               div.col-xs-12
-                nice-button(v-on:click.native='reset') Reset
+                nice-button.btn-danger(v-on:click.native='reset') Reset
     //- Preference Lists
     div.col-xs-10
       h3(style="text-align:center") Preference Lists
