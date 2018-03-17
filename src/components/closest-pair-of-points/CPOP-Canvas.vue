@@ -61,14 +61,17 @@ export default {
       'getRightChildCanvasNum',
     ]),
     canvasHeight() {
-      return this.valueRange.max - this.valueRange.min + 4 * this.pointRadius;
+      return this.valueRange.max - this.valueRange.min + this.extraSpace;
     },
     canvasWidth() {
       if (this.canvasNum === 0) {
         // The root problem has the whole range as its width
-        return this.valueRange.max - this.valueRange.min + 4 * this.pointRadius;
+        return this.valueRange.max - this.valueRange.min + this.extraSpace;
       }
-      return this.myPoints[this.problem.size - 1].x - this.myPoints[0].x + 4 * this.pointRadius;
+      return this.myPoints[this.problem.size - 1].x - this.myPoints[0].x + this.extraSpace;
+    },
+    extraSpace() {
+      return this.pointRadius * 10;
     },
     problem() {
       return this.problemTree[this.canvasNum].problem;
@@ -106,9 +109,9 @@ export default {
     },
     clearCanvas() {
       // erase the canvas
-      const a = this.valueRange.max - this.valueRange.min + 20 * this.pointRadius;
-      const b = this.valueRange.max - this.valueRange.min + 20 * this.pointRadius;
-      this.provider.context.clearRect(-10 * this.pointRadius, -10 * this.pointRadius, a, b);
+      const a = this.valueRange.max - this.valueRange.min + 2 * this.extraSpace;
+      const b = this.valueRange.max - this.valueRange.min + 2 * this.extraSpace;
+      this.provider.context.clearRect(-this.extraSpace, -this.extraSpace, a, b);
       
     },
     redrawFrame() {
@@ -130,14 +133,14 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      let leftEdge = 2 * this.pointRadius - this.myPoints[0].x;
+      let leftEdge = -this.myPoints[0].x;
       if (this.canvasNum === 0) leftEdge = 0;
       this.ctx = this.$refs['the-canvas'].getContext('2d');
       // translate down so that y = 0 is at the bottom not the top
-      this.ctx.translate(0, this.canvasHeight - 2 * this.pointRadius);
+      this.ctx.translate(0, this.canvasHeight -  0.5 * this.extraSpace);
       // translate left by the leftmost x so that the origin is left of the canvas.
       // This way, the leftmost point will be drawn at the left edge of the canvas.
-      this.ctx.translate(leftEdge + 2 * this.pointRadius, 0);
+      this.ctx.translate(leftEdge + 0.5 * this.extraSpace, 0);
       // make the y-axis upside down so that positive y-values go up
       this.ctx.scale(1, -1);
       this.redrawFrame();

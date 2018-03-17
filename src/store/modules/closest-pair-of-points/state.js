@@ -17,10 +17,11 @@ state.problemTree = {
 state.colors = {
   default: 'black',
   highlight: 'red',
-  checked_i: 'white',
+  checking_i: '#367EBA',
   checked_j: 'yellow',
   checked_done: 'orange',
   closest: '#AAFFAA',
+  strip: '#D00ABA',
 };
 state.solver = {
   canvasNum: 0,

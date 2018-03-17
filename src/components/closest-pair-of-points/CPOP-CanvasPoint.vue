@@ -33,7 +33,7 @@ export default {
           case this.colors.highlight:
             pointSize = 1.75;
             break;
-          case this.colors.checked_i:
+          case this.colors.checking_i:
             pointSize = 2;
             break;
           case this.colors.checked_j:
@@ -44,6 +44,9 @@ export default {
             break;
           case this.colors.closest:
             pointSize = 2.5;
+            break;
+          case this.colors.strip:
+            pointSize = 2;
             break;
           default:
             pointSize = 1;

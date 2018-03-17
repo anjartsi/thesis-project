@@ -16,6 +16,9 @@ const colors = [
 function randomInt(min, max) {
   return Math.floor(min + (1 + max - min) * Math.random());
 }
+function randomNum(min, max) {
+  return min + (1 + max - min) * Math.random();
+}
 
 function animate({ timing, draw, duration }) {
   const start = performance.now();
@@ -40,5 +43,6 @@ function timingLinear(timeFraction) {
 
 module.exports.colors = colors;
 module.exports.randomInt = randomInt;
+module.exports.randomNum = randomNum;
 module.exports.animate = animate;
 module.exports.timingLinear = timingLinear;

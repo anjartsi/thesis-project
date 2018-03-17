@@ -116,7 +116,7 @@ mutations.bruteForceOne = (state) => {
     finished,
   } = state.problemTree[canvasNum];
   if (!finished) {
-    Vue.set(colors, i, state.colors.checked_i);
+    Vue.set(colors, i, state.colors.checking_i);
     Vue.set(colors, j, state.colors.checked_j);
     // check the current i and j values
     problem.seeIfShortest(i, j);
@@ -133,7 +133,7 @@ mutations.bruteForceOne = (state) => {
         Vue.set(colors, ii, state.colors.default);
       }
       Vue.set(colors, a - 1, state.colors.checked_done);
-      Vue.set(colors, a, state.colors.checked_i);
+      Vue.set(colors, a, state.colors.checking_i);
     }
     state.problemTree[canvasNum].i = a;
     state.problemTree[canvasNum].j = b;
@@ -144,7 +144,7 @@ mutations.bruteForceOne = (state) => {
     }
   }
 };
-mutations.bruteForceAll = (state) => {
+mutations.bruteForceAuto = (state) => {
   const { canvasNum } = state.solver;
   // If this problem has been divided, we can't brute force it
   if (state.problemTree[canvasNum].divided) {
@@ -153,7 +153,7 @@ mutations.bruteForceAll = (state) => {
   }
   const { problem } = state.problemTree[canvasNum];
   problem.bruteForce();
-  Vue.set(state.problemTree, 'finished', true);
+  Vue.set(state.problemTree[canvasNum], 'finished', true);
   for (let ii = 0; ii < state.problemTree[canvasNum].problem.size; ii++) {
     Vue.set(state.problemTree[canvasNum].colors, ii, state.colors.checked_done);
   }
@@ -207,4 +207,115 @@ mutations.divide = (state) => {
   }
 };
 
+mutations.conquerOne = (state) => {
+  const { canvasNum } = state.solver;
+  // I can reuse i and j because there is no overlap between brute force and conquer
+  const {
+    problem,
+    i,
+    j,
+    colors,
+    finished,
+    divided,
+  } = state.problemTree[canvasNum];
+  if (!divided) {
+    state.messages.solver.push('WARNING! This problem has not been divided, so it cannot be conquered.');
+    return;
+  }
+
+  const leftChild = 2 * canvasNum + 1;
+  const rightChild = 2 * canvasNum + 2;
+  if (!state.problemTree[leftChild].finished
+    || !state.problemTree[rightChild].finished) {
+    state.messages.solver.push('WARNING! Before this problem can be conquered, both of its subproblems must be finished.');
+    return;
+  }
+  if (finished) {
+    return;
+  }
+  // Perform conquerSetup if it hasn't already been done before
+  if (problem.shortest === Infinity) problem.conquerSetup();
+  const strip = problem.findPointsInStrip();
+  if (strip.length === 0) {
+    Vue.set(finished, true);
+    Vue.set(colors, problem.closestA, state.colors.closest);
+    Vue.set(colors, problem.closestB, state.colors.closest);
+  }
+
+  // If i and j have not been modified from their initial values,
+  // then the strip needs to be
+  if (state.problemTree[canvasNum].i === 0
+    && state.problemTree[canvasNum].j === 1
+    && colors[strip[0]] !== state.colors.strip
+  ) {
+    for (let ii = 0; ii < strip.length; ii++) {
+      Vue.set(colors, strip[ii], state.colors.strip);
+    }
+    return;
+  }
+  Vue.set(colors, strip[i], state.colors.checking_i);
+  Vue.set(colors, strip[j], state.colors.checked_j);
+  problem.seeIfShortest(strip[i], strip[j]);
+  let a = i;
+  let b = j;
+  // increment i, j while keeping i < j <problem.size
+  a = i;
+  b = j + 1;
+  if (b > strip.length || b > 16 + a) {
+    a++;
+    b = a + 1;
+    // reset all the colors of the j's
+    for (let ii = b - 1; ii < problem.size; ii++) {
+      Vue.set(colors, strip[ii], state.colors.strip);
+    }
+    Vue.set(colors, strip[a - 1], state.colors.checked_done);
+    Vue.set(colors, strip[a], state.colors.checking_i);
+  }
+  state.problemTree[canvasNum].i = a;
+  state.problemTree[canvasNum].j = b;
+  if (a === strip.length) {
+    Vue.set(state.problemTree[canvasNum], 'finished', true);
+    Vue.set(colors, problem.closestA, state.colors.closest);
+    Vue.set(colors, problem.closestB, state.colors.closest);
+  }
+};
+
 export default mutations;
+
+mutations.conquerAuto = (state) => {
+  const { canvasNum } = state.solver;
+  // I can reuse i and j because there is no overlap between brute force and conquer
+  const {
+    problem,
+    finished,
+    divided,
+  } = state.problemTree[canvasNum];
+  if (!divided) {
+    state.messages.solver.push('WARNING! This problem has not been divided, so it cannot be conquered.');
+    return;
+  }
+
+  const leftChild = 2 * canvasNum + 1;
+  const rightChild = 2 * canvasNum + 2;
+  if (!state.problemTree[leftChild].finished
+    || !state.problemTree[rightChild].finished) {
+    state.messages.solver.push('WARNING! Before this problem can be conquered, both of its subproblems must be finished.');
+    return;
+  }
+  if (finished) {
+    return;
+  }
+  problem.conquer();
+  Vue.set(state.problemTree[canvasNum], 'finished', true);
+  for (let ii = 0; ii < state.problemTree[canvasNum].problem.size; ii++) {
+    Vue.set(state.problemTree[canvasNum].colors, ii, state.colors.checked_done);
+  }
+  Vue.set(state.problemTree[canvasNum].colors, problem.closestA, state.colors.closest);
+  Vue.set(state.problemTree[canvasNum].colors, problem.closestB, state.colors.closest);
+  Vue.set(state.problemTree[canvasNum], 'finished', true);
+};
+
+mutations.loadStart = (state) => {
+  state.loadMessage = [];
+  state.loadError = false;
+};

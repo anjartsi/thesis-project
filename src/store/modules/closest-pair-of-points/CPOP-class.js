@@ -8,6 +8,10 @@ class ClosestPairOfPoints {
     if (this.size > 0) this.medianIndex = Math.floor((this.size - 1) / 2);
     else this.medianIndex = null;
 
+    if (this.size > 2) {
+      this.middleX = (this.points[this.medianIndex].x + this.points[this.medianIndex + 1].x) / 2;
+    } else this.middleX = null;
+
     this.shortest = Infinity;
     this.closestA = null; // index of one of the two closest points
     this.closestB = null; // index of one of the two closest points
@@ -72,8 +76,9 @@ class ClosestPairOfPoints {
     if (this.shortest === Infinity) return null;
     const pointsInStrip = [];
     for (let i = 0; i < this.size; i++) {
+      // the strip is defined as the midpoint between the median point and the point after it
       // horizontal distance from strip
-      const d = Math.abs(this.points[i].x - this.points[this.medianIndex].x);
+      const d = Math.abs(this.points[i].x - this.middleX);
       if (d <= this.shortest) pointsInStrip.push(i);
       // pointsInStrip is an array of indeces
     } // end for(i)
@@ -83,32 +88,47 @@ class ClosestPairOfPoints {
       if (comparison === 0) comparison = this.points[a].x - this.points[b].x;
       return comparison;
     });
+    this.pointsInStrip = pointsInStrip;
     return pointsInStrip;
   }
   checkStrip() {
-    const pointsInStrip = this.findPointsInStrip();
-    if (pointsInStrip === null) return;
-    for (let i = 0; i < pointsInStrip.length - 1; i++) {
+    this.findPointsInStrip();
+    if (this.pointsInStrip === null) return;
+    for (let i = 0; i < this.pointsInStrip.length - 1; i++) {
       // for each point in the strip...
-      const point1 = pointsInStrip[i];
+      const point1 = this.pointsInStrip[i];
       for (let j = i + 1; j < i + 16; j++) {
         // ... check its distance to the next 16
-        if (j >= pointsInStrip.length) break; // array out of bounds
-        const point2 = pointsInStrip[j];
+        if (j >= this.pointsInStrip.length) break; // array out of bounds
+        const point2 = this.pointsInStrip[j];
         this.seeIfShortest(point1, point2);
       } // end for(j)
     } // end for(i)
   } // end checkStrip()
 
-  conquer() {
+  conquerSetup() {
     // Can't do anything if the two subproblems haven't been solved yet
     if (this.leftHalf.shortest === null ||
-       this.rightHalf.shortest === null ||
-       this.leftHalf.shortest === Infinity ||
-       this.rightHalf.shortest === Infinity) {
+      this.rightHalf.shortest === null ||
+      this.leftHalf.shortest === Infinity ||
+      this.rightHalf.shortest === Infinity) {
       return null;
     }
-    this.shortest = Math.min(this.leftHalf.shortest, this.rightHalf.shortest);
+    if (this.leftHalf.shortest < this.rightHalf.shortest) {
+      this.shortest = this.leftHalf.shortest;
+      this.closestA = this.leftHalf.closestA;
+      this.closestB = this.leftHalf.closestB;
+    } else {
+      this.shortest = this.rightHalf.shortest;
+      this.closestA = this.rightHalf.closestA + this.medianIndex + 1;
+      this.closestB = this.rightHalf.closestB + this.medianIndex + 1;
+    }
+    return this.shortest;
+  }
+
+  conquer() {
+    const shortest = this.conquerSetup();
+    if (shortest === null) return null;
     this.checkStrip();
     return this.shortest;
   }

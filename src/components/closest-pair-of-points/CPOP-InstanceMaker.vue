@@ -11,7 +11,7 @@ div
       input.form-control.text-center(
         type='text'
         name='addPoint'
-        v-model='point'
+        v-model.lazy='point'
         @keyup.enter='vueAddPoint(point)'
       )
   div.row
@@ -79,7 +79,7 @@ div
 import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
 import VueSlider from 'vue-slider-component';
-import { randomInt } from '../../scripts/stuff';
+import { randomNum } from '../../scripts/stuff';
 const { mapState, mapActions } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
@@ -137,8 +137,8 @@ export default {
       this.addPoint({ point: { x, y } });
     },
     addRandomPoint() {
-      const x = randomInt(this.valueRange.min, this.valueRange.max);
-      const y = randomInt(this.valueRange.min, this.valueRange.max);
+      const x = randomNum(this.valueRange.min, this.valueRange.max);
+      const y = randomNum(this.valueRange.min, this.valueRange.max);
       this.point = `${x} ${y}`;
       this.addPoint({ point: { x, y } });
     },
@@ -146,8 +146,8 @@ export default {
       for (let i = 0; i < this.howMany; i++) {
         const [ xmin, xmax ] = this.sliderX;
         const [ ymin, ymax ] = this.sliderY;
-        const x = randomInt(xmin, xmax);
-        const y = randomInt(ymin, ymax);
+        const x = randomNum(xmin, xmax);
+        const y = randomNum(ymin, ymax);
         this.addPoint({ point: { x, y } });
       }
     },
@@ -155,9 +155,10 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.points.length > 0) return;
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 50; i++) {
         this.addRandomPoint();
       }
+      
     });
   },
 };

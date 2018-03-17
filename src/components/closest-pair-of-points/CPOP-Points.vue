@@ -1,7 +1,16 @@
 <template lang="pug">
 div#pointsCont
   h2 Points ({{myPoints.length}} total)
-  h3 Shortest Distance: {{shortest}}
+  div(
+    v-if='editing'
+  )
+    nice-button.btn-danger(
+      @click='vueDeleteAllPoints'
+    ) Delete All Points
+  h3(
+    v-else
+    :style='{"background-color": stateColors.closest}'
+    ) Shortest Distance: {{shortest}}
   div.scrollable
     table.text-center.table.table-striped.table-hover
       thead
@@ -29,10 +38,14 @@ div#pointsCont
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import NiceButton from '../nice-things/Nice-Button';
 
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
+  components: {
+    NiceButton,
+  },
   data() {
     return {
       oldColor: '',
@@ -48,6 +61,9 @@ export default {
     ...mapGetters([
       'editing',
     ]),
+    stateColors() {
+      return this.$store.state.closestPairOfPoints.colors;
+    },
     canvasNum() {
       return this.solver.canvasNum;
     },
@@ -111,6 +127,12 @@ export default {
         canvasNum: this.canvasNum,
       });
     },
+    vueDeleteAllPoints() {
+      const l = this.points.length;
+      for (let i = 0; i < l; i++) {
+        this.deletePoint({ index: 0 });
+      }
+    },
   },
 };
 </script>
@@ -146,5 +168,6 @@ td.danger {
 td.border-right {
   border-right: 1px solid lightgray;
 }
+
 </style>
 

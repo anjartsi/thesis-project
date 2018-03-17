@@ -2,32 +2,37 @@
   div
     h1 Solver
     h4
-    nice-Button.btn-default(
+    nice-Button.btn-primary(
       @click='divide'
       :class='{disabled:finished || divided}'
     ) Divide
-    nice-Button.btn-default(
+    nice-Button.btn-success(
       @click='divideLevel'
-      :class='{disabled:false}'
     ) Divide Entire Level
     hr
-    nice-Button.btn-default(
+    nice-Button.btn-primary(
       @click='bruteForceOne'
       :class='{disabled:finished || divided}'
     ) Brute Force (one step)
-    nice-Button.btn-default(
-      @click='bruteForceAll'
+    nice-Button.btn-warning(
+      @click='bruteForceAuto'
       :class='{disabled:finished || divided}'
     ) Brute Force (auto)
+    nice-Button.btn-success(
+      @click='bruteForceLevel'
+    ) Brute Force Entire Level
     hr
-    nice-Button.btn-default(
+    nice-Button.btn-primary(
       @click='conquerOne'
       :class='{disabled: !readyToConquer}'
     ) Conquer (one step)
-    nice-Button.btn-default(
-      @click='conquerAll'
+    nice-Button.btn-warning(
+      @click='conquerAuto'
       :class='{disabled: !readyToConquer}'
     ) Conquer (auto)
+    nice-Button.btn-success(
+      @click='conquerLevel'
+    ) Conquer Entire Level
 </template>
 
 <script>
@@ -68,12 +73,14 @@ export default {
   },
   methods: {
     ...mapActions([
-      'bruteForceAll',
+      'bruteForceAuto',
       'bruteForceOne',
+      'bruteForceLevel',
       'divide',
       'divideLevel',
       'conquerOne',
-      'conquerAll',
+      'conquerAuto',
+      'conquerLevel',
     ]),
     ...mapGetters([
       'getLeftChildCanvasNum',

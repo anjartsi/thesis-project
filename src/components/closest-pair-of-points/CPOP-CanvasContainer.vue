@@ -1,6 +1,6 @@
 <template lang="pug">
 div#canvasContainer.text-center
-  h2 Image
+  h2 The Problem Tree
   div#canvasScroll
     CPOP-canvas(
       :canvasNum='0'
