@@ -121,11 +121,9 @@ mutations.bruteForceOne = (state) => {
     // check the current i and j values
     problem.seeIfShortest(i, j);
     let a = i;
-    let b = j;
-    // increment i, j while keeping i < j <problem.size
-    a = i;
-    b = j + 1;
+    let b = j + 1;
     if (b > problem.size) {
+      // increment i, j while keeping i < j <problem.size
       a++;
       b = a + 1;
       // reset all the colors of the j's
@@ -234,8 +232,11 @@ mutations.conquerOne = (state) => {
     return;
   }
   // Perform conquerSetup if it hasn't already been done before
-  if (problem.shortest === Infinity) problem.conquerSetup();
-  const strip = problem.findPointsInStrip();
+  if (problem.shortest === Infinity) {
+    problem.conquerSetup();
+    problem.findPointsInStrip();
+  }
+  const strip = problem.pointsInStrip;
   if (strip.length === 0) {
     Vue.set(finished, true);
     Vue.set(colors, problem.closestA, state.colors.closest);
@@ -257,15 +258,13 @@ mutations.conquerOne = (state) => {
   Vue.set(colors, strip[j], state.colors.checked_j);
   problem.seeIfShortest(strip[i], strip[j]);
   let a = i;
-  let b = j;
-  // increment i, j while keeping i < j <problem.size
-  a = i;
-  b = j + 1;
-  if (b > strip.length || b > 16 + a) {
+  let b = j + 1;
+  // increment i, j while keeping i < j < strip.length
+  if (b > strip.length || b > 8 + a) {
     a++;
     b = a + 1;
     // reset all the colors of the j's
-    for (let ii = b - 1; ii < problem.size; ii++) {
+    for (let ii = b - 1; ii < strip.length; ii++) {
       Vue.set(colors, strip[ii], state.colors.strip);
     }
     Vue.set(colors, strip[a - 1], state.colors.checked_done);
