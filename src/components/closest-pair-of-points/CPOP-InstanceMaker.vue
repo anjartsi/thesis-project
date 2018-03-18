@@ -155,15 +155,9 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.points.length > 0) return;
-      // for (let i = 0; i < 50; i++) {
-      //   this.addRandomPoint();
-      // }
-      this.vueAddPoint('0 0');
-      this.vueAddPoint('500 0');
-      this.vueAddPoint('0 500');
-      this.vueAddPoint('500 500');
-      this.vueAddPoint('240 250');
-      this.vueAddPoint('260 250');
+      for (let i = 0; i < 23; i++) {
+        this.addRandomPoint();
+      }
     });
   },
 };
