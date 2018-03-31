@@ -1,6 +1,6 @@
 <template lang='pug'>
 div.preferenceBox(
-  :class='{red: touched && editing}'
+  :class='{red: touched && editing, unlocked: editing}'
   @mousedown='$emit("boxMouseDown", j)'
   @mouseup='$emit("boxMouseUp", j)'
   @mouseenter='$emit("boxMouseEnter", j)'

@@ -20,10 +20,11 @@ export default {
 </script>
 
 <style>
-  #app {
-    width: 95%;
-    margin: auto;
-  }
+#app {
+  background-color: #f4f4f4;
+  margin: 0px auto;
+  max-width: 1024px;
+}
 
   body {
     padding-top: 100px;

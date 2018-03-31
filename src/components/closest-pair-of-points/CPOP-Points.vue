@@ -28,8 +28,8 @@ div#pointsCont
           @mouseleave='vueUnhighlightPoint(index)'
           )
           td.border-right(:style='{"background-color": indexColumnColor(index)}') {{index}}
-          td(:style='xyStyle(index)') {{point.x}}
-          td(:style='xyStyle(index)') {{point.y}}
+          td(:style='xyStyle(index)') {{point.x.toFixed(2)}}
+          td(:style='xyStyle(index)') {{point.y.toFixed(2)}}
           td.danger(@click='deletePoint({ index })' v-if='editing')
             span.fa.fa-times.text-danger
           td(v-else)

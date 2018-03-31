@@ -7,8 +7,12 @@ const colors = [
   '#F012BE',
   '#01FF70',
   '#FF851B',
+  '#D0078F',
   '#39CCCC',
   '#B10DC9',
+  '#59767B',
+  '#7D4C72',
+  '#DB89F1',
   '#DDDDDD',
   '#AAAAAA',
 ];

@@ -4,7 +4,7 @@
     h4
     nice-Button.btn-primary(
       @click='divide'
-      :class='{disabled:finished || divided}'
+      :class='{disabled:finished || divided || pointsInSubproblem <= 3}'
     ) Divide
     nice-Button.btn-success(
       @click='divideLevel'
@@ -55,6 +55,9 @@ export default {
     },
     selectedTreeNode() {
       return this.problemTree[this.canvasNum];
+    },
+    pointsInSubproblem() {
+      return this.selectedTreeNode.problem.size;
     },
     divided() {
       return this.selectedTreeNode.divided;

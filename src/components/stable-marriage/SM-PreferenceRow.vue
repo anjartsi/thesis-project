@@ -150,6 +150,9 @@ transition(name='fade' key='SMPreferenceRow')
 
   div.rowOwner {
     display: inline-block;
+    padding-right: 2px;
+    border: 2px solid black;
+    background-color: black;
   }
   div.rowPreferences {
     display: inline-block;
@@ -157,12 +160,12 @@ transition(name='fade' key='SMPreferenceRow')
   div.row {
     border-bottom: 1px solid black;
     -webkit-user-select: none;
+    user-select: none;
     padding-top: 2px;
     padding-bottom: 2px;
   }
   .boxContainer {
     margin-left: 5px;
-    border-left: 2px solid black;
   }
   .highlight {
     background-color: black;

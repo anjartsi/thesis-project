@@ -32,7 +32,7 @@ div.container-fluid
       div.col-xs-12
         label Message
       div.col-xs-12
-        div.alert.alert-info
+        div#messageAlert.alert.alert-info
           h4 {{message}}    
   div.row
     div.col-xs-6.col-lg-4
@@ -168,5 +168,7 @@ export default {
   width: 102%;
   z-index: 1;
 }
-
+#messageAlert {
+  height: 70px;
+}
 </style>

@@ -18,4 +18,7 @@ export default {
 </script>
 
 <style scoped>
+button {
+  font-size: 16px;
+}
 </style>

@@ -4,7 +4,6 @@ div#sm
   div.container-fluid
     div.row.cant-highlight-text
       SM-instance-maker
-    hr
     //- Solver goes here
     div.row.cant-highlight-text
       SM-solver

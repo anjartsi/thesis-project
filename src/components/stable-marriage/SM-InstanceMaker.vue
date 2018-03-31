@@ -1,5 +1,5 @@
 <template lang='pug'>
-div.container-fluid
+div.container-fluid#instance
   div.row
     h2.pull-left The Problem Instance
   div.row
@@ -136,5 +136,9 @@ export default {
 <style scoped>
 #buttonContainer div {
   margin-top: 2em;
+}
+#instance {
+  height: 400px;
+  overflow-y: scroll;
 }
 </style>

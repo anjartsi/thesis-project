@@ -5,7 +5,10 @@ div.fixed
       div.col-xs-4.text-right
         h4 Edit Mode
       div.col-xs-4
-        label.switch
+        label.switch(
+          @click='click'
+          @touchstart.prevent='click'
+        )
           input(
             type='checkbox'
             :checked='solving' 

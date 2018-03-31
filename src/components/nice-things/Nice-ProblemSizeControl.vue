@@ -5,41 +5,24 @@ div.container-fluid
     div.row(v-show='!editing').absolute-position
       div.col-xs-12.text-center
         h3#psize n = {{problemSize}} 
-      div.col-xs-12
+      div.col-xs-11
         div.alert.alert-info.text-center
           h4 You must be in 
             button.btn.btn-primary(
               @click='$store.dispatch(namespace +"/switchMode")'
               ) Edit Mode 
-            |  to change the problem size
+            |  to make changes to the instance
           h4 
             strong Warning:
-            |  Switching to Edit Mode will erase all progress made in the solver
-  div.row
-    div.col-xs-12.text-center
-      transition(appear name='fade')
-        div(v-show='editing')
-          label(for="n1") n =  
-          input#n1.text-center(
-            type='number'
-            :min='minimumValue'
-            :max='maximumValue'
-            v-model='problemSize'
-          ) 
+            |  Switching to Edit Mode will erase all progress made in the Solver
   transition(appear name='fade')
-    div.row(v-show='editing')
-      div.col-xs-3
-        nice-button.btn-danger(@click='decrement') -
-      div.col-xs-6
-        vue-slider(
-          :min='minimumValue'
-          :max='maximumValue'
-          v-model='problemSize'
-          :tooltip='false'
-          :dot-size='30'
-        )
-      div.col-xs-3
-        nice-button.btn-success(@click='increment') +
+    div.row#buttons(v-show='editing')
+      nice-button.btn-danger(@click='decrement') 
+        i.fa.fa-minus
+      div
+        h4 n = {{problemSize}}
+      nice-button.btn-success(@click='increment') 
+        i.fa.fa-plus
   
 </template>
 
@@ -113,5 +96,16 @@ div.alert {
 }
 .absolute-position {
   position: absolute;
+}
+#buttons {
+  text-align: center;
+}
+#buttons button{
+  width: 30%;
+  display: inline-block;
+}
+#buttons div {
+  display: inline-block;
+  width: 40%;
 }
 </style>
