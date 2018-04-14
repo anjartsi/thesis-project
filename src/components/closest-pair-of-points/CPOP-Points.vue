@@ -1,25 +1,25 @@
 <template lang="pug">
 div#pointsCont
-  h2 Points ({{myPoints.length}} total)
+  h3 Points 
+    br
+    | ({{myPoints.length}} total)
   div(
     v-if='editing'
   )
     nice-button.btn-danger(
       @click='vueDeleteAllPoints'
-    ) Delete All Points
-  h3(
+    ) Delete All
+  h4.text-center(
     v-else
     :style='{"background-color": stateColors.closest}'
-    ) Shortest Distance: {{shortest}}
+    ) Min Distance:
+      br 
+      | {{shortest}}
   div.scrollable
-    table.text-center.table.table-striped.table-hover
+    table.table.table-striped.table-hover
       thead
         tr
-          th.border-right Index
-          th x
-          th y
-          th(v-if='editing') Delete
-          th(v-else)
+          th Points
       tbody
         tr(
           v-for='(point, index) in myPoints'
@@ -27,12 +27,12 @@ div#pointsCont
           @mouseenter='vueHighlightPoint(index)'
           @mouseleave='vueUnhighlightPoint(index)'
           )
-          td.border-right(:style='{"background-color": indexColumnColor(index)}') {{index}}
-          td(:style='xyStyle(index)') {{point.x.toFixed(2)}}
-          td(:style='xyStyle(index)') {{point.y.toFixed(2)}}
-          td.danger(@click='deletePoint({ index })' v-if='editing')
-            span.fa.fa-times.text-danger
-          td(v-else)
+          //- todo - refactor this as a list
+          td(:style='xyStyle(index)') 
+            span.pull-left ({{point.x.toFixed(1)}} , {{point.y.toFixed(1)}} )
+            span.danger.pull-right(@click='deletePoint({ index })' v-if='editing')
+              i.fa.fa-times.text-danger
+            span(v-else)
       
 </template>
 

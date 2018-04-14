@@ -3,10 +3,10 @@ div#cpop
   CPOP-navbar
   div.container-fluid
     div.row
-      div.col-xs-2
+      div.col-xs-3
         div(v-if='editing')
           div.col-xs-12
-          CPOP-instance-maker
+            CPOP-instance-maker
           //- nice-message-output(
           //-   namespace='closestPairOfPoints'
           //-   :messages='messages.instanceMaker'
@@ -14,14 +14,15 @@ div#cpop
           //-   :height='200'
           //-   ) Messages
         div(v-else)
-          CPOP-solver
+          div.col-xs-12
+            CPOP-solver
           //- nice-message-output(
           //-   namespace='closestPairOfPoints'
           //-   :messages='messages.solver'
           //-   :displayHistory='true'
           //-   :height='200'
           //-   ) Messages
-      div.col-xs-8
+      div.col-xs-7
         CPOP-canvas-container
       div.col-xs-2
         CPOP-points
