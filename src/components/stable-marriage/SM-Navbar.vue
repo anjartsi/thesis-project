@@ -4,11 +4,13 @@ div
     div(slot='brand') Stable Marriage
     div(slot='modal')
       SM-save-load(:saveId='saveId'  :loadId='loadId')
+      
 </template>
 
 <script>
 import NiceSecondNav from '../nice-things/Nice-SecondNav';
 import SMSaveLoad from './SM-SaveLoad';
+import NiceAutomatorSmall from '../nice-things/Nice-AutomatorSmall';
 
 export default {
   data() {
@@ -21,7 +23,7 @@ export default {
     };
   },
   components: {
-    NiceSecondNav, SMSaveLoad,
+    NiceSecondNav, SMSaveLoad, NiceAutomatorSmall,
   },
 };
 </script>

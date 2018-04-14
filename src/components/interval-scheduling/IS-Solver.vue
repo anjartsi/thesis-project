@@ -2,18 +2,18 @@
 div
   div.row 
     h1 Solver
-  div.row
-    div.col-xs-12
+  div.col-xs-4
+      h4.text-center(v-if='!solved') {{buttonMsg[step % maxSteps]}}
+      h4.text-center(v-else) Finished!
       nice-button.btn-primary(
         @click='dosomething'
         :class='{ disabled: solved }'
         ) Click Me! 
-      h4.text-center(v-if='!solved') {{buttonMsg[step % maxSteps]}}
-      h4.text-center(v-else) Finished!
   br
-  div.row
+  div.col-xs-4
     div.alert.alert-success.text-center
       h4 Total Intervals in Solution: {{rowData.length}}
+  div.col-xs-4
     div.alert.alert-warning.text-center
       h4 Number of Steps Performed: {{step}}
   hr

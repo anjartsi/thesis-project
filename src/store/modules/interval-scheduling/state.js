@@ -21,7 +21,7 @@ state.rows = [
 ];
 state.problemSize = 3;
 state.earliestTime = 0;
-state.latestTime = 50;
+state.latestTime = 30;
 // for the solver
 state.sorted = false;
 state.removedFromSorted = [];

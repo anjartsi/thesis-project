@@ -57,11 +57,12 @@ div
                   @click='showExample(instance.instance_text)'
                 ) {{instance.instance_name}}
           slot(name='menu')
-
         //- The Lock-Unlock button
         ul.nav.navbar-nav.navbar-right
           li
             nice-button-lock.bg-primary(:namespace='namespace')
+        div.nav.navbar-nav
+          slot(name='automator')
   //- Add modal to save/load here
   slot(name='modal') 
     div.alert.alert-danger#error

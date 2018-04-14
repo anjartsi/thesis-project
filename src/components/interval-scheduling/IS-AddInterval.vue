@@ -1,11 +1,12 @@
 <template lang="pug">
 div.container-fluid
   div#newIntervalForm
-    div.row
+    div.col-xs-4
       label(for='startTime') Start: 
       button.btn.btn-danger(
         @click='decrementStart'
-      ) &minus;
+      )
+        i.fa.fa-minus
       input#startTime(
         type='number'
         :min='earliestTime'
@@ -14,13 +15,14 @@ div.container-fluid
       )
       button.btn.btn-success(
         @click='incrementStart'
-      ) &plus;
-    div.row
-      br
+      )
+        i.fa.fa-plus
+    div.div.col-xs-4
       label(for='finishTime') Finish:
       button.btn.btn-danger(
         @click='decrementFinish'
-      ) &minus;
+      ) 
+        i.fa.fa-minus
       input#finishTime(
         type='number'
         :min='startTime + 1'
@@ -29,17 +31,17 @@ div.container-fluid
       )
       button.btn.btn-success(
         @click='incrementFinish'
-      ) &plus;
-    div.row
-      br
+      ) 
+        i.fa.fa-plus
+    div.col-xs-4
       label(for='textInput') Interval:
       input#textInput(
         type='text'
         v-model.lazy='intervalText'
         @keyup.enter='addTypedInterval'
         )
-    div.row
-      br
+  div.row
+    div.col-xs-12
       vue-slider(
         :min='earliestTime'
         :max='latestTime'
@@ -50,8 +52,9 @@ div.container-fluid
       )
   br
   div.row
-    div.col-xs-12
+    div.col-xs-6
       nice-button.btn-success(@click='createNewInterval') Add Interval
+    div.col-xs-6
       nice-button.btn-warning(@click='createRandomInterval') Add Random Interval
 </template>
 

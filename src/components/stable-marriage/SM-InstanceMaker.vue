@@ -138,7 +138,7 @@ export default {
   margin-top: 2em;
 }
 #instance {
-  height: 400px;
-  overflow-y: scroll;
+  min-height: 400px;
+  /* overflow-y: scroll; */
 }
 </style>

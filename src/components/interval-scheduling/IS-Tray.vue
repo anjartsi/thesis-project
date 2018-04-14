@@ -2,15 +2,16 @@
   div
     div#tray(:style='trayStyle')
       IS-tray-ticks(:unit='unit')
-      div(v-for='(row, index) in rows')
-        div.rowName 
-          h4 {{index}}
-        IS-row(
-          :rowIndex='index'
-          :key='"row"+index'
-          :unit='unit'
-          :rowStyle='rowStyle'
-          )
+      div#scroll
+        div(v-for='(row, index) in rows')
+          div.rowName 
+            h4 {{index}}
+          IS-row(
+            :rowIndex='index'
+            :key='"row"+index'
+            :unit='unit'
+            :rowStyle='rowStyle'
+            )
       IS-tray-ticks(:unit='unit')
       div
         div.rowName#solutionRowName
@@ -88,9 +89,10 @@ export default {
 
 .rowName {
   position: absolute;  
-  left: 15px;
+  left: 0px;
   z-index: 1;
   background-color: rgba(20, 20, 20, 0.80);
+  width: 50px;
   color: white;
   text-align: center;
   padding-left: 1em;
@@ -101,6 +103,8 @@ export default {
 
 #solutionRowName {
   transform: rotate(90deg);
-  left: -10px;
+  width: fit-content;
+  left: -20px;
 }
+
 </style>

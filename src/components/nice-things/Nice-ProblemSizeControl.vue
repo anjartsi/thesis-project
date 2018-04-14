@@ -7,12 +7,12 @@ div.container-fluid
         h3#psize n = {{problemSize}} 
       div.col-xs-11
         div.alert.alert-info.text-center
-          h4 You must be in 
+          p You must be in 
             button.btn.btn-primary(
               @click='$store.dispatch(namespace +"/switchMode")'
               ) Edit Mode 
             |  to make changes to the instance
-          h4 
+          p 
             strong Warning:
             |  Switching to Edit Mode will erase all progress made in the Solver
   transition(appear name='fade')
