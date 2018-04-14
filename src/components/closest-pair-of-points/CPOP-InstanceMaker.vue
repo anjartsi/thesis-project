@@ -155,9 +155,10 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.points.length > 0) return;
-      for (let i = 0; i < 23; i++) {
+      for (let i = 0; i < 25; i++) {
         this.addRandomPoint();
       }
+      this.point = '250 250';
     });
   },
 };

@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div#solver
     h1 Solver
     h4
     nice-Button.btn-primary(
@@ -92,3 +92,9 @@ export default {
   },
 };
 </script>
+
+<style>
+#solver {
+  position: fixed;
+}
+</style>

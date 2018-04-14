@@ -63,6 +63,10 @@ export default {
 
 
 <style scoped>
+#cpop {
+  height: 665;
+  overflow-y: hidden;
+}
 #leftNav, #rightNav {
   background-color: #fff;
   position: fixed;
