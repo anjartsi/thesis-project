@@ -29,7 +29,7 @@ div#pointsCont
           )
           //- todo - refactor this as a list
           td(:style='xyStyle(index)') 
-            span.pull-left ({{point.x.toFixed(1)}} , {{point.y.toFixed(1)}} )
+            span.pull-left ({{point.x.toFixed(1)}} , {{point.y.toFixed(1)}})
             span.danger.pull-right(@click='deletePoint({ index })' v-if='editing')
               i.fa.fa-times.text-danger
             span(v-else)
@@ -145,22 +145,18 @@ export default {
 ul{
   list-style-type: none;
 }
-div {
-  max-height: 500px;
-}
 table {
   font-size: 16px;
 }
 .scrollable {
-  height: 500px;
+  height:638px;
   overflow-y: scroll;
 }
 tr {
   width: 100%;
 }
 td, th {
-  width: 25%;
-  text-align: center;
+  text-overflow: clip;
 }
 td.danger {
   cursor: pointer;

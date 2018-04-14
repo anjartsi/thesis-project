@@ -40,6 +40,6 @@ state.messages = {
 state.points = []; // A point looks like { x: 0, y:0 }
 
 // for drawings
-state.pointRadius = 4;
+state.pointRadius = 3;
 
 export default state;
