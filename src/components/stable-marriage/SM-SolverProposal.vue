@@ -2,7 +2,9 @@
 div
   div.row
     div.col-xs-12.text-center
-      h3 Next Proposal   ({{proposalCount}} total)
+      h3 Next Proposal   
+        br
+        |({{proposalCount}} total)
     transition(name='fade' key='SMSolverProposal')
       div.col-xs-12(v-if='!solved')
         transition(name='slide' key='SMSolverProposalNextProposal' mode='out-in')

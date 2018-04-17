@@ -35,14 +35,14 @@ div.container-fluid
         div#messageAlert.alert.alert-info
           h4 {{message}}    
   div.row
-    div.col-xs-6.col-lg-4
+    div.col-xs-4
       SMSolver-tentative
-    div.col-xs-6.col-lg-4
+    div.col-xs-5
       SMSolver-unmatched(
         @nextManClickedEvent='nextManClickedEventHandler'
         :clickable='clickable'
       )
-    div.col-xs-12.col-lg-4
+    div.col-xs-3
       SMSolver-proposal
   hr
   div.row

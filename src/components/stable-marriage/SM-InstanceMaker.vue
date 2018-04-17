@@ -1,8 +1,6 @@
 <template lang='pug'>
 div.container-fluid#instance
   div.row
-    h2.pull-left The Problem Instance
-  div.row
     div.col-xs-2
       div.row
       br
@@ -138,7 +136,7 @@ export default {
   margin-top: 2em;
 }
 #instance {
-  min-height: 400px;
+  min-height: 300px;
   /* overflow-y: scroll; */
 }
 </style>
