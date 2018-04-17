@@ -2,8 +2,8 @@
 div.parent
   canvas(
     ref='the-canvas' 
-    :class='{highlightable: solving && !selected, selected: selected}'
-    @click='selectMe'
+    :class='classes'
+    @click='canvasClick'
   )
     CPOP-canvas-point(
       v-for='(point, index) in myPoints'
@@ -55,6 +55,13 @@ export default {
       'solver',
       'problemTree',
     ]),
+    classes() {
+      return {
+        highlightable: this.solving && !this.selected,
+        selected: this.selected && this.solving,
+        editing: !this.solving,
+      };
+    },
     ...mapGetters([
       'solving',
       'getLeftChildCanvasNum',
@@ -103,7 +110,12 @@ export default {
   methods: {
     ...mapActions([
       'selectCanvas',
+      'addPoint',
     ]),
+    canvasClick(event) {
+      if (this.solving) this.selectMe();
+      else this.addCanvasPoint(event);
+    },
     selectMe() {
       if (this.solving) this.selectCanvas({ canvasNum: this.canvasNum });
     },
@@ -112,7 +124,6 @@ export default {
       const a = this.valueRange.max - this.valueRange.min + 2 * this.extraSpace;
       const b = this.valueRange.max - this.valueRange.min + 2 * this.extraSpace;
       this.provider.context.clearRect(-this.extraSpace, -this.extraSpace, a, b);
-      
     },
     redrawFrame() {
       this.clearCanvas();
@@ -121,6 +132,21 @@ export default {
         if (typeof child.draw === 'function') child.draw();
       });
     },
+    // add a point by clicking on canvas
+    addCanvasPoint(event) {
+      if (!this.solving) {
+        let x = event.offsetX - this.extraSpace / 2;
+        let y = event.offsetY - this.extraSpace / 2;
+        y = this.valueRange.max - y;
+        x = Math.max(x, this.valueRange.min);
+        x = Math.min(x, this.valueRange.max);
+        y = Math.max(y, this.valueRange.min);
+        y = Math.min(y, this.valueRange.max);
+
+        this.addPoint({ point: { x, y } } );
+      }
+    }
+
   },
   watch: {
     allPoints(newVal) {
@@ -170,5 +196,9 @@ div.parent {
   display: inline-block;
   /* text-align: center; */
   /* overflow: visible; */
+}
+.editing {
+  background-color: lightyellow;
+  cursor: crosshair;
 }
 </style>
