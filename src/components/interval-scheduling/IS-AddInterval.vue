@@ -1,7 +1,7 @@
 <template lang="pug">
 div.container-fluid
   div#newIntervalForm
-    div.col-xs-4
+    div.col-xs-6
       label(for='startTime') Start: 
       button.btn.btn-danger(
         @click='decrementStart'
@@ -17,7 +17,7 @@ div.container-fluid
         @click='incrementStart'
       )
         i.fa.fa-plus
-    div.div.col-xs-4
+    div.div.col-xs-6
       label(for='finishTime') Finish:
       button.btn.btn-danger(
         @click='decrementFinish'
@@ -33,13 +33,6 @@ div.container-fluid
         @click='incrementFinish'
       ) 
         i.fa.fa-plus
-    div.col-xs-4
-      label(for='textInput') Interval:
-      input#textInput(
-        type='text'
-        v-model.lazy='intervalText'
-        @keyup.enter='addTypedInterval'
-        )
   div.row
     div.col-xs-12
       vue-slider(

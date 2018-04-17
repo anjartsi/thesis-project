@@ -2,10 +2,19 @@
 div#is
   IS-navbar
   div.container-fluid
-    div.row
-      IS-instance-maker(
-        :unit='unit'
-        )
+    div.row#controls
+      div.col-xs-12
+        transition(appear name='fade' mode='out-in')
+          div(v-if='editing' key='instanceMaker')
+            IS-instance-maker
+          div(v-else)
+            IS-solver
+    hr
+    div.row#display
+      div.col-xs-12
+        h3 Intervals ({{problemSize}} total)
+      div.col-xs-12
+        IS-tray
     div.row
       transition(name='fade' key='nice-automator')
         nice-automator(
@@ -21,6 +30,7 @@ import { createNamespacedHelpers } from 'vuex';
 import ISNavbar from './IS-Navbar';
 import ISInstanceMaker from './IS-InstanceMaker';
 import ISSolver from './IS-Solver';
+import ISTray from './IS-Tray';
 import NiceAutomator from '../nice-things/Nice-Automator';
 
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('intervalScheduling');
@@ -30,19 +40,22 @@ export default {
     ISNavbar,
     ISInstanceMaker,
     ISSolver,
+    ISTray,
     NiceAutomator,
   },
   data() {
-    return {
-      unit: 30,
-    };
+    return {};
   },
   computed: {
     ...mapState([
-      'earliestTime', 'latestTime', 'solved',
+      'earliestTime',
+      'latestTime',
+      'solved',
+      'problemSize',
     ]),
     ...mapGetters([
       'solving',
+      'editing'
     ]),
   },
   methods: {
@@ -55,5 +68,12 @@ export default {
 </script>
 
 <style scoped>
+#controls {
+  height: 175px;
+}
+#display {
+  height: 350px;
+  overflow-y: scroll;
+}
   
 </style>

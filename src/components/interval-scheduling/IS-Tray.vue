@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div.container-fluid
     div#tray(:style='trayStyle')
       IS-tray-ticks(:unit='unit')
       div#scroll
@@ -12,17 +12,6 @@
             :unit='unit'
             :rowStyle='rowStyle'
             )
-      IS-tray-ticks(:unit='unit')
-      div
-        div.rowName#solutionRowName
-          h4 Solution
-        div.trayRow#solutionRow(:style='rowStyle')
-          IS-interval(
-            v-for='(interval, index) in solutionRowData'
-            :key='"interval_" + interval'
-            :index='interval'
-            :unit='unit'
-          )
       IS-tray-ticks(:unit='unit')
 
       
@@ -38,9 +27,7 @@ const { mapState, mapGetters } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: { ISRow, ISTrayTicks, ISInterval },
-  props: [
-    'unit',
-  ],
+  props: [],
   data() { return {}; },
   computed: {
     ...mapState([
@@ -51,27 +38,12 @@ export default {
       'max',
       'earliestTime',
       'latestTime',
+      'unit'
     ]),
-    ...mapState({
-      solutionRowData: 'solution',
-    }),
-    trayStyle() {
-      return {
-        'padding-left': `${this.unit}px`,
-        border: '1px solid black',
-        'user-select': 'none',
-        'overflow-x': 'auto',
-        width: '100%',
-      };
-    },
-    rowStyle() {
-      return {
-        width: `${this.unit * (this.latestTime - this.earliestTime)}px`,
-        position: 'relative',
-        height: '50px',
-        'font-size': '11px',
-      };
-    },
+    ...mapGetters([
+      'rowStyle',
+      'trayStyle'
+    ])
   },
   methods: {
     ...mapGetters([

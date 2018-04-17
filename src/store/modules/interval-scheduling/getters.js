@@ -73,4 +73,30 @@ storeGetters.getRowThatFits = (state, getters) => (index) => {
   return rowList[rowNum];
 };
 
+// for styling
+storeGetters.trayStyle = (state) => {
+  const { unit } = state;
+  const style = {
+    'padding-left': `${unit}}px`,
+    border: '1px solid black',
+    'user-select': 'none',
+    'overflow-x': 'auto',
+    width: '100%',
+  };
+
+  return style;
+};
+
+storeGetters.rowStyle = (state) => {
+  const { unit, latestTime, earliestTime } = state;
+  const rowStyle = {
+    width: `${unit * (latestTime - earliestTime)}px`,
+    position: 'relative',
+    height: '50px',
+    'font-size': '11px',
+
+  };
+  return rowStyle;
+};
+
 export default storeGetters;

@@ -32,4 +32,9 @@ state.currentTime = 0;
 state.step = 0;
 state.maxSteps = 2;
 
+// for styling/sizing the diagrams
+state.unit = 30;
+state.rowStyle = {};
+state.trayStyle = {};
+
 export default state;

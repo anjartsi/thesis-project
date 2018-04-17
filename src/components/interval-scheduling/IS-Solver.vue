@@ -1,22 +1,35 @@
 <template lang="pug">
 div
-  div.row 
-    h1 Solver
-  div.col-xs-4
-      h4.text-center(v-if='!solved') {{buttonMsg[step % maxSteps]}}
-      h4.text-center(v-else) Finished!
+  div.row
+    br
+    div.col-xs-1
+      h3 Solver
+    div.col-xs-4
       nice-button.btn-primary(
         @click='dosomething'
         :class='{ disabled: solved }'
-        ) Click Me! 
-  br
-  div.col-xs-4
-    div.alert.alert-success.text-center
-      h4 Total Intervals in Solution: {{rowData.length}}
-  div.col-xs-4
-    div.alert.alert-warning.text-center
-      h4 Number of Steps Performed: {{step}}
-  hr
+        v-if='!solved'
+        ) {{buttonMsg[step % maxSteps]}}
+      div.alert.alert-success.text-center(v-else) 
+        h4 Finished!
+    div.col-xs-3
+      div.alert.alert-info.text-center
+        h4 Intervals in Solution: {{rowData.length}}
+    div.col-xs-4
+      div.alert.alert-warning.text-center
+        h4 Number of Steps Performed: {{step}}
+  div.col-xs-12
+    div(:style='trayStyle')
+      IS-tray-ticks(:unit='unit')
+      div.solutionRowName
+        h4 Solution
+      div.trayRow#solutionRow(:style='rowStyle')
+        IS-interval(
+          v-for='(interval, index) in solutionRowData'
+          :key='"interval_" + interval'
+          :index='interval'
+          :unit='unit'
+        )
 </template>
 
 <script>
@@ -32,14 +45,12 @@ export default {
   components: {
     ISRow, ISInterval, ISTrayTicks, NiceButton,
   },
-  props: [
-    'unit',
-  ],
+  props: [],
   data() {
     return {
       buttonMsg: [
-        'Take Next Interval',
-        'Remove any Overlaps',
+        'Take next interval',
+        'Remove any intervals that overlap',
       ],
     };
   },
@@ -51,9 +62,15 @@ export default {
       maxSteps: 'maxSteps',
       solved: 'solved',
       rowData: 'solution',
+      unit: 'unit',
+    }),
+    ...mapState({
+      solutionRowData: 'solution',
     }),
     ...mapGetters([
       'solving',
+      'trayStyle',
+      'rowStyle',
     ]),
   }, // end computed
   methods: {
@@ -82,5 +99,30 @@ export default {
   height: 150px;
   width: 102%;
   z-index: 1;
+}
+.bottom {
+  bottom: 0px;
+}
+
+
+#solutionRow {
+  /* Same as dark colored rows */
+  background-color:lightgray;
+}
+
+.solutionRowName {
+  position: absolute;  
+  z-index: 1;
+  background-color: rgba(20, 20, 20, 0.80);
+  width: 50px;
+  color: white;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  transform: rotate(90deg);
+  width: fit-content;
+  left: -40px;
 }
 </style>
