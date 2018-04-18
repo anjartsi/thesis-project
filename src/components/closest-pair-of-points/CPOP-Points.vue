@@ -1,6 +1,6 @@
 <template lang="pug">
 div#pointsCont
-  h3 Points 
+  h3.text-center Points 
     br
     | ({{myPoints.length}} total)
   div(
@@ -17,9 +17,6 @@ div#pointsCont
       | {{shortest}}
   div.scrollable
     table.table.table-striped.table-hover
-      thead
-        tr
-          th Points
       tbody
         tr(
           v-for='(point, index) in myPoints'
