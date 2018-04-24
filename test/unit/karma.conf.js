@@ -15,11 +15,11 @@ module.exports = function (config) {
     // 2. add it to the `browsers` array below.
     // You can also use ChromeHeadless or PhantomJS
     browsers: ['Chrome', 'Firefox'],
-    frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
+    frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec', 'coverage'],
     files: [
       '../../node_modules/babel-polyfill/dist/polyfill.js',
-      './index2.js'
+      './index.js'
     ],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']

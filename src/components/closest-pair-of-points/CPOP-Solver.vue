@@ -1,38 +1,40 @@
 <template lang="pug">
   div#solver
     h1 Solver
-    h4
+    h4 Divide
     nice-Button.btn-primary(
       @click='divide'
       :class='{disabled:finished || divided || pointsInSubproblem <= 3}'
-    ) Divide
+    ) One
     nice-Button.btn-success(
       @click='divideLevel'
-    ) Divide Entire Level
+    ) Entire Level
     hr
+    h4 Brute Force
     nice-Button.btn-primary(
       @click='bruteForceOne'
       :class='{disabled:finished || divided}'
-    ) Brute Force (one step)
+    ) One
     nice-Button.btn-warning(
       @click='bruteForceAuto'
       :class='{disabled:finished || divided}'
-    ) Brute Force (auto)
+    ) Auto
     nice-Button.btn-success(
       @click='bruteForceLevel'
-    ) Brute Force Entire Level
+    ) Entire Level
     hr
+    h4 Conquer
     nice-Button.btn-primary(
       @click='conquerOne'
       :class='{disabled: !readyToConquer}'
-    ) Conquer (one step)
+    ) One
     nice-Button.btn-warning(
       @click='conquerAuto'
       :class='{disabled: !readyToConquer}'
-    ) Conquer (auto)
+    ) Auto
     nice-Button.btn-success(
       @click='conquerLevel'
-    ) Conquer Entire Level
+    ) Entire Level
 </template>
 
 <script>
@@ -94,7 +96,13 @@ export default {
 </script>
 
 <style>
+
 #solver {
   position: fixed;
 }
+
+.disabled {
+  visibility: hidden!important;
+}
+
 </style>

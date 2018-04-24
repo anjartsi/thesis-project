@@ -11,7 +11,7 @@ div.container-fluid
         type='number'
         :min='earliestTime'
         :max='finishTime - 1'
-        v-model='startTime'
+        v-model.lazy='startTime'
       )
       button.btn.btn-success(
         @click='incrementStart'
@@ -27,7 +27,7 @@ div.container-fluid
         type='number'
         :min='startTime + 1'
         :max='latestTime'
-        v-model='finishTime'
+        v-model.lazy='finishTime'
       )
       button.btn.btn-success(
         @click='incrementFinish'

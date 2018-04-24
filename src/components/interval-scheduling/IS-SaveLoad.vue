@@ -9,7 +9,7 @@ div
         download='interval-scheduling-instance.txt'
         ) Download Text File
     h5 Or copy the following text
-    textarea(
+    textarea.saveText(
       readonly
       :rows='12' 
       :cols='40' 
@@ -32,7 +32,7 @@ div
                 li The second integer will be the finish time of the interval
                 li Note: 
                   em StartTime < FinishTime
-            li Any lines that don't meet the above criteria will be ignored
+            li If any lines don't meet the above criteria, the entire file will be ignored
             li Any empty lines will be ignored
       div.col-xs-6
         div.row
@@ -73,7 +73,7 @@ div
     button.close(
       type='button'
       aria-label='close'
-      @click='$store.commit("loadStart")'
+      @click='$store.commit(namespace+"/loadStart")'
     )
       span(aria-hidden='true') &times;
     h4 Error while loading file
@@ -99,6 +99,7 @@ export default {
       loadInput: '',
       message: [],
       uploadFile: undefined,
+      namespace: 'intervalScheduling'
     };
   },
   computed: {
@@ -171,5 +172,7 @@ export default {
 #rules h3 {
   margin-left: 0.5em;
 }
-
+.saveText {
+  background-color: #DDD;
+}
 </style>

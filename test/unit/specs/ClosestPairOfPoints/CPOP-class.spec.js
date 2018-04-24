@@ -463,8 +463,8 @@ describe('Class: ClosestPairOfPoints:', () => {
           shortest: 10,
         }, 
         {
-          number_of_points: 6,
-          indeces_sorted_by_y: '2 5 4 6 3 7 ',
+          number_of_points: 5,
+          indeces_sorted_by_y: '5 4 6 3 7 ',
         });
       helpers.findPointsInStripTest('Even number of points',
         {
@@ -483,8 +483,8 @@ describe('Class: ClosestPairOfPoints:', () => {
           shortest: 10,
         },
         {
-          number_of_points: 6,
-          indeces_sorted_by_y: '2 5 4 6 3 7 ',
+          number_of_points: 5,
+          indeces_sorted_by_y: '5 4 6 3 7 ',
         });   
     });
   }); // end findPointsInStrip

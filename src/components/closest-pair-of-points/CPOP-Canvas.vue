@@ -31,7 +31,7 @@ div.parent
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import NiceCanvas from '../nice-things/Nice-canvas';
+import NiceCanvas from '../nice-things/Nice-Canvas';
 import CPOPCanvasController from './CPOP-CanvasController';
 import CPOPCanvasPoint from './CPOP-CanvasPoint';
 
@@ -54,6 +54,7 @@ export default {
       'valueRange',
       'solver',
       'problemTree',
+      'randomRange',
     ]),
     classes() {
       return {
@@ -124,6 +125,13 @@ export default {
       const a = this.valueRange.max - this.valueRange.min + 2 * this.extraSpace;
       const b = this.valueRange.max - this.valueRange.min + 2 * this.extraSpace;
       this.provider.context.clearRect(-this.extraSpace, -this.extraSpace, a, b);
+      let range = this.randomRange;
+      if(!this.solving) {
+        this.provider.context.save();
+        this.provider.context.fillStyle = 'lightgray';
+        this.provider.context.fillRect(range.x, range.y, range.w, range.h);
+        this.provider.context.restore();
+      }
     },
     redrawFrame() {
       this.clearCanvas();
@@ -149,6 +157,12 @@ export default {
 
   },
   watch: {
+    solving() {
+      this.redrawFrame();
+    },
+    randomRange() {
+      this.redrawFrame();
+    },
     allPoints(newVal) {
       // If all the points get deleted, the last point remains drawn
       // So we need to call the clearCanvas method in this case

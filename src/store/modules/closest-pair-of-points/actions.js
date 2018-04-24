@@ -20,6 +20,9 @@ actions.deletePoint = (context, { index }) => {
 actions.changePointColor = (context, { canvasNum, index, newColor, oldColor }) => {
   context.commit('forcePointColor', { canvasNum, index, newColor, oldColor });
 };
+actions.updateRandomRange = (context, payload) => {
+  context.commit('updateRandomeRange', payload);
+};
 
 actions.selectCanvas = (context, { canvasNum }) => {
   if (context.getters.solving) {
@@ -125,13 +128,11 @@ actions.loadFile = (context, { loadText }) => {
       context.commit('addLoadMessage', { err: true, msg });
     }
   });
-  if (valid) {
-    const oldProblemSize = context.state.points.length;
-    for (let i = 0; i < oldProblemSize; i++) {
-      context.dispatch('deletePoint', { index: 0 });
-    }
-    points.forEach(element => context.dispatch('addPoint', { point: element }));
-    context.commit('resetSolver');
+  const oldProblemSize = context.state.points.length;
+  for (let i = 0; i < oldProblemSize; i++) {
+    context.dispatch('deletePoint', { index: 0 });
   }
+  points.forEach(element => context.dispatch('addPoint', { point: element }));
+  context.commit('resetSolver');
 }; // end loadFile
 export default actions;

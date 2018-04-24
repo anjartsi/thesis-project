@@ -100,7 +100,7 @@ transition(appear)
   div.m {
   }
   div.w {
-    border-radius: 18px;
+    border-radius: 100%;
   }
   div.redExCont {
     position: absolute;

@@ -28,7 +28,7 @@ export default {
 
   body {
     padding-top: 100px;
-    background-color: #101010;
+    /* background-color: #101010; */
   }
   
   .cant-highlight-text {

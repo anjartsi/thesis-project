@@ -9,7 +9,7 @@ div
         download='closest-pair-of-points-instance.txt'
         ) Download Text File
     h5 Or copy the following text
-    textarea(
+    textarea.saveText(
       readonly
       :rows='12' 
       :cols='40' 
@@ -171,4 +171,7 @@ export default {
   margin-left: 0.5em;
 }
 
+.saveText {
+  background-color: #DDD;
+}
 </style>

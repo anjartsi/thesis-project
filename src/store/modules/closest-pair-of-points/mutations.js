@@ -7,7 +7,7 @@ const mutations = {};
 Object.assign(mutations, globals.mutations);
 
 mutations.changeProblemSize = (state) => {
-  state.problemSize.current = state.points.length;
+  Vue.set(state.problemSize, 'current', state.points.length);
 };
 mutations.addPoint = (state, { point }) => {
   const { x, y } = point;
@@ -34,6 +34,7 @@ mutations.addPoint = (state, { point }) => {
   state.points.push({ x, y });
   state.problemTree[0].colors.push(state.colors.default);
 };
+
 mutations.deletePoint = (state, { index }) => {
   if (index < state.points.length && index >= 0) {
     const point = state.points[index];
@@ -55,12 +56,32 @@ mutations.changePointColor = (state, { canvasNum, index, newColor, oldColor }) =
     }
   }
 };
+
 mutations.forcePointColor = (state, { canvasNum, index, newColor }) => {
   // changes the color of a point no matter what
   const newCol = newColor || state.colors.default;
   if (index < state.points.length && index >= 0) {
     Vue.set(state.problemTree[canvasNum].colors, index, newCol);
   }
+};
+mutations.updateRandomeRange = (state, payload) => {
+  let { x1, x2, y1, y2 } = payload;
+  let { min, max } = state.valueRange;
+
+  x1 = Math.max(min, x1);
+  x1 = Math.min(max, x1);
+  x2 = Math.max(min, x2);
+  x2 = Math.min(max, x2);
+  y1 = Math.max(min, y1);
+  y1 = Math.min(max, y1);
+  y2 = Math.max(min, y2);
+  y2 = Math.min(max, y2);
+
+  let x = Math.min(x1, x2);
+  let y = Math.min(y1, y2);
+  let w = Math.abs(x2 - x1);
+  let h = Math.abs(y2 - y1);
+  Vue.set(state, 'randomRange', {x, y, w, h});
 };
 mutations.sortPointsByX = (state) => {
   const arr = state.points.slice();
@@ -70,6 +91,7 @@ mutations.sortPointsByX = (state) => {
     return comparison;
   });
 };
+
 mutations.selectCanvas = (state, { canvasNum }) => {
   // when a canvas is clicked, that's the one that gets all the solver attention
   // If this is a new canvas, then print add it to messages
@@ -223,8 +245,8 @@ mutations.conquerOne = (state) => {
 
   const leftChild = 2 * canvasNum + 1;
   const rightChild = 2 * canvasNum + 2;
-  if (!state.problemTree[leftChild].finished
-    || !state.problemTree[rightChild].finished) {
+  if (!state.problemTree[leftChild].finished ||
+     !state.problemTree[rightChild].finished) {
     state.messages.solver.push('WARNING! Before this problem can be conquered, both of its subproblems must be finished.');
     return;
   }
@@ -238,16 +260,16 @@ mutations.conquerOne = (state) => {
   }
   const strip = problem.pointsInStrip;
   if (strip.length === 0) {
-    Vue.set(finished, true);
+    Vue.set(state.problemTree[canvasNum], finished, true);
     Vue.set(colors, problem.closestA, state.colors.closest);
     Vue.set(colors, problem.closestB, state.colors.closest);
   }
 
   // If i and j have not been modified from their initial values,
   // then the strip needs to be
-  if (state.problemTree[canvasNum].i === 0
-    && state.problemTree[canvasNum].j === 1
-    && colors[strip[0]] !== state.colors.strip
+  if (state.problemTree[canvasNum].i === 0 &&
+     state.problemTree[canvasNum].j === 1 &&
+     colors[strip[0]] !== state.colors.strip
   ) {
     for (let ii = 0; ii < strip.length; ii++) {
       Vue.set(colors, strip[ii], state.colors.strip);
@@ -279,7 +301,6 @@ mutations.conquerOne = (state) => {
   }
 };
 
-export default mutations;
 
 mutations.conquerAuto = (state) => {
   const { canvasNum } = state.solver;
@@ -296,8 +317,8 @@ mutations.conquerAuto = (state) => {
 
   const leftChild = 2 * canvasNum + 1;
   const rightChild = 2 * canvasNum + 2;
-  if (!state.problemTree[leftChild].finished
-    || !state.problemTree[rightChild].finished) {
+  if (!state.problemTree[leftChild].finished ||
+     !state.problemTree[rightChild].finished) {
     state.messages.solver.push('WARNING! Before this problem can be conquered, both of its subproblems must be finished.');
     return;
   }
@@ -318,3 +339,5 @@ mutations.loadStart = (state) => {
   state.loadMessage = [];
   state.loadError = false;
 };
+
+export default mutations;

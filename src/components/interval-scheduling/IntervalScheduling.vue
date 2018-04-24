@@ -69,10 +69,10 @@ export default {
 
 <style scoped>
 #controls {
-  height: 175px;
+  height: 160px;
 }
 #display {
-  height: 350px;
+  height: 340px;
   overflow-y: scroll;
 }
   

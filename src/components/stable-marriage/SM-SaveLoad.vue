@@ -9,7 +9,7 @@ div
         download='stable-marriage-instance.txt'
         ) Download Text File
     h5 Or copy the following text
-    textarea(
+    textarea.saveText(
       readonly
       :rows='problemSize * 2 + 2' 
       :cols='problemSize * 2 + 10' 
@@ -77,7 +77,7 @@ div
     button.close(
       type='button'
       aria-label='close'
-      @click='$store.commit("loadStart")'
+      @click='$store.commit(namespace+"/loadStart")'
     )
       span(aria-hidden='true') &times;
     h4 Error while loading file
@@ -103,6 +103,7 @@ export default {
       loadInput: '',
       message: [],
       uploadFile: undefined,
+      namespace: 'stableMarriage',
     };
   },
   computed: {
@@ -188,4 +189,7 @@ export default {
   margin-left: 0.5em;
 }
 
+.saveText {
+  background-color: #DDD;
+}
 </style>

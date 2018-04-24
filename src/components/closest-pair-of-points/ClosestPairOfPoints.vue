@@ -3,7 +3,7 @@ div#cpop
   CPOP-navbar
   div.container-fluid
     div.row
-      div.col-xs-3
+      div.col-xs-2
         div(v-if='editing')
           div.col-xs-12
             CPOP-instance-maker
@@ -22,9 +22,9 @@ div#cpop
           //-   :displayHistory='true'
           //-   :height='200'
           //-   ) Messages
-      div.col-xs-7
+      div.col-xs-8#middle
         CPOP-canvas-container
-      div.col-xs-2
+      div.col-xs-2#right
         CPOP-points
 </template>
 
@@ -76,6 +76,11 @@ export default {
 }
 #rightNav {
   right: 0px;
+}
+
+#middle, #right {
+  height: 630px;
+  overflow-x: scroll;
 }
 
 </style>

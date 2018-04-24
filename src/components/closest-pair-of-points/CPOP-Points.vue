@@ -96,12 +96,12 @@ export default {
       return col;
     },
     xyStyle(index) {
-      if ((index === this.closestA || index === this.closestB) && index !== null) {
-        return {
-          'background-color': '#AAFFAA',
-        };
-      }
-      return null;
+      if (index === undefined) return null;
+      let col = this.colors[index]
+      if (col === 'black') col = 'white';
+      return {
+        'background-color': col,
+      };
     },
     vueHighlightPoint(index) {
       // remember the color it previously was
@@ -143,11 +143,7 @@ ul{
   list-style-type: none;
 }
 table {
-  font-size: 16px;
-}
-.scrollable {
-  height:638px;
-  overflow-y: scroll;
+  font-size: 14px;
 }
 tr {
   width: 100%;

@@ -27,10 +27,11 @@ state.solver = {
   canvasNum: 0,
 };
 state.valueRange = { min: 0, max: 500 };
+state.randomRange = {x: 0, y: 0, h: 500, w: 500};
 state.problemSize = {
-  max: 500,
+  max: 200,
   min: 0,
-  current: 8,
+  current: 0,
 };
 state.messages = {
   instanceMaker: ['Add Some Points'],

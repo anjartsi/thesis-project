@@ -7,7 +7,6 @@ Object.assign(actions, globals.actions);
 actions.updateProblemSize = (context, payload) => {
   context.commit('changeProblemSize', payload);
 };
-
 actions.addInterval = (context, { start, finish }) => {
   context.commit('createInterval', { start, finish });
   // This is the index of the latest interval
@@ -77,9 +76,9 @@ actions.loadFile = (context, payload) => {
     const row = element.trim().split(/\s+/);
     const start = Number.parseInt(row[0], 10);
     const finish = Number.parseInt(row[1], 10);
-    correct = row.length === 2;
-    correct = correct && start >= context.state.min;
-    correct = correct && finish <= context.state.max;
+    correct = row.length === 2; // must have exactly 2 numbers
+    correct = correct && start >= context.state.earliestTime;
+    correct = correct && finish <= context.state.latestTime;
     correct = correct && start < finish;
     if (correct) {
       intervals.push({ start, finish });

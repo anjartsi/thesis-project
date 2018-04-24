@@ -33,14 +33,15 @@ export default {
 
 <style scoped>
 #canvasContainer {
-  overflow-x: scroll;
   overflow-wrap: normal;
-  max-height: 800px;
 }
 #canvasScroll {
   display: inline-block;
   width: max-content;
   max-width: max-content;
   min-width: max-content;
+  border: 1px solid black;
+  background-color: white;
+  padding: 15px;
 }
 </style>

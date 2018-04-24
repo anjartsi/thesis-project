@@ -5,6 +5,7 @@ const mutations = {};
 // copy the global state values into state
 Object.assign(mutations, globals.mutations);
 
+
 mutations.createInterval = (state, payload) => {
   let start = 0;
   let finish = 1;

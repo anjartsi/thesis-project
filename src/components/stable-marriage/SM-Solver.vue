@@ -8,8 +8,8 @@ div.container-fluid
         h3 You must be in 
           button.btn.btn-lg.btn-primary(@click='$store.dispatch("stableMarriage/switchMode")') Solve Mode
           |  before trying to solve the problem
-  div.row.text-center
-    div.col-xs-6.col-md-4.text-center
+  div.row.text-center#controls
+    div.col-xs-4.text-center
       div.col-xs-12
         label Who proposes next?
       transition(appear name='fade' key='nextMan')
@@ -19,7 +19,7 @@ div.container-fluid
               v-for='option in nextMan.options'
               :value='option.value'
             ) {{option.text}}
-    div.col-xs-4.col-md-3.col-xl-2
+    div.col-xs-3
       div.col-xs-12
         label Next Step
       transition(appear name='fade' key='proposeDispose')
@@ -28,7 +28,7 @@ div.container-fluid
           :class='{disabled: solved}'
           v-show='solving && !solved'
         ) Propose / Dispose
-    div.col-xs-12.col-md-5.col-xl-4
+    div.col-xs-5
       div.col-xs-12
         label Message
       div.col-xs-12
@@ -170,5 +170,9 @@ export default {
 }
 #messageAlert {
   height: 70px;
+}
+
+#controls {
+  background-color: #ddd;
 }
 </style>

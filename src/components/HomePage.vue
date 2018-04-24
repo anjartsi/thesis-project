@@ -4,7 +4,7 @@
       div.col-xs-12
         h1.hello Welcome to Fun with Algorithms!
     div.row
-      div.col-xs-12.col-lg-6
+      div.col-xs-6
         div.col-xs-12
           h2 Problems
         div.col-xs-12
@@ -14,7 +14,7 @@
                 h4
                   router-link(v-if='topic.link' :to='topic.link') {{topic.name}}
                   p(v-else) {{topic.name}}
-      div.col-xs-12.col-lg-6
+      div.col-xs-6
         div.col-xs-12
           h2 What is this?
         div.col-xs-12
