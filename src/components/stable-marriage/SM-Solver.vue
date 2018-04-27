@@ -26,14 +26,16 @@ div.container-fluid
         nice-button.btn-primary(
           @click='proposeDispose'
           :class='{disabled: solved}'
-          v-show='solving && !solved'
+          v-show='solving && !solved && !clickable'
         ) Propose / Dispose
     div.col-xs-5
       div.col-xs-12
         label Message
       div.col-xs-12
-        div#messageAlert.alert.alert-info
+        div#messageAlert.alert.alert-info(v-if='!clickable')
           h4 {{message}}    
+        div#messageAlert.alert.alert-info(v-else) 
+          h4 Click on a man in the Unmatched section below
   div.row
     div.col-xs-4
       SMSolver-tentative
