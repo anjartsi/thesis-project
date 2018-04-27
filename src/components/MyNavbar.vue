@@ -1,5 +1,5 @@
 <template lang="pug">
-nav.navbar.navbar-fixed-top.navbar-default
+nav.navbar.navbar-fixed-top.navbar-default#noselect
   div.container-fluid
     div.navbar-header
       button.navbar-toggle.collapsed(type="button" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false")
@@ -32,5 +32,8 @@ export default{
 <style scoped>
   nav {
     margin-bottom: 0px;
+  }
+  #noselect {
+    user-select: none;
   }
 </style>

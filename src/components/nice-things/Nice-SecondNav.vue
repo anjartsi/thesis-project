@@ -1,5 +1,5 @@
 <template lang='pug'>
-div
+div#noselect
   nav.navbar.navbar-fixed-top.navbar-inverse#navbar2
     div.container-fluid
       //- Navbar head
@@ -58,18 +58,28 @@ div
                 ) {{instance.instance_name}}
           slot(name='menu')
         //- The Lock-Unlock button
-        ul.nav.navbar-nav.navbar-right
+        ul.nav.navbar-nav.navbar-right.armen
           li
-            a#show-hints(
+            a.show-hide-button(
+              role='button'
+              @click='showProblem'
+            )
+              i.fa.fa-puzzle-piece.problem
+              |   Problem
+          li
+            a.show-hide-button(
+              role='button'
+              @click='showPseudocode'
+            )
+              i.fa.fa-list.pseudo
+              |   Pseudo Code
+          li
+            a.show-hide-button(
               role='button'
               @click='showHints'
             )
-              h4(v-if='hints')
-                i.fa.fa-question-circle 
-                |  Show Hints
-              h4(v-else)
-                i.fa.fa-question-circle 
-                |   Hide Hints
+              i.fa.fa-question-circle.hints
+              |   Hints
           li
             nice-button-lock.bg-primary(:namespace='namespace')
         div.nav.navbar-nav
@@ -95,9 +105,6 @@ export default {
   ],
   computed: {
     solving() { return this.$store.getters[`${this.namespace}/solving`]; },
-    hints() { 
-      return this.$store.state[this.namespace].hints;
-    },
   },
   data() {
     return {
@@ -115,6 +122,12 @@ export default {
   methods: {
     showHints() {
       this.$store.dispatch(`${this.namespace}/showHints`);
+    },
+    showPseudocode() {
+      this.$store.dispatch(`${this.namespace}/showPseudocode`);
+    },
+    showProblem() {
+      this.$store.dispatch(`${this.namespace}/showProblem`);
     },
     showExample(text) {
       if (!this.solving) this.$store.dispatch(`${this.namespace}/loadFile`, { loadText: text });
@@ -139,6 +152,11 @@ export default {
     margin-top: 50px;
     margin-bottom: 0px;
   }
+  .navbar-brand {
+    width: 130px;
+    padding-top: 8px;
+    text-align: center;
+  }
   #error {
     text-align: center;
     position: absolute;
@@ -148,8 +166,24 @@ export default {
     z-index: 1;
     opacity: 0.75;
   }
-  #show-hints h4 {
+  .show-hide-button h4 {
     margin: 0px;
   }
   
+
+  #noselect {
+    user-select: none;
+  }
+  .funny {
+    transform: rotate(180);
+  }
+  .fa.problem {
+    color: #31708f;
+  }
+  .fa.pseudo {
+    color: gold;
+  }
+  .fa.hints {
+    color: green;
+  }
 </style>

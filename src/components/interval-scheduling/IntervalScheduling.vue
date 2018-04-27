@@ -1,5 +1,5 @@
 <template lang='pug'>
-div#is
+div#is.noselect
   IS-navbar
   div.container-fluid
     div.row#controls
@@ -22,7 +22,25 @@ div#is
           :speed='500'
           :disableIf='solved || !solving'
         )
-    
+    nice-pseudocode(namespace='intervalScheduling')#pseudo
+      ul 
+        li While there are intervals left
+          ul
+            li Take the interval with the earliest Finish Time
+            li Remove any intervals that overlap with it
+    nice-problem(namespace='intervalScheduling')#problem
+      ul
+        li
+          strong Given: 
+          |  A list of intervals <em>(StartTime, FinishTime)</em>
+        li
+          strong Find: 
+          em The maximum number
+          |   of intervals that can be scheduled without having any two intervals 
+          em overlap
+          ul 
+            li Two intervals are said to <em>overlap</em> if one interval starts after the other starts, but before the other is finished
+
 </template>
 
 <script>
@@ -32,6 +50,8 @@ import ISInstanceMaker from './IS-InstanceMaker';
 import ISSolver from './IS-Solver';
 import ISTray from './IS-Tray';
 import NiceAutomator from '../nice-things/Nice-Automator';
+import NicePseudocode from '../nice-things/Nice-Pseudocode';
+import NiceProblem from '../nice-things/Nice-Problem';
 
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('intervalScheduling');
 
@@ -42,6 +62,8 @@ export default {
     ISSolver,
     ISTray,
     NiceAutomator,
+    NicePseudocode,
+    NiceProblem,
   },
   data() {
     return {};
@@ -86,5 +108,11 @@ export default {
   height: 340px;
   overflow-y: scroll;
 }
-  
+.noselect {
+  user-select: none;
+}
+#problem em {
+  background-color: white;
+  color: black;
+}
 </style>

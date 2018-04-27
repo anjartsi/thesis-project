@@ -13,7 +13,9 @@ const stateObj = {
   },
   loadMessage: [],
   loadError: false,
-  hints: true,
+  hints: false,
+  pseudocode: false,
+  showProblem: false,
 };
 
 const getters = {
@@ -42,6 +44,23 @@ const mutations = {
   },
   showHints(state) {
     state.hints = !state.hints;
+    state.pseudocode = false;
+    state.showProblem = false;
+  },
+  showPseudocode(state) {
+    state.hints = false;
+    state.pseudocode = !state.pseudocode;
+    state.showProblem = false;
+  },
+  showProblem(state) {
+    state.hints = false;
+    state.pseudocode = false;
+    state.showProblem = !state.showProblem;
+  },
+  unshowAll(state) {
+    state.hints = false;
+    state.pseudocode = false;
+    state.showProblem = false;
   },
 };
 const actions = {
@@ -53,6 +72,15 @@ const actions = {
   showHints(context) {
     context.commit('showHints');
   },
+  showPseudocode(context) {
+    context.commit('showPseudocode');
+  },
+  showProblem(context) {
+    context.commit('showProblem');
+  },
+  unshowAll(context) {
+    context.commit('unshowAll');
+  }
 };
 
 export default {

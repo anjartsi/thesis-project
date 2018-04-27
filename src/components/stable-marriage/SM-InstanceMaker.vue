@@ -36,19 +36,19 @@ div.container-fluid#instance
             :colors='colors'
             v-on:reorderBoxes='swap'
           )
-        transition(appear name='fade' key='SMHint')
-          div.alert.alert-success#hint(v-if='locked && !hints')
-            h4 Click and drag any of the boxes (or circles) in the 
-              strong Preference Lists 
-              | to reorder preferences (except the ones with a black background)
-            h4 On a touch screen, tap on any two boxes (or circles) 
-              | to swap them
+        nice-hint(namespace='stableMarriage'  :show='locked')#hintswap
+          h4 Click and drag any of the boxes (or circles) in the 
+            strong Preference Lists 
+            | to reorder preferences (except the ones with a black background)
+          h4 On a touch screen, tap on any two boxes (or circles) 
+            | to swap them
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import stuff from '../../scripts/stuff';
 import NiceButton from '../nice-things/Nice-Button';
+import NiceHint from '../nice-things/Nice-Hint';
 import NiceButtonLock from '../nice-things/Nice-ButtonLock';
 import ProblemSizeControl from '../nice-things/Nice-ProblemSizeControl';
 import SMPreferenceList from './SM-PreferenceList';
@@ -57,7 +57,11 @@ const { mapState, mapGetters } = createNamespacedHelpers('stableMarriage');
 
 export default {
   components: {
-    NiceButton, NiceButtonLock, ProblemSizeControl, SMPreferenceList,
+    NiceButton,
+    NiceHint,
+    NiceButtonLock,
+    ProblemSizeControl,
+    SMPreferenceList,
   },
   // end components
   props: [
@@ -76,7 +80,6 @@ export default {
       'min',
       'max',
       'preferences',
-      'hints',
     ]),
     ...mapGetters({
       locked: 'editing',
@@ -147,9 +150,7 @@ export default {
   min-height: 300px;
   /* overflow-y: scroll; */
 }
-#hint {
-  position: absolute;
-  /* background-color: red; */
+#hintswap {
   top: 100%;
   z-index: 10;
 }

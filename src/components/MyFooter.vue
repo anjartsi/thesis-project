@@ -20,5 +20,6 @@
   #footer {
     color: white;
     background-color: #101010;
+    user-select: none;
   }
 </style>

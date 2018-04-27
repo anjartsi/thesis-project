@@ -6,7 +6,7 @@
     div.row
       div.col-xs-6
         div.col-xs-12
-          h2 Problems
+          h2 List of Problems
         div.col-xs-12
           h3(v-for='chapter in chapters') {{chapter.name}}
             ul
@@ -16,13 +16,17 @@
                   p(v-else) {{topic.name}}
       div.col-xs-6
         div.col-xs-12
-          h2 What is this?
+          h2 Description
         div.col-xs-12
-          ul
-            li 
-              p This website is designed to help teach (and learn) the process of some algorithms (also makes them fun)
-            li 
-              p You can create an instance of a problem, and see how the solution is found, step by step!
+          p.desc This website is an Algorithm Visualization 
+            |  tool designed to help teachers. 
+            |  The idea is to 
+            |  save in-class time for interesting lectures and engaging discussions, not drawing
+            |  complex diagrams on the whiteboard as your students browse the Facebook.
+          p.desc You can create instances of a problem, and run an algorithm to solve it, step by step.
+            |  You can also save instances onto your local machine as a text file to load later. 
+            |  You can even load some prebuilt examples right from the page! 
+          p.desc This site has been designed to be easy to learn, and fun to use (hopefully)! 
         div.col-xs-12  
 
 
@@ -67,11 +71,17 @@
 </script>
 
 <style scoped>  
-  p, h3 a {
-    font-size: 2rem;
+  h3 a {
+    font-size: 25px;
+    text-decoration: underline;
+  }
+
+  p.desc {
+    font-size: 20px;
   }
 
   ul li {
     list-style: none;
+    font-size: 20px;
   }
 </style>

@@ -3,26 +3,28 @@ div#cpop
   CPOP-navbar
   div.container-fluid
     div.row
-      div.col-xs-2
+      div.col-xs-2#left.noselect
         div(v-if='editing')
           div.col-xs-12
             CPOP-instance-maker
-          //- nice-message-output(
-          //-   namespace='closestPairOfPoints'
-          //-   :messages='messages.instanceMaker'
-          //-   :displayHistory='true'
-          //-   :height='200'
-          //-   ) Messages
+          nice-message-output(
+            namespace='closestPairOfPoints'
+            :messages='messages.instanceMaker'
+            :displayHistory='true'
+            :height='200'
+            v-if='false'
+            ) Messages
         div(v-else)
           div.col-xs-12
             CPOP-solver
-          //- nice-message-output(
-          //-   namespace='closestPairOfPoints'
-          //-   :messages='messages.solver'
-          //-   :displayHistory='true'
-          //-   :height='200'
-          //-   ) Messages
-      div.col-xs-8#middle
+          nice-message-output(
+            namespace='closestPairOfPoints'
+            :messages='messages.solver'
+            :displayHistory='true'
+            :height='200'
+            v-if='false'
+            ) Messages
+      div.col-xs-8#middle.noselect
         CPOP-canvas-container
       div.col-xs-2#right
         CPOP-points
@@ -83,4 +85,7 @@ export default {
   overflow-x: scroll;
 }
 
+.noselect {
+  user-select: none;
+}
 </style>
