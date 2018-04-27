@@ -45,9 +45,11 @@ div.container-fluid
       )
   br
   div.row
-    div.col-xs-6
+    div.col-xs-2
+      nice-button.btn-danger(@click='deleteAllIntervals') Clear All
+    div.col-xs-5
       nice-button.btn-success(@click='createNewInterval') Add Interval
-    div.col-xs-6
+    div.col-xs-5
       nice-button.btn-warning(@click='createRandomInterval') Add Random Interval
 </template>
 
@@ -56,7 +58,7 @@ import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
 import VueSlider from 'vue-slider-component';
 import { randomInt } from '../../scripts/stuff';
-const { mapState } = createNamespacedHelpers('intervalScheduling');
+const { mapState, mapActions } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
@@ -131,6 +133,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'deleteAllIntervals',
+    ]),
     coerce(num, min, max) {
       let val = Math.max(num, min);
       val = Math.min(val, max);
@@ -159,8 +164,12 @@ export default {
       });
     },
     createRandomInterval() {
-      const start = randomInt(this.earliestTime, this.latestTime - 1);
-      const finish = randomInt(start + 1, this.latestTime);
+      let a = randomInt(this.earliestTime, this.latestTime);
+      let b = randomInt(this.earliestTime, this.latestTime);
+      while (b === a) b = randomInt(this.earliestTime, this.latestTime);
+
+      const start = Math.min(a, b);
+      const finish = Math.max(a, b);
       this.$store.dispatch('intervalScheduling/addInterval', {
         start,
         finish,

@@ -29,6 +29,15 @@ actions.removeInterval = (context, { index }) => {
   context.dispatch('updateProblemSize', { n });
 };
 
+actions.deleteAllIntervals = (context) => {
+  let n = context.state.problemSize - 1;
+  
+  for (let i = 0; i <= n; i++) {
+    let index = n - i;
+    context.dispatch('removeInterval', {index});
+  }
+};
+
 // todo - changeInterval
 actions.eft = (context) => {
   if (context.getters.solving) {

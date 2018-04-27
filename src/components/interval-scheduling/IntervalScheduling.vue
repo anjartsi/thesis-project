@@ -10,7 +10,7 @@ div#is
           div(v-else)
             IS-solver
     hr
-    div.row#display
+    div.row#display(ref='display')
       div.col-xs-12
         h3 Intervals ({{problemSize}} total)
       div.col-xs-12
@@ -52,6 +52,9 @@ export default {
       'latestTime',
       'solved',
       'problemSize',
+      'intervals',
+      'unitHeight',
+      'scrollToRow'
     ]),
     ...mapGetters([
       'solving',
@@ -63,6 +66,15 @@ export default {
     dosomething() {
       this.$store.dispatch('eft');
     },
+  },
+  watch: {
+    scrollToRow(row) {
+      const displayElem = this.$refs.display
+      if (this.intervals.length === 0) return;
+      let top = (row + 1) * this.unitHeight;
+      console.log(top)
+      displayElem.scrollTo({top, behavior: 'smooth' })
+    }
   },
 };
 </script>

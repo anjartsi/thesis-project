@@ -34,7 +34,10 @@ state.maxSteps = 2;
 
 // for styling/sizing the diagrams
 state.unit = 30;
+state.unitHeight = 50;
 state.rowStyle = {};
 state.trayStyle = {};
 
+
+state.scrollToRow = 0;
 export default state;

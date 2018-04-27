@@ -5,7 +5,7 @@
       div#scroll
         div(v-for='(row, index) in rows')
           div.rowName 
-            h4 {{index}}
+            h4 {{index + 1}}
           IS-row(
             :rowIndex='index'
             :key='"row"+index'

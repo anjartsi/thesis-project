@@ -153,7 +153,4 @@ export default {
   top: 100%;
   z-index: 10;
 }
-button.close {
-  color: red;
-}
 </style>

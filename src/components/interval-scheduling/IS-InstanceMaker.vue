@@ -2,7 +2,7 @@
 div.container-fluid
   div.row
     div.col-xs-12
-      h3 Add New Interval
+      h3 Add New Interval ( {{problemSize}} total)
     div.col-xs-12
       IS-add-interval
 

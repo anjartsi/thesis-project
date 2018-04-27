@@ -81,6 +81,7 @@ mutations.removeRowIfEmpty = (state, { row }) => {
 mutations.addIntervalToRow = (state, { index, row }) => {
   state.rows[row].push(index);
   state.intervals[index].row = row;
+  state.scrollToRow = row;
 };
 // Todo - this method needs a body
 mutations.resetSolver = (state) => {
@@ -96,6 +97,7 @@ mutations.resetSolver = (state) => {
   state.currentTime = 0;
   state.latest = -1;
   state.solved = false;
+  state.scrollToRow = 0;
 };
 
 mutations.sortByFinishTime = (state) => {
@@ -109,6 +111,7 @@ mutations.sortByFinishTime = (state) => {
 mutations.addToSolution = (state, { earliestIndex }) => {
   // add the interval to the solution
   state.solution.push(earliestIndex);
+  state.scrollToRow = state.intervals[earliestIndex].row;
   // remove it from the sorted list
   state.sortedByFinishTime.splice(0, 1);
   // update solver information
@@ -143,5 +146,6 @@ mutations.changeProblemSize = (state) => {
 mutations.loadStart = (state) => {
   state.loadMessage = [];
   state.loadError = false;
+  state.scrollToRow = 0;
 };
 export default mutations;
