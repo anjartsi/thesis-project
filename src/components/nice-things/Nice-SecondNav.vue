@@ -60,6 +60,17 @@ div
         //- The Lock-Unlock button
         ul.nav.navbar-nav.navbar-right
           li
+            a#show-hints(
+              role='button'
+              @click='showHints'
+            )
+              h4(v-if='hints')
+                i.fa.fa-question-circle 
+                |  Show Hints
+              h4(v-else)
+                i.fa.fa-question-circle 
+                |   Hide Hints
+          li
             nice-button-lock.bg-primary(:namespace='namespace')
         div.nav.navbar-nav
           slot(name='automator')
@@ -84,6 +95,9 @@ export default {
   ],
   computed: {
     solving() { return this.$store.getters[`${this.namespace}/solving`]; },
+    hints() { 
+      return this.$store.state[this.namespace].hints;
+    },
   },
   data() {
     return {
@@ -99,6 +113,9 @@ export default {
     $route: 'fetchData',
   },
   methods: {
+    showHints() {
+      this.$store.dispatch(`${this.namespace}/showHints`);
+    },
     showExample(text) {
       if (!this.solving) this.$store.dispatch(`${this.namespace}/loadFile`, { loadText: text });
     },
@@ -131,4 +148,8 @@ export default {
     z-index: 1;
     opacity: 0.75;
   }
+  #show-hints h4 {
+    margin: 0px;
+  }
+  
 </style>

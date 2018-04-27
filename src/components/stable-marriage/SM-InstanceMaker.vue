@@ -36,6 +36,13 @@ div.container-fluid#instance
             :colors='colors'
             v-on:reorderBoxes='swap'
           )
+        transition(appear name='fade' key='SMHint')
+          div.alert.alert-success#hint(v-if='locked && !hints')
+            h4 Click and drag any of the boxes (or circles) in the 
+              strong Preference Lists 
+              | to reorder preferences (except the ones with a black background)
+            h4 On a touch screen, tap on any two boxes (or circles) 
+              | to swap them
 </template>
 
 <script>
@@ -69,6 +76,7 @@ export default {
       'min',
       'max',
       'preferences',
+      'hints',
     ]),
     ...mapGetters({
       locked: 'editing',
@@ -138,5 +146,14 @@ export default {
 #instance {
   min-height: 300px;
   /* overflow-y: scroll; */
+}
+#hint {
+  position: absolute;
+  /* background-color: red; */
+  top: 100%;
+  z-index: 10;
+}
+button.close {
+  color: red;
 }
 </style>

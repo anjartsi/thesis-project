@@ -13,6 +13,7 @@ const stateObj = {
   },
   loadMessage: [],
   loadError: false,
+  hints: true,
 };
 
 const getters = {
@@ -39,12 +40,18 @@ const mutations = {
       state.loadError = true;
     }
   },
+  showHints(state) {
+    state.hints = !state.hints;
+  },
 };
 const actions = {
   switchMode(context) {
     context.commit('lockUnlock');
     // Since a change has been made, reset the solver
     context.commit('resetSolver');
+  },
+  showHints(context) {
+    context.commit('showHints');
   },
 };
 
