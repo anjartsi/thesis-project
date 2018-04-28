@@ -64,21 +64,21 @@ div#noselect
               role='button'
               @click='showProblem'
             )
-              i.fa.fa-puzzle-piece.problem
+              i.fa.fa-puzzle-piece.problem(:class='{ funny: valProblem, notFunny: !valProblem }')
               |   Problem
           li
             a.show-hide-button(
               role='button'
               @click='showPseudocode'
             )
-              i.fa.fa-list.pseudo
+              i.fa.fa-list.pseudo(:class='{ funny: valPseudo, notFunny: !valPseudo }')
               |   Pseudo Code
           li
             a.show-hide-button(
               role='button'
               @click='showHints'
             )
-              i.fa.fa-question-circle.hints
+              i.fa.fa-question-circle.hints(:class='{ funny: valHints, notFunny: !valHints }')
               |   Hints
           li
             nice-button-lock.bg-primary(:namespace='namespace')
@@ -93,6 +93,7 @@ div#noselect
 <script>
 import NiceButtonLock from '../nice-things/Nice-ButtonLock';
 import NiceButton from '../nice-things/Nice-Button';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -105,6 +106,9 @@ export default {
   ],
   computed: {
     solving() { return this.$store.getters[`${this.namespace}/solving`]; },
+    valHints() { return this.$store.state[this.namespace][`hints`]; },
+    valProblem() { return this.$store.state[this.namespace][`showProblem`]; },
+    valPseudo() { return this.$store.state[this.namespace][`pseudocode`]; },
   },
   data() {
     return {
@@ -169,21 +173,34 @@ export default {
   .show-hide-button h4 {
     margin: 0px;
   }
-  
+  nav ul li {
+    border-right: 1px solid white;
+    border-top-right-radius: 5px;
+  }
 
   #noselect {
     user-select: none;
   }
   .funny {
-    transform: rotate(180);
+    transition: linear;
+    transition-duration: 500ms;
+    transform:rotate(-180deg);
+  }
+  .notFunny {
+    transition: linear;
+    transition-duration: 500ms;
+    transform:rotate(0deg);
   }
   .fa.problem {
     color: #31708f;
+    font-size: 19px;
   }
   .fa.pseudo {
     color: gold;
+    font-size: 19px;
   }
   .fa.hints {
     color: green;
+    font-size: 19px;
   }
 </style>

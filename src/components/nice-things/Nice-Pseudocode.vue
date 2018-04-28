@@ -2,8 +2,8 @@
   div
     transition(name='fade' key='pseudocode')
       div.alert.alert-warning#pseudo(v-if='show')
-        button.btn.pull-right 
-          i.fa.fa-times(@click='closeAll')
+        button.btn.pull-right(@click='closeAll')
+          i.fa.fa-times
         h2 Pseudo Code
         div#slot
           slot#slot

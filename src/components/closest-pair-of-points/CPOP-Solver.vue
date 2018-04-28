@@ -2,49 +2,70 @@
   div#solver
     h1 Solver
     h4 Divide
-    nice-Button.btn-primary(
-      @click='divide'
-      :class='{disabled:finished || divided || pointsInSubproblem <= 3}'
-    ) One
-    nice-Button.btn-success(
-      @click='divideLevel'
-    ) Entire Level
+    div(:class='{disabled:finished || divided || pointsInSubproblem <= 3}')
+      nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint1
+        p Divide the selected problem
+      nice-Button.btn-primary(
+        @click='divide'
+      ) One
+    div(:class='')
+      nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint2
+        p Divide all problems at the same level as the selected one
+      nice-Button.btn-success(
+        @click='divideLevel'
+      ) Entire Level
     hr
     h4 Brute Force
-    nice-Button.btn-primary(
-      @click='bruteForceOne'
-      :class='{disabled:finished || divided}'
-    ) One
-    nice-Button.btn-warning(
-      @click='bruteForceAuto'
-      :class='{disabled:finished || divided}'
-    ) Auto
-    nice-Button.btn-success(
-      @click='bruteForceLevel'
-    ) Entire Level
+    div(:class='{disabled:finished || divided}')
+      nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint3
+        p Perform one step in brute-forcing the selected problem
+      nice-Button.btn-primary(
+        @click='bruteForceOne'
+      ) One
+    div(:class='{disabled:finished || divided}')
+      nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint4
+        p Completely brute-force solve the selected problem
+      nice-Button.btn-warning(
+        @click='bruteForceAuto'
+      ) Auto
+    div(:class='')
+      nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint5
+        p Completely brute-force solve all problems at the same level as the selected one
+      nice-Button.btn-success(
+        @click='bruteForceLevel'
+      ) Entire Level
     hr
     h4 Conquer
-    nice-Button.btn-primary(
-      @click='conquerOne'
-      :class='{disabled: !readyToConquer}'
-    ) One
-    nice-Button.btn-warning(
-      @click='conquerAuto'
-      :class='{disabled: !readyToConquer}'
-    ) Auto
-    nice-Button.btn-success(
-      @click='conquerLevel'
-    ) Entire Level
+    div(:class='{disabled: !readyToConquer}')
+      nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint6
+        p Perform one step in combining the selected problem
+      nice-Button.btn-primary(
+        @click='conquerOne'
+      ) One
+    div(:class='{disabled: !readyToConquer}')
+      nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint7
+        p 
+      nice-Button.btn-warning(
+        @click='conquerAuto'
+      ) Auto
+    div
+      nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint8
+        p 
+      nice-Button.btn-success(
+        @click='conquerLevel'
+      ) Entire Level
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
+import NiceHint from '../nice-things/Nice-Hint';
 
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('closestPairOfPoints');
 export default {
   components: {
     NiceButton,
+    NiceHint,
   },
   computed: {
     ...mapState([
@@ -88,6 +109,7 @@ export default {
       'conquerLevel',
     ]),
     ...mapGetters([
+      'solving',
       'getLeftChildCanvasNum',
       'getRightChildCanvasNum',
     ]),
@@ -95,7 +117,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 #solver {
   position: fixed;
@@ -105,4 +127,10 @@ export default {
   visibility: hidden!important;
 }
 
+.hint {
+  left: 100%;
+  z-index: 2147483647;
+  min-width: max-content;
+  max-width: 600%;
+}
 </style>

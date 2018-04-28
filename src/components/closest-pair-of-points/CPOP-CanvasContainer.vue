@@ -1,6 +1,8 @@
 <template lang="pug">
 div#canvasContainer.text-center
   h2 The Problem Tree
+  nice-hint(namespace='closestPairOfPoints'  :show='false')
+    p Click on a problem to select it
   div#canvasScroll
     CPOP-canvas(
       :canvasNum='0'
@@ -11,18 +13,22 @@ div#canvasContainer.text-center
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import CPOPCanvas from './CPOP-Canvas';
+import NiceHint from '../nice-things/Nice-Hint';
 
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
   components: {
     CPOPCanvas,
+    NiceHint,
   },
   props: [],
   data() { return {}; },
   computed: {
     ...mapState([]),
-    ...mapGetters([]),
+    ...mapGetters([
+      'solving',
+    ]),
   },
   methods: {
     ...mapActions([]),

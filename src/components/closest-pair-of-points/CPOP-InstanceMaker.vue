@@ -3,7 +3,6 @@ div
   div.row
     h2 Instance Maker
   div.row
-    p To add a point, Click or Touch anywhere on the image at the right
   //- div.row
   //-   div.col-xs-6
   //-     h4.verticalCenter(for='addPoint') Add Point: 
@@ -74,22 +73,29 @@ div
         :dotSize='30'
         tooltipDir='right'
       )
-
-    hr
+    nice-hint(namespace='closestPairOfPoints'  :show='editing').hint#hint1
+      h4 To Add Random Points
+      p Use the buttons to add either One or Multiple points
+      p Use the sliders to select the narrow down the area where points can get added
+    nice-hint(namespace='closestPairOfPoints'  :show='editing').hint#hint2
+      h4 To Add Specific Points
+      p Click or Tap on the image on below
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
+import NiceHint from '../nice-things/Nice-Hint';
 import VueSlider from 'vue-slider-component';
 import { randomNum } from '../../scripts/stuff';
-const { mapState, mapActions } = createNamespacedHelpers('closestPairOfPoints');
+const { mapState, mapGetters, mapActions } = createNamespacedHelpers('closestPairOfPoints');
 
 export default {
   components: {
     NiceButton,
     VueSlider,
     VueSlider,
+    NiceHint,
   },
   data() {
     return {
@@ -105,6 +111,9 @@ export default {
       'messages',
       'valueRange',
       'problemSize',
+    ]),
+    ...mapGetters([
+      'editing',
     ]),
     alertColor() {
       return 'alert-info';
@@ -196,5 +205,24 @@ div#addPointAlert {
 label {
   width: 100%;
   text-align: center;
+}
+
+.hint {
+  width: 200%;
+  z-index: 100;
+}
+.hint h4 {
+  text-align: center;
+}
+#hint2 {
+  top: 60px;
+  left: 250%;
+}
+#hint1 {
+  width: 400%;
+}
+#hint1 ul li{
+  margin-left: -25px;
+  list-style-type: none;
 }
 </style>
