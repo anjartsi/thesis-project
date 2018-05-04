@@ -31,6 +31,7 @@ div#cpop
     nice-pseudocode(namespace='closestPairOfPoints')#pseudo
       ul 
         li Sort the points by x-value
+        li Sort the points by y-value (in a separate array)
         li If n &#8805; 3, 
           strong Divide
           |  the problem into two subproblems 
@@ -43,7 +44,8 @@ div#cpop
           ul 
             li Take the minimum of the two distances d<sub>min</sub> = Min(d<sub>left</sub>, d<sub>right</sub>)
             li Look at the strip of points that are no further than d<sub>min</sub> units from the dividing line
-            li Sort these points by their y-value
+              ul 
+                li Use the array that is sorted by y-value to get these points
             li Compare each point with the next 8 points to see if their distance is less than d<sub>min</sub>
           
     nice-problem(namespace='closestPairOfPoints')#problem
