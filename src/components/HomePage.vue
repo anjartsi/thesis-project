@@ -4,9 +4,9 @@
       div.col-xs-12
         h1.hello Welcome to Fun with Algorithms!
     div.row
-      div.col-xs-6
+      div.col-xs-4
         div.col-xs-12
-          h2 List of Problems
+          h2 Lessons
         div.col-xs-12
           h3(v-for='chapter in chapters') {{chapter.name}}
             ul
@@ -14,20 +14,33 @@
                 h4
                   router-link(v-if='topic.link' :to='topic.link') {{topic.name}}
                   p(v-else) {{topic.name}}
-      div.col-xs-6
+      div.col-xs-8
         div.col-xs-12
           h2 Description
         div.col-xs-12
           p.desc This website is an Algorithm Visualization 
-            |  tool designed to help teachers. 
-            |  The idea is to 
-            |  save in-class time for interesting lectures and engaging discussions, not drawing
-            |  complex diagrams on the whiteboard as your students browse the Facebook.
+            |  tool designed to help teachers to use their 
+            |  time in class for interesting lectures 
+            |  and engaging discussions, not drawing
+            |  complex diagrams on the whiteboard while their students browse the Facebook.
           p.desc You can create instances of a problem, and run an algorithm to solve it, step by step.
             |  You can also save instances onto your local machine as a text file to load later. 
             |  You can even load some prebuilt examples right from the page! 
-          p.desc This site has been designed to be easy to learn, and fun to use (hopefully)! 
+            |  This site has been designed to be easy to learn, and fun to use (hopefully)! 
         div.col-xs-12  
+        div.col-xs-12
+          h2 How to Host a Local Version
+          ul
+            li This requires node.js (version 4+) and NPM (version 3+)
+            li Download and unzip the following 
+              a(href='static/fun-with-algorithms.zip') ZIP file
+            li Open a terminal and move into the directory of the unzipped file
+            li Run 
+              code npm install
+              | wait until it completes
+            li Then run 
+              code node server
+            li The app can then be accessed on your localhost:5000
 
 
 </template>
