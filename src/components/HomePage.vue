@@ -33,7 +33,7 @@
           ul
             li This requires node.js (version 4+) and NPM (version 3+)
             li Download and unzip the following 
-              a(href='static/fun-with-algorithms.zip') ZIP file
+              a(href='http://funwithalgorithms.herokuapp.com/static/fun-with-algorithms.zip') ZIP file
             li Open a terminal and move into the directory of the unzipped file
             li Run 
               code npm install
