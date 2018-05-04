@@ -30,6 +30,9 @@ div
           :index='interval'
           :unit='unit'
         )
+    nice-hint(namespace='intervalScheduling'  :show='solving').hint
+      p Use the button above to perform the next step in the algorithm
+      p The intervals taken in the solution will get added to the row labelled "Solution"
 </template>
 
 <script>
@@ -38,12 +41,13 @@ import ISRow from './IS-Row';
 import ISInterval from './IS-Interval';
 import ISTrayTicks from './IS-TrayTicks';
 import NiceButton from '../nice-things/Nice-Button';
+import NiceHint from '../nice-things/Nice-Hint';
 
 const { mapState, mapGetters } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
-    ISRow, ISInterval, ISTrayTicks, NiceButton,
+    ISRow, ISInterval, ISTrayTicks, NiceButton, NiceHint,
   },
   props: [],
   data() {
@@ -124,5 +128,9 @@ export default {
   transform: rotate(90deg);
   width: fit-content;
   left: -40px;
+}
+
+.hint {
+  left: 300px;
 }
 </style>

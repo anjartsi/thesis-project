@@ -76,10 +76,11 @@ div
     nice-hint(namespace='closestPairOfPoints'  :show='editing').hint#hint1
       h4 To Add Random Points
       p Use the buttons to add either One or Multiple points
-      p Use the sliders to select the narrow down the area where points can get added
+      p Use the sliders to narrow down the area where points can get added 
+      p Random Points will only be added to the grey area in the image
     nice-hint(namespace='closestPairOfPoints'  :show='editing').hint#hint2
       h4 To Add Specific Points
-      p Click or Tap on the image on below
+      p Click or Tap anywhere on the image on below
 </template>
 
 <script>

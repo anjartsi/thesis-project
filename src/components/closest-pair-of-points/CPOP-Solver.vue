@@ -1,10 +1,12 @@
 <template lang="pug">
   div#solver
     h1 Solver
+    nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint0
+      p The light-blue image is the one that is "selected"
     h4 Divide
     div(:class='{disabled:finished || divided || pointsInSubproblem <= 3}')
       nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint1
-        p Divide the selected problem
+        p Divide the selected problem into two subproblems
       nice-Button.btn-primary(
         @click='divide'
       ) One
@@ -24,13 +26,13 @@
       ) One
     div(:class='{disabled:finished || divided}')
       nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint4
-        p Completely brute-force solve the selected problem
+        p Completely brute-force the selected problem
       nice-Button.btn-warning(
         @click='bruteForceAuto'
       ) Auto
     div(:class='')
       nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint5
-        p Completely brute-force solve all problems at the same level as the selected one
+        p Completely brute-force all problems at the same level as the selected one
       nice-Button.btn-success(
         @click='bruteForceLevel'
       ) Entire Level
@@ -38,19 +40,19 @@
     h4 Conquer
     div(:class='{disabled: !readyToConquer}')
       nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint6
-        p Perform one step in combining the selected problem
+        p Perform one step in conquering the selected problem (note, conquering will not work if you attempted to brute force this problem)
       nice-Button.btn-primary(
         @click='conquerOne'
       ) One
     div(:class='{disabled: !readyToConquer}')
       nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint7
-        p 
+        p Completely conquer the selected problem
       nice-Button.btn-warning(
         @click='conquerAuto'
       ) Auto
     div
       nice-hint(namespace='closestPairOfPoints'  :show='solving').hint#hint8
-        p 
+        p Completely conquer all problems at the same level as the selected problem
       nice-Button.btn-success(
         @click='conquerLevel'
       ) Entire Level
@@ -130,7 +132,12 @@ export default {
 .hint {
   left: 100%;
   z-index: 2147483647;
+  opacity: 0.9;
   min-width: max-content;
   max-width: 600%;
+}
+
+#hint0 {
+  top: 10px;
 }
 </style>

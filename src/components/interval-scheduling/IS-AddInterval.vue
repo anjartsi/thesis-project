@@ -51,19 +51,23 @@ div.container-fluid
       nice-button.btn-success(@click='createNewInterval') Add Interval
     div.col-xs-5
       nice-button.btn-warning(@click='createRandomInterval') Add Random Interval
+  nice-Hint(namespace='intervalScheduling'  :show='editing').hint
+    p Use the buttons and sliders above to add more intervals to the set
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import NiceButton from '../nice-things/Nice-Button';
+import NiceHint from '../nice-things/Nice-Hint';
 import VueSlider from 'vue-slider-component';
 import { randomInt } from '../../scripts/stuff';
-const { mapState, mapActions } = createNamespacedHelpers('intervalScheduling');
+const { mapState, mapActions, mapGetters } = createNamespacedHelpers('intervalScheduling');
 
 export default {
   components: {
     NiceButton,
     VueSlider,
+    NiceHint,
   },
   props: [
     'index',
@@ -80,6 +84,9 @@ export default {
       'problemSize',
       'earliestTime',
       'latestTime',
+    ]),
+    ...mapGetters([
+      'editing',
     ]),
     intervalText: {
       get() {
@@ -220,5 +227,8 @@ input#textInput {
 
 #newIntervalForm button {
   width: 15%;
+}
+.hint {
+  left: 300px;
 }
 </style>
