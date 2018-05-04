@@ -192,4 +192,9 @@ export default {
 .saveText {
   background-color: #DDD;
 }
+
+#loadError {
+  width: 800px;
+  margin-left: 112px;
+}
 </style>
