@@ -22,8 +22,7 @@ app.get('/api/:problem', function (req, res) {
     res.send(response.rows);
     client.end();
   });
-})
+});
 const port = process.env.PORT || 5000;
 app.listen(port);
-console.log(process.env.DATABASE_URL);
 console.log(`Server started on port + ${port}`);

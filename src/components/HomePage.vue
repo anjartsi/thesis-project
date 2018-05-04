@@ -37,7 +37,7 @@
             li Open a terminal and move into the directory of the unzipped file
             li Run 
               code npm install
-              | wait until it completes
+              |    wait until it completes
             li Then run 
               code node server
             li The app can then be accessed on your localhost:5000
